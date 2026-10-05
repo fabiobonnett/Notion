@@ -15,10 +15,23 @@
     flex: 0 0 calc((100% - (var(--n) - 1) * 8px) / var(--n));
     min-width: 0; height: 100%;
     object-fit: contain; scroll-snap-align: start; border-radius: 12px;
+    cursor: zoom-in;
   }
   .btn {
     flex: 0 0 auto; width: 36px; height: 36px; border: 0; border-radius: 50%;
     background: rgba(0,0,0,.5); color: #fff; font-size: 20px; cursor: pointer;
+  }
+  .visor {
+    position: fixed; inset: 0; z-index: 10; display: none;
+    align-items: center; justify-content: center;
+    background: rgba(0,0,0,.92);
+  }
+  .visor.abierto { display: flex; }
+  .visor img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-out; }
+  .cerrar {
+    position: absolute; top: 12px; right: 12px; width: 40px; height: 40px;
+    border: 0; border-radius: 50%; background: rgba(255,255,255,.2);
+    color: #fff; font-size: 22px; cursor: pointer;
   }
 </style>
 </head>
@@ -34,12 +47,20 @@
   </div>
   <button class="btn next">›</button>
 </div>
+
+<div class="visor">
+  <button class="cerrar">✕</button>
+  <img>
+</div>
+
 <script>
-  const VISIBLES_PC = 5;      // imágenes a la vez en pantalla grande
-  const VISIBLES_MOVIL = 3;   // imágenes a la vez en pantalla angosta
+  const VISIBLES_PC = 5;
+  const VISIBLES_MOVIL = 3;
   const c = document.querySelector('.carrusel');
   const prev = document.querySelector('.prev');
   const next = document.querySelector('.next');
+  const visor = document.querySelector('.visor');
+  const visorImg = visor.querySelector('img');
 
   function ajustar() {
     const n = window.innerWidth < 600 ? VISIBLES_MOVIL : VISIBLES_PC;
@@ -53,6 +74,28 @@
 
   prev.onclick = () => c.scrollBy({ left: -c.clientWidth });
   next.onclick = () => c.scrollBy({ left: c.clientWidth });
+
+  // Abrir: lightbox + intento de pantalla completa real
+  c.querySelectorAll('img').forEach(img => {
+    img.onclick = () => {
+      visorImg.src = img.src;
+      visor.classList.add('abierto');
+      if (visor.requestFullscreen) {
+        visor.requestFullscreen().catch(() => {});  // si Notion no lo permite, queda el lightbox
+      }
+    };
+  });
+
+  // Cerrar
+  function cerrar() {
+    visor.classList.remove('abierto');
+    if (document.fullscreenElement) document.exitFullscreen();
+  }
+  visor.onclick = cerrar;
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrar(); });
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) visor.classList.remove('abierto');
+  });
 </script>
 </body>
 </html>
