@@ -23,15 +23,19 @@
   }
   .visor {
     position: fixed; inset: 0; z-index: 10; display: none;
-    align-items: center; justify-content: center;
+    align-items: center; justify-content: center; overflow: hidden;
     background: rgba(0,0,0,.92);
   }
   .visor.abierto { display: flex; }
-  .visor img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-out; }
+  .visor img {
+    max-width: 100%; max-height: 100%; object-fit: contain;
+    touch-action: none; user-select: none; -webkit-user-drag: none;
+    cursor: zoom-in;
+  }
   .cerrar {
-    position: absolute; top: 12px; right: 12px; width: 40px; height: 40px;
-    border: 0; border-radius: 50%; background: rgba(255,255,255,.2);
-    color: #fff; font-size: 22px; cursor: pointer;
+    position: absolute; top: 12px; right: 12px; z-index: 11;
+    width: 40px; height: 40px; border: 0; border-radius: 50%;
+    background: rgba(255,255,255,.2); color: #fff; font-size: 22px; cursor: pointer;
   }
 </style>
 </head>
@@ -50,7 +54,7 @@
 
 <div class="visor">
   <button class="cerrar">✕</button>
-  <img>
+  <img draggable="false">
 </div>
 
 <script>
@@ -75,23 +79,76 @@
   prev.onclick = () => c.scrollBy({ left: -c.clientWidth });
   next.onclick = () => c.scrollBy({ left: c.clientWidth });
 
-  // Abrir: lightbox + intento de pantalla completa real
+  // ---- Zoom ----
+  let s = 1, x = 0, y = 0;
+  const aplicar = () => {
+    visorImg.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+    visorImg.style.cursor = s > 1 ? 'grab' : 'zoom-in';
+  };
+  const reset = () => { s = 1; x = 0; y = 0; aplicar(); };
+  const zoom = f => {
+    s = Math.min(6, Math.max(1, s * f));
+    if (s === 1) { x = 0; y = 0; }
+    aplicar();
+  };
+
+  visor.addEventListener('wheel', e => {
+    e.preventDefault();
+    zoom(e.deltaY < 0 ? 1.15 : 1 / 1.15);
+  }, { passive: false });
+
+  visorImg.addEventListener('dblclick', () => {
+    if (s > 1) reset(); else { s = 2.5; aplicar(); }
+  });
+
+  // Arrastrar (1 puntero) y pellizcar (2 punteros)
+  const punteros = new Map();
+  let dist0 = 0, s0 = 1;
+  visorImg.addEventListener('pointerdown', e => {
+    visorImg.setPointerCapture(e.pointerId);
+    punteros.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (punteros.size === 2) {
+      const [a, b] = [...punteros.values()];
+      dist0 = Math.hypot(a.x - b.x, a.y - b.y);
+      s0 = s;
+    }
+  });
+  visorImg.addEventListener('pointermove', e => {
+    if (!punteros.has(e.pointerId)) return;
+    const p = punteros.get(e.pointerId);
+    if (punteros.size === 2) {
+      punteros.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      const [a, b] = [...punteros.values()];
+      s = Math.min(6, Math.max(1, s0 * Math.hypot(a.x - b.x, a.y - b.y) / dist0));
+      if (s === 1) { x = 0; y = 0; }
+      aplicar();
+    } else if (s > 1) {
+      x += e.clientX - p.x;
+      y += e.clientY - p.y;
+      punteros.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      aplicar();
+    }
+  });
+  const soltar = e => punteros.delete(e.pointerId);
+  visorImg.addEventListener('pointerup', soltar);
+  visorImg.addEventListener('pointercancel', soltar);
+
+  // ---- Abrir / cerrar ----
   c.querySelectorAll('img').forEach(img => {
     img.onclick = () => {
       visorImg.src = img.src;
+      reset();
       visor.classList.add('abierto');
-      if (visor.requestFullscreen) {
-        visor.requestFullscreen().catch(() => {});  // si Notion no lo permite, queda el lightbox
-      }
+      if (visor.requestFullscreen) visor.requestFullscreen().catch(() => {});
     };
   });
 
-  // Cerrar
   function cerrar() {
     visor.classList.remove('abierto');
     if (document.fullscreenElement) document.exitFullscreen();
   }
-  visor.onclick = cerrar;
+  visor.addEventListener('click', e => { if (e.target === visor) cerrar(); });
+  visor.querySelector('.cerrar').onclick = cerrar;
   document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrar(); });
   document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement) visor.classList.remove('abierto');
