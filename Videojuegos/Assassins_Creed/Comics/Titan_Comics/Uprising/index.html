@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carrusel</title>
+<style>
+/* Colores iguales a los de Notion (claro / oscuro) */
+:root{
+  --bg:#ffffff; --card:#f1f1ef; --btn:rgba(255,255,255,.8); --btn-fg:#37352f; --ring:#2383e2;
+  --ratio:2/3;
+  box-sizing:border-box;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#191919; --card:#252525; --btn:rgba(37,37,37,.8); --btn-fg:#e6e6e4; --ring:#529cca; }
+}
+:root[data-theme="dark"]{ --bg:#191919; --card:#252525; --btn:rgba(37,37,37,.8); --btn-fg:#e6e6e4; --ring:#529cca; }
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%; margin:0}
+body{
+  background:var(--bg); overflow:hidden;
+  font:14px/1.5 ui-sans-serif,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  display:flex; align-items:center;
+}
+:focus-visible{outline:2px solid var(--ring); outline-offset:2px}
+
+/* ---------- Carrusel ---------- */
+.carousel{position:relative; width:100%}
+.track{
+  display:flex; gap:12px; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x proximity; scroll-behavior:smooth;
+  padding:12px 16px; scroll-padding-inline:16px;
+  scrollbar-width:none; overscroll-behavior-x:contain;
+}
+.track::-webkit-scrollbar{display:none}
+.slide{
+  flex:0 0 auto; height:min(calc(100vh - 24px), 560px); aspect-ratio:var(--ratio); width:auto;
+  border:0; padding:0; margin:0; border-radius:6px; overflow:hidden;
+  background:var(--card); scroll-snap-align:start; cursor:zoom-in;
+  touch-action:pan-x; -webkit-tap-highlight-color:transparent;
+  max-width:calc(100vw - 32px);
+}
+.slide img{width:100%; height:100%; object-fit:var(--fit,cover); display:block; pointer-events:none; user-select:none; -webkit-user-drag:none}
+.slide.lifted{visibility:hidden}
+
+.nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:34px; height:34px; border-radius:50%; border:0; cursor:pointer;
+  display:grid; place-items:center; background:var(--btn); color:var(--btn-fg);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  box-shadow:0 1px 4px rgba(0,0,0,.15);
+  opacity:.4; transition:opacity .2s, visibility .2s; z-index:2;
+}
+.carousel:hover .nav{opacity:.9}
+.nav:hover{opacity:1 !important}
+.nav.prev{left:8px} .nav.next{right:8px}
+.nav.off{opacity:0 !important; visibility:hidden}
+.nav svg{width:16px; height:16px}
+
+/* ---------- Zoom por pellizco en miniatura ---------- */
+.dim{position:fixed; inset:0; background:rgba(8,9,11,.74); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:50}
+.dim.on{opacity:1}
+.float{position:fixed; z-index:51; border-radius:6px; overflow:hidden; pointer-events:none; will-change:transform; box-shadow:0 20px 60px rgba(0,0,0,.45); background:var(--card)}
+.float img{width:100%; height:100%; object-fit:var(--fit,cover); display:block}
+.float.back{transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- Visor ---------- */
+.lb{position:fixed; inset:0; z-index:100; background:#0c0d0f; color:#eceeef; display:none}
+.lb.open{display:block}
+.stage{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:52px 60px; overflow:hidden; touch-action:none; cursor:zoom-in}
+.stage.zoomed{cursor:grab}
+.stage.dragging{cursor:grabbing}
+.lb-img{max-width:100%; max-height:100%; object-fit:contain; user-select:none; -webkit-user-drag:none; will-change:transform}
+.lb-img.anim{transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.lb-img.fade{animation:fade .22s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.bar{position:absolute; left:0; right:0; top:0; display:flex; align-items:center; justify-content:space-between; padding:8px 10px; z-index:2; pointer-events:none}
+.bar > *{pointer-events:auto}
+.count{font-size:13px; color:#aeb3b8; padding-left:6px}
+.tools{display:flex; align-items:center; gap:2px}
+.ib{width:34px; height:34px; border-radius:50%; border:0; background:transparent; color:#eceeef; cursor:pointer; display:grid; place-items:center; text-decoration:none}
+.ib:hover{background:rgba(255,255,255,.1)}
+.ib svg{width:17px; height:17px}
+.pct{min-width:46px; font-size:12px; color:#aeb3b8; font-variant-numeric:tabular-nums}
+.lb .side{position:absolute; top:50%; transform:translateY(-50%); z-index:2; background:rgba(255,255,255,.08)}
+.lb .side:hover{background:rgba(255,255,255,.16)}
+.lb .side.l{left:10px} .lb .side.r{right:10px}
+.cap{position:absolute; left:0; right:0; bottom:0; text-align:center; padding:10px 16px; font-size:13px; color:#aeb3b8; pointer-events:none}
+.hidden{display:none !important}
+@media (max-width:560px){ .stage{padding:48px 0} .lb .side,.nav{display:none} }
+@media (prefers-reduced-motion:reduce){ .track{scroll-behavior:auto} .float.back,.lb-img.anim{transition:none} }
+</style>
+</head>
+<body>
+
+<div class="carousel">
+  <button class="nav prev" id="prev" type="button" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <div class="track" id="track" aria-label="Carrusel de imágenes"></div>
+  <button class="nav next" id="next" type="button" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+</div>
+
+<div class="dim" id="dim"></div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Visor de imagen">
+  <div class="stage" id="stage"><img class="lb-img" id="lbImg" alt=""></div>
+  <div class="bar">
+    <span class="count" id="count"></span>
+    <div class="tools">
+      <button class="ib" id="zOut" type="button" aria-label="Alejar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+      <button class="ib pct" id="pct" type="button" aria-label="Restablecer zoom">100%</button>
+      <button class="ib" id="zIn" type="button" aria-label="Acercar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+      <a class="ib" id="openTab" target="_blank" rel="noopener" aria-label="Abrir imagen en pestaña nueva"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+      <button class="ib" id="fsBtn" type="button" aria-label="Pantalla completa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      <button class="ib" id="closeBtn" type="button" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+  </div>
+  <button class="ib side l" id="lbPrev" type="button" aria-label="Imagen anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="ib side r" id="lbNext" type="button" aria-label="Imagen siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+  <div class="cap" id="cap"></div>
+</div>
+
+<script>
+/* Carrusel generado con el Generador de carrusel.
+   Opciones que puedes sobrescribir desde la URL:
+   ?tema=claro|oscuro  &proporcion=3/4  &ajuste=contain            */
+const IMAGES = [
+  {
+    "src": "portadas/AC-comics-1.Common_Ground.png",
+    "title": "AC comics 1.Common Ground",
+    "w": 649,
+    "h": 1000
+  },
+  {
+    "src": "portadas/AC-comics-2.Inflection_Point.png",
+    "title": "AC comics 2.Inflection Point",
+    "w": 796,
+    "h": 1228
+  },
+  {
+    "src": "portadas/AC-comics-3.Finale.png",
+    "title": "AC comics 3.Finale",
+    "w": 659,
+    "h": 1000
+  }
+];
+const PROPORCION = "auto";
+const AJUSTE = "cover";
+const TEMA = "auto";
+
+const params = new URLSearchParams(location.search);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const tema = params.get('tema') || TEMA;
+if (tema === 'oscuro') document.documentElement.dataset.theme = 'dark';
+if (tema === 'claro') document.documentElement.dataset.theme = 'light';
+const RATIO = params.get('proporcion') || PROPORCION;
+const AUTO = RATIO === 'auto';   /* "auto": cada imagen conserva su forma, todas con la misma altura */
+document.documentElement.style.setProperty('--ratio', AUTO ? '2/3' : RATIO);
+document.documentElement.style.setProperty('--fit', AUTO ? 'contain' : (params.get('ajuste') || AJUSTE));
+let images = IMAGES;
+
+/* ---------------- Carrusel ---------------- */
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+let slides = [];
+let suppressClickUntil = 0;
+
+function render(){
+  track.innerHTML = '';
+  slides = images.map((im, i) => {
+    const b = document.createElement('button');
+    b.className = 'slide'; b.type = 'button';
+    b.setAttribute('aria-label', `Ver ${im.title || 'imagen ' + (i + 1)}`);
+    const img = document.createElement('img');
+    img.src = im.src; img.alt = im.title || ''; img.draggable = false; img.loading = 'lazy'; img.decoding = 'async';
+    img.addEventListener('load', updateNav);
+    b.appendChild(img);
+    if (AUTO) {
+      if (im.w && im.h) b.style.aspectRatio = im.w + ' / ' + im.h;
+      else img.addEventListener('load', () => { b.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight; updateNav(); });
+    }
+    b.addEventListener('click', () => { if (performance.now() < suppressClickUntil) return; openLb(i); });
+    track.appendChild(b);
+    return b;
+  });
+  updateNav();
+}
+function updateNav(){
+  const max = track.scrollWidth - track.clientWidth - 2;
+  prevBtn.classList.toggle('off', track.scrollLeft <= 2);
+  nextBtn.classList.toggle('off', track.scrollLeft >= max);
+}
+prevBtn.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * 0.8 }));
+nextBtn.addEventListener('click', () => track.scrollBy({ left: track.clientWidth * 0.8 }));
+track.addEventListener('scroll', updateNav, { passive: true });
+window.addEventListener('resize', () => { updateNav(); if (lbIsOpen) { clampPan(); applyLb(false); } });
+
+/* ---------------- Zoom por pellizco sobre una miniatura ---------------- */
+const dim = document.getElementById('dim');
+let pz = null, wheelTimer = 0;
+
+function pzStart(slide, cx, cy){
+  if (pz && pz.slide === slide) return pz;
+  if (pz) pzRelease();
+  const r = slide.getBoundingClientRect();
+  const el = document.createElement('div');
+  el.className = 'float';
+  Object.assign(el.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px',
+    transformOrigin: `${clamp(cx - r.left, 0, r.width)}px ${clamp(cy - r.top, 0, r.height)}px` });
+  const im = document.createElement('img'); im.src = slide.querySelector('img').src; el.appendChild(im);
+  document.body.appendChild(el);
+  slide.classList.add('lifted');
+  dim.classList.add('on');
+  pz = { slide, el, scale: 1, tx: 0, ty: 0 };
+  return pz;
+}
+function pzApply(){ pz.el.style.transform = `translate(${pz.tx}px, ${pz.ty}px) scale(${pz.scale})`; }
+function pzRelease(){
+  if (!pz) return;
+  const p = pz; pz = null;
+  clearTimeout(wheelTimer);
+  suppressClickUntil = performance.now() + 350;
+  dim.classList.remove('on');
+  p.el.classList.add('back');
+  requestAnimationFrame(() => { p.el.style.transform = 'translate(0px,0px) scale(1)'; });
+  let done = false;
+  const finish = () => { if (done) return; done = true; p.el.remove(); if (!pz || pz.slide !== p.slide) p.slide.classList.remove('lifted'); };
+  p.el.addEventListener('transitionend', finish, { once: true });
+  setTimeout(finish, 420);
+}
+
+/* Pellizco táctil */
+let touchPinch = null, touchActive = false;
+const dist = (a, b) => Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+const mid = (a, b) => ({ x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2 });
+document.addEventListener('touchstart', () => { touchActive = true; }, { passive: true, capture: true });
+document.addEventListener('touchend', e => { touchActive = e.touches.length > 0; }, { passive: true, capture: true });
+document.addEventListener('touchcancel', e => { touchActive = e.touches.length > 0; }, { passive: true, capture: true });
+
+track.addEventListener('touchstart', e => {
+  if (e.touches.length !== 2) return;
+  const [a, b] = e.touches, m = mid(a, b);
+  const under = document.elementFromPoint(m.x, m.y);
+  const slide = (under && under.closest('.slide')) || a.target.closest('.slide');
+  if (!slide) return;
+  if (e.cancelable) e.preventDefault();
+  pzStart(slide, m.x, m.y);
+  touchPinch = { d0: dist(a, b), m0: m };
+}, { passive: false });
+track.addEventListener('touchmove', e => {
+  if (!touchPinch || !pz || e.touches.length < 2) return;
+  if (e.cancelable) e.preventDefault();
+  const [a, b] = e.touches, m = mid(a, b);
+  pz.scale = clamp(dist(a, b) / touchPinch.d0, 0.85, 5);
+  pz.tx = m.x - touchPinch.m0.x; pz.ty = m.y - touchPinch.m0.y;
+  pzApply();
+}, { passive: false });
+const endTouch = e => { if (touchPinch && e.touches.length < 2) { touchPinch = null; pzRelease(); } };
+track.addEventListener('touchend', endTouch);
+track.addEventListener('touchcancel', endTouch);
+
+/* ---------------- Visor ---------------- */
+const lb = document.getElementById('lb');
+const stage = document.getElementById('stage');
+const lbImg = document.getElementById('lbImg');
+const pctEl = document.getElementById('pct');
+const openTab = document.getElementById('openTab');
+let lbIsOpen = false, idx = 0, s = 1, tx = 0, ty = 0;
+const MAX = 8;
+
+function openLb(i){
+  idx = i; lbIsOpen = true;
+  lb.classList.add('open');
+  setLbImage();
+  document.getElementById('closeBtn').focus({ preventScroll: true });
+  try { if (!document.fullscreenElement && lb.requestFullscreen) lb.requestFullscreen().catch(() => {}); } catch (_) {}
+}
+function closeLb(){
+  lbIsOpen = false;
+  lb.classList.remove('open');
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  if (slides[idx]) { slides[idx].focus({ preventScroll: true }); slides[idx].scrollIntoView({ inline: 'nearest', block: 'nearest' }); }
+}
+function setLbImage(){
+  s = 1; tx = 0; ty = 0;
+  lbImg.classList.remove('fade'); void lbImg.offsetWidth; lbImg.classList.add('fade');
+  const im = images[idx];
+  lbImg.src = im.src; lbImg.alt = im.title || '';
+  document.getElementById('count').textContent = `${idx + 1} / ${images.length}`;
+  document.getElementById('cap').textContent = im.title || '';
+  openTab.href = im.src;
+  openTab.classList.toggle('hidden', im.src.startsWith('data:'));
+  applyLb(false);
+}
+function go(d){ idx = (idx + d + images.length) % images.length; setLbImage(); }
+function applyLb(anim){
+  lbImg.classList.toggle('anim', !!anim);
+  lbImg.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
+  stage.classList.toggle('zoomed', s > 1.01);
+  pctEl.textContent = Math.round(s * 100) + '%';
+}
+function clampPan(){
+  const mx = Math.max(0, (lbImg.offsetWidth * s - stage.clientWidth) / 2);
+  const my = Math.max(0, (lbImg.offsetHeight * s - stage.clientHeight) / 2);
+  tx = clamp(tx, -mx, mx); ty = clamp(ty, -my, my);
+}
+function local(x, y){ const r = stage.getBoundingClientRect(); return { x: x - r.left - r.width / 2, y: y - r.top - r.height / 2 }; }
+function zoomAt(ns, cx, cy){
+  ns = clamp(ns, 1, MAX);
+  const p = local(cx, cy);
+  tx = p.x - (p.x - tx) * ns / s;
+  ty = p.y - (p.y - ty) * ns / s;
+  s = ns;
+  if (s === 1) { tx = 0; ty = 0; }
+  clampPan();
+}
+function zoomCenter(f){ const r = stage.getBoundingClientRect(); zoomAt(s * f, r.left + r.width / 2, r.top + r.height / 2); applyLb(true); }
+
+document.getElementById('zIn').addEventListener('click', () => zoomCenter(1.5));
+document.getElementById('zOut').addEventListener('click', () => zoomCenter(1 / 1.5));
+pctEl.addEventListener('click', () => { s = 1; tx = 0; ty = 0; applyLb(true); });
+document.getElementById('closeBtn').addEventListener('click', closeLb);
+document.getElementById('lbPrev').addEventListener('click', () => go(-1));
+document.getElementById('lbNext').addEventListener('click', () => go(1));
+document.getElementById('fsBtn').addEventListener('click', () => {
+  try { if (document.fullscreenElement) document.exitFullscreen(); else if (lb.requestFullscreen) lb.requestFullscreen().catch(() => {}); } catch (_) {}
+});
+
+/* Arrastre, pellizco táctil, doble toque y deslizar */
+const ptrs = new Map();
+let pinch = null, pan = null, lastTap = 0;
+stage.addEventListener('pointerdown', e => {
+  if (e.button !== 0 && e.pointerType === 'mouse') return;
+  stage.setPointerCapture(e.pointerId);
+  ptrs.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+  if (ptrs.size === 2) {
+    const [a, b] = [...ptrs.values()], m = mid(a, b);
+    pinch = { s0: s, tx0: tx, ty0: ty, d0: dist(a, b), m0: local(m.x, m.y) };
+    pan = null;
+  } else if (ptrs.size === 1) {
+    pan = { x: e.clientX, y: e.clientY, tx0: tx, ty0: ty, moved: false, target: e.target };
+  }
+});
+stage.addEventListener('pointermove', e => {
+  if (!ptrs.has(e.pointerId)) return;
+  ptrs.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+  if (pinch && ptrs.size >= 2) {
+    const [a, b] = [...ptrs.values()], mm = mid(a, b), m = local(mm.x, mm.y);
+    const ns = clamp(pinch.s0 * dist(a, b) / pinch.d0, 1, MAX);
+    tx = m.x - (pinch.m0.x - pinch.tx0) * ns / pinch.s0;
+    ty = m.y - (pinch.m0.y - pinch.ty0) * ns / pinch.s0;
+    s = ns; clampPan(); applyLb(false);
+  } else if (pan) {
+    const dx = e.clientX - pan.x, dy = e.clientY - pan.y;
+    if (Math.abs(dx) + Math.abs(dy) > 5) pan.moved = true;
+    if (!pan.moved) return;
+    stage.classList.add('dragging');
+    if (s > 1.01) { tx = pan.tx0 + dx; ty = pan.ty0 + dy; clampPan(); } else { tx = dx * 0.6; ty = 0; }
+    applyLb(false);
+  }
+});
+function endPointer(e){
+  if (!ptrs.has(e.pointerId)) return;
+  ptrs.delete(e.pointerId);
+  stage.classList.remove('dragging');
+  if (pinch) {
+    if (ptrs.size < 2) {
+      pinch = null;
+      if (s < 1.03) { s = 1; tx = 0; ty = 0; applyLb(true); }
+      if (ptrs.size === 1) { const p = [...ptrs.values()][0]; pan = { x: p.clientX, y: p.clientY, tx0: tx, ty0: ty, moved: true }; }
+    }
+    return;
+  }
+  if (!pan) return;
+  const dx = e.clientX - pan.x;
+  if (pan.moved) {
+    if (s <= 1.01) { if (Math.abs(dx) > 70) go(dx < 0 ? 1 : -1); else { tx = 0; ty = 0; applyLb(true); } }
+  } else if (e.type === 'pointerup') {
+    const now = performance.now();
+    if (now - lastTap < 300) {
+      lastTap = 0;
+      if (s > 1.01) { s = 1; tx = 0; ty = 0; } else zoomAt(2.5, e.clientX, e.clientY);
+      applyLb(true);
+    } else {
+      lastTap = now;
+      if (pan.target === stage && s <= 1.01) setTimeout(() => { if (lastTap === now) closeLb(); }, 300);
+    }
+  }
+  pan = null;
+}
+stage.addEventListener('pointerup', endPointer);
+stage.addEventListener('pointercancel', endPointer);
+
+/* ---------------- Trackpad (pellizco = ctrl + rueda en Chrome/Edge/Firefox) ---------------- */
+let gestureOn = false, swipeAcc = 0, swipeLock = 0, swipeT = 0;
+window.addEventListener('wheel', e => {
+  if (lbIsOpen) {
+    e.preventDefault();
+    if (e.ctrlKey) { if (!gestureOn) { zoomAt(s * Math.exp(-e.deltaY * 0.01), e.clientX, e.clientY); applyLb(false); } return; }
+    if (s > 1.01) { tx -= e.deltaX; ty -= e.deltaY; clampPan(); applyLb(false); return; }
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      swipeAcc += e.deltaX;
+      const now = performance.now();
+      if (Math.abs(swipeAcc) > 120 && now > swipeLock) { go(swipeAcc > 0 ? 1 : -1); swipeAcc = 0; swipeLock = now + 600; }
+      clearTimeout(swipeT); swipeT = setTimeout(() => swipeAcc = 0, 150);
+    }
+    return;
+  }
+  if (!e.ctrlKey) return;
+  e.preventDefault();
+  if (gestureOn) return;
+  const slide = pz ? pz.slide : (e.target.closest && e.target.closest('.slide'));
+  if (!slide) return;
+  const p = pzStart(slide, e.clientX, e.clientY);
+  p.scale = clamp(p.scale * Math.exp(-e.deltaY * 0.012), 1, 5);
+  pzApply();
+  clearTimeout(wheelTimer);
+  wheelTimer = setTimeout(pzRelease, 200);
+}, { passive: false });
+
+/* Safari en Mac */
+let gBase = 1;
+window.addEventListener('gesturestart', e => {
+  e.preventDefault();
+  if (touchActive) return;
+  gestureOn = true;
+  if (lbIsOpen) { gBase = s; return; }
+  const slide = e.target.closest && e.target.closest('.slide');
+  if (slide) pzStart(slide, e.clientX, e.clientY);
+});
+window.addEventListener('gesturechange', e => {
+  e.preventDefault();
+  if (touchActive || !gestureOn) return;
+  if (lbIsOpen) { zoomAt(gBase * e.scale, e.clientX, e.clientY); applyLb(false); }
+  else if (pz) { pz.scale = clamp(e.scale, 1, 5); pzApply(); }
+});
+window.addEventListener('gestureend', e => {
+  e.preventDefault();
+  if (!gestureOn) return;
+  gestureOn = false;
+  if (!lbIsOpen) pzRelease();
+});
+
+/* Teclado */
+document.addEventListener('keydown', e => {
+  if (!lbIsOpen) return;
+  if (e.key === 'Escape') closeLb();
+  else if (e.key === 'ArrowRight') go(1);
+  else if (e.key === 'ArrowLeft') go(-1);
+  else if (e.key === '+' || e.key === '=') zoomCenter(1.5);
+  else if (e.key === '-') zoomCenter(1 / 1.5);
+  else if (e.key === '0') { s = 1; tx = 0; ty = 0; applyLb(true); }
+});
+
+render();
+</script>
+</body>
+</html>
