@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   html, body { margin: 0; height: 100%; background: transparent; }
-  .wrap { display: flex; align-items: center; gap: 6px; height: 100%; }
+  .wrap { display: flex; align-items: center; gap: 4px; height: 100%; }
   .carrusel {
     flex: 1; min-width: 0; height: 100%;
     display: flex; gap: 8px; overflow-x: auto;
@@ -18,11 +18,11 @@
     cursor: zoom-in;
   }
   .btn {
-    flex: 0 0 auto; width: 36px; height: 36px; border: 0; border-radius: 50%;
-    background: rgba(0,0,0,.5); color: #fff; font-size: 20px; cursor: pointer;
+    flex: 0 0 auto; width: 28px; height: 28px; border: 0; border-radius: 50%;
+    background: rgba(0,0,0,.5); color: #fff; font-size: 16px; line-height: 1; cursor: pointer;
   }
 
-  /* Zoom sobre la miniatura, con el resto oscurecido */
+  /* Zoom temporal sobre la miniatura, con el resto oscurecido */
   .lupa {
     position: fixed; inset: 0; z-index: 5; display: none; overflow: hidden;
     background: rgba(0,0,0,0);
@@ -30,8 +30,8 @@
   .lupa.abierta { display: block; }
   .lupa img {
     position: absolute; object-fit: contain; border-radius: 12px;
-    touch-action: none; user-select: none; -webkit-user-drag: none;
-    transform-origin: 50% 50%; will-change: transform; cursor: zoom-in;
+    user-select: none; -webkit-user-drag: none;
+    transform-origin: 50% 50%; will-change: transform;
   }
 
   /* Pantalla completa */
@@ -76,9 +76,10 @@
 <script>
   const VISIBLES_PC = 5;      // imágenes a la vez en pantalla grande
   const VISIBLES_MOVIL = 3;   // imágenes a la vez en pantalla angosta
-  const SENS_PINCH = 0.004;   // pellizco en trackpad (más bajo = menos sensible)
+  const SENS_PINCH = 0.0046;  // pellizco en trackpad (más bajo = menos sensible)
   const SENS_RUEDA = 0.0015;  // rueda del mouse
   const ZOOM_MAX = 6;
+  const RETORNO_MS = 150;     // pausa sin pellizco para considerar que soltaste
 
   const c = document.querySelector('.carrusel');
   const prev = document.querySelector('.prev');
@@ -102,9 +103,8 @@
   next.onclick = () => c.scrollBy({ left: c.clientWidth });
 
   // ---------- Utilidades de zoom ----------
-  const nuevoEstado = () => ({ s: 1, x: 0, y: 0, ox: 0, oy: 0, movido: false });
+  const nuevoEstado = () => ({ s: 1, x: 0, y: 0, ox: 0, oy: 0 });
 
-  // Guarda el centro de la imagen (sin zoom) como punto de referencia
   function base(est, el) {
     if (est.s === 1) {
       const r = el.getBoundingClientRect();
@@ -113,7 +113,6 @@
     }
   }
 
-  // Cambia el zoom manteniendo fijo el punto (cx, cy) bajo el cursor
   function zoomEn(est, cx, cy, ns) {
     ns = Math.min(ZOOM_MAX, Math.max(1, ns));
     const k = ns / est.s;
@@ -123,59 +122,49 @@
     if (ns === 1) { est.x = 0; est.y = 0; }
   }
 
-  // Rueda / pellizco, arrastre y pellizco táctil
-  function conectar(cont, el, est, alCambiar) {
-    cont.addEventListener('wheel', e => {
-      e.preventDefault();
-      const dy = Math.max(-50, Math.min(50, e.deltaY));
-      base(est, el);
-      zoomEn(est, e.clientX, e.clientY, est.s * Math.exp(-dy * (e.ctrlKey ? SENS_PINCH : SENS_RUEDA)));
-      alCambiar();
-    }, { passive: false });
-
-    const ptrs = new Map();
-    let inicio = null, dist0 = 1, s0 = 1;
-
-    el.addEventListener('pointerdown', e => {
-      el.setPointerCapture(e.pointerId);
-      ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
-      if (ptrs.size === 1) { inicio = { x: e.clientX, y: e.clientY }; est.movido = false; }
-      if (ptrs.size === 2) {
-        const [a, b] = [...ptrs.values()];
-        dist0 = Math.hypot(a.x - b.x, a.y - b.y) || 1;
-        s0 = est.s;
-        base(est, el);
-      }
-    });
-
-    el.addEventListener('pointermove', e => {
-      const p = ptrs.get(e.pointerId);
-      if (!p) return;
-      const dx = e.clientX - p.x, dy = e.clientY - p.y;
-      p.x = e.clientX; p.y = e.clientY;
-      if (ptrs.size === 2) {
-        const [a, b] = [...ptrs.values()];
-        zoomEn(est, (a.x + b.x) / 2, (a.y + b.y) / 2, s0 * Math.hypot(a.x - b.x, a.y - b.y) / dist0);
-        est.movido = true;
-        alCambiar();
-      } else {
-        if (inicio && Math.hypot(e.clientX - inicio.x, e.clientY - inicio.y) > 5) est.movido = true;
-        if (est.s > 1) { est.x += dx; est.y += dy; alCambiar(); }
-      }
-    });
-
-    const soltar = e => ptrs.delete(e.pointerId);
-    el.addEventListener('pointerup', soltar);
-    el.addEventListener('pointercancel', soltar);
-  }
-
-  // ---------- Pantalla completa ----------
+  // ---------- Pantalla completa (zoom + arrastre) ----------
   const estV = nuevoEstado();
   function aplicarV() {
     visorImg.style.transform = `translate(${estV.x}px, ${estV.y}px) scale(${estV.s})`;
     visorImg.style.cursor = estV.s > 1 ? 'grab' : 'zoom-in';
   }
-  conectar(visor, visorImg, estV, aplicarV);
+
+  visor.addEventListener('wheel', e => {
+    e.preventDefault();
+    const dy = Math.max(-50, Math.min(50, e.deltaY));
+    base(estV, visorImg);
+    zoomEn(estV, e.clientX, e.clientY, estV.s * Math.exp(-dy * (e.ctrlKey ? SENS_PINCH : SENS_RUEDA)));
+    aplicarV();
+  }, { passive: false });
+
+  const ptrs = new Map();
+  let dist0 = 1, s0 = 1;
+  visorImg.addEventListener('pointerdown', e => {
+    visorImg.setPointerCapture(e.pointerId);
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (ptrs.size === 2) {
+      const [a, b] = [...ptrs.values()];
+      dist0 = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+      s0 = estV.s;
+      base(estV, visorImg);
+    }
+  });
+  visorImg.addEventListener('pointermove', e => {
+    const p = ptrs.get(e.pointerId);
+    if (!p) return;
+    const dx = e.clientX - p.x, dy = e.clientY - p.y;
+    p.x = e.clientX; p.y = e.clientY;
+    if (ptrs.size === 2) {
+      const [a, b] = [...ptrs.values()];
+      zoomEn(estV, (a.x + b.x) / 2, (a.y + b.y) / 2, s0 * Math.hypot(a.x - b.x, a.y - b.y) / dist0);
+      aplicarV();
+    } else if (estV.s > 1) {
+      estV.x += dx; estV.y += dy; aplicarV();
+    }
+  });
+  const soltarV = e => ptrs.delete(e.pointerId);
+  visorImg.addEventListener('pointerup', soltarV);
+  visorImg.addEventListener('pointercancel', soltarV);
 
   visorImg.addEventListener('dblclick', e => {
     base(estV, visorImg);
@@ -197,70 +186,71 @@
   visor.addEventListener('click', e => { if (e.target === visor) cerrarVisor(); });
   visor.querySelector('.cerrar').onclick = cerrarVisor;
 
-  // ---------- Zoom sobre la miniatura (resto oscurecido) ----------
+  // ---------- Zoom temporal sobre la miniatura (vuelve al soltar) ----------
   const estL = nuevoEstado();
-  let miniatura = null;
+  let miniatura = null, timerSoltar = null, timerCierre = null;
 
-  function aplicarL() {
+  function aplicarL(animar) {
+    const t = animar ? '.25s ease-out' : 'none';
+    lupaImg.style.transition = animar ? 'transform ' + t : 'none';
+    lupa.style.transition = animar ? 'background ' + t : 'none';
     lupaImg.style.transform = `translate(${estL.x}px, ${estL.y}px) scale(${estL.s})`;
-    lupaImg.style.cursor = estL.s > 1 ? 'grab' : 'zoom-in';
     lupa.style.background = `rgba(0,0,0,${Math.min(0.8, (estL.s - 1) * 1.5)})`;
-    if (estL.s <= 1.001) cerrarLupa();
   }
-  conectar(lupa, lupaImg, estL, aplicarL);
 
   function abrirLupa(img) {
     const r = img.getBoundingClientRect();
     miniatura = img;
     Object.assign(lupaImg.style, {
       left: r.left + 'px', top: r.top + 'px',
-      width: r.width + 'px', height: r.height + 'px',
-      transform: 'none'
+      width: r.width + 'px', height: r.height + 'px'
     });
     lupaImg.src = img.src;
     estL.s = 1; estL.x = 0; estL.y = 0;
+    aplicarL(false);
     lupa.classList.add('abierta');
     img.style.visibility = 'hidden';
   }
+
   function cerrarLupa() {
-    if (!lupa.classList.contains('abierta')) return;
     lupa.classList.remove('abierta');
-    lupa.style.background = 'rgba(0,0,0,0)';
     if (miniatura) miniatura.style.visibility = '';
     miniatura = null;
     estL.s = 1; estL.x = 0; estL.y = 0;
   }
 
-  // Pellizco (o Ctrl + rueda) sobre una miniatura abre el zoom
-  c.addEventListener('wheel', e => {
-    if (!e.ctrlKey) return;            // sin Ctrl: scroll normal
+  // Al soltar: animación de regreso y luego se cierra
+  function soltarL() {
+    estL.s = 1; estL.x = 0; estL.y = 0;
+    aplicarL(true);
+    timerCierre = setTimeout(cerrarLupa, 270);
+  }
+
+  function pinchL(e) {
     e.preventDefault();
-    const img = e.target.closest('img');
-    if (!img || e.deltaY >= 0) return;
-    abrirLupa(img);
+    if (!e.ctrlKey) return;                   // solo pellizco (o Ctrl + rueda)
+    if (!lupa.classList.contains('abierta')) {
+      const img = e.target.closest && e.target.closest('img');
+      if (!img || e.deltaY >= 0) return;      // solo al acercar
+      abrirLupa(img);
+    }
+    clearTimeout(timerCierre);
+    clearTimeout(timerSoltar);
     base(estL, lupaImg);
     const dy = Math.max(-50, Math.min(50, e.deltaY));
     zoomEn(estL, e.clientX, e.clientY, estL.s * Math.exp(-dy * SENS_PINCH));
-    aplicarL();
-  }, { passive: false });
+    aplicarL(false);
+    timerSoltar = setTimeout(soltarL, RETORNO_MS);
+  }
 
-  // Clic en el fondo oscuro cierra; clic en la imagen ampliada la abre en pantalla completa
-  lupa.addEventListener('click', e => {
-    if (e.target === lupa) { cerrarLupa(); return; }
-    if (estL.movido) return;           // fue un arrastre, no un clic
-    const src = lupaImg.src;
-    cerrarLupa();
-    abrirVisor(src);
-  });
+  c.addEventListener('wheel', e => { if (e.ctrlKey) pinchL(e); }, { passive: false });
+  lupa.addEventListener('wheel', pinchL, { passive: false });
 
   // Clic en una miniatura → pantalla completa
   c.querySelectorAll('img').forEach(img => { img.onclick = () => abrirVisor(img.src); });
 
   // ---------- Teclado y salida de pantalla completa ----------
-  document.addEventListener('keydown', e => {
-    if (e.key !== 'Escape') return;
-    if (visor.classList.contains('abierto')) cerrarVisor(); else cerrarLupa();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarVisor(); });
   document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement) visor.classList.remove('abierto');
   });
