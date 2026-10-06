@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  html, body { margin: 0; height: 100%; background: transparent; }
+  .wrap { display: flex; align-items: center; gap: 4px; height: 100%; }
+  .carrusel {
+    flex: 1; min-width: 0; height: 100%;
+    display: flex; gap: 8px; overflow-x: auto;
+    scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  }
+  .carrusel::-webkit-scrollbar { display: none; }
+  .carrusel img {
+    flex: 0 0 calc((100% - (var(--n) - 1) * 8px) / var(--n));
+    min-width: 0; height: 100%;
+    object-fit: contain; scroll-snap-align: start; border-radius: 12px;
+    cursor: zoom-in;
+  }
+  .btn {
+    flex: 0 0 auto; width: 28px; height: 28px; border: 0; border-radius: 50%;
+    background: rgba(0,0,0,.5); color: #fff; font-size: 16px; line-height: 1; cursor: pointer;
+  }
 
+  /* Zoom temporal sobre la miniatura, con el resto oscurecido */
+  .lupa {
+    position: fixed; inset: 0; z-index: 5; display: none; overflow: hidden;
+    background: rgba(0,0,0,0);
+  }
+  .lupa.abierta { display: block; }
+  .lupa img {
+    position: absolute; object-fit: contain; border-radius: 12px;
+    user-select: none; -webkit-user-drag: none;
+    transform-origin: 50% 50%; will-change: transform;
+  }
+
+  /* Pantalla completa */
+  .visor {
+    position: fixed; inset: 0; z-index: 10; display: none;
+    align-items: center; justify-content: center; overflow: hidden;
+    background: rgba(0,0,0,.92);
+  }
+  .visor.abierto { display: flex; }
+  .visor img {
+    max-width: 100%; max-height: 100%; object-fit: contain;
+    touch-action: none; user-select: none; -webkit-user-drag: none;
+    transform-origin: 50% 50%; cursor: zoom-in;
+  }
+  .cerrar {
+    position: absolute; top: 12px; right: 12px; z-index: 11;
+    width: 40px; height: 40px; border: 0; border-radius: 50%;
+    background: rgba(255,255,255,.2); color: #fff; font-size: 22px; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <button class="btn prev">‹</button>
+  <div class="carrusel">
+    <img src="AC2_J2ME-1.png">
+    <img src="AC2_J2ME-2.png">
+    <img src="AC2_J2ME-3.png">
+    <img src="AC2_J2ME-4.png">
+    <img src="AC2_J2ME-5.png">
+    <img src="AC2_J2ME-6.png">
+    <img src="AC2_J2ME-7.png">
+    <img src="AC2_J2ME-8.png">
+  </div>
+  <button class="btn next">›</button>
+</div>
+
+<div class="lupa"><img draggable="false"></div>
+
+<div class="visor">
+  <button class="cerrar">✕</button>
+  <img draggable="false">
+</div>
+
+<script>
+  const VISIBLES_PC = 8;      // imágenes a la vez en pantalla grande
+  const VISIBLES_MOVIL = 3;   // imágenes a la vez en pantalla angosta
+  const SENS_PINCH = 0.0046;  // pellizco en trackpad (más bajo = menos sensible)
+  const SENS_RUEDA = 0.0015;  // rueda del mouse
+  const ZOOM_MAX = 6;
+  const RETORNO_MS = 150;     // pausa sin pellizco para considerar que soltaste
+
+  const c = document.querySelector('.carrusel');
+  const prev = document.querySelector('.prev');
+  const next = document.querySelector('.next');
+  const lupa = document.querySelector('.lupa');
+  const lupaImg = lupa.querySelector('img');
+  const visor = document.querySelector('.visor');
+  const visorImg = visor.querySelector('img');
+
+  function ajustar() {
+    const n = window.innerWidth < 600 ? VISIBLES_MOVIL : VISIBLES_PC;
+    document.documentElement.style.setProperty('--n', n);
+    const caben = c.scrollWidth <= c.clientWidth + 1;
+    prev.hidden = next.hidden = caben;
+  }
+  window.addEventListener('resize', ajustar);
+  window.addEventListener('load', ajustar);
+  ajustar();
+
+  prev.onclick = () => c.scrollBy({ left: -c.clientWidth });
+  next.onclick = () => c.scrollBy({ left: c.clientWidth });
+
+  // ---------- Utilidades de zoom ----------
+  const nuevoEstado = () => ({ s: 1, x: 0, y: 0, ox: 0, oy: 0 });
+
+  function base(est, el) {
+    if (est.s === 1) {
+      const r = el.getBoundingClientRect();
+      est.ox = r.left + r.width / 2;
+      est.oy = r.top + r.height / 2;
+    }
+  }
+
+  function zoomEn(est, cx, cy, ns) {
+    ns = Math.min(ZOOM_MAX, Math.max(1, ns));
+    const k = ns / est.s;
+    est.x = (cx - est.ox) - (cx - est.ox - est.x) * k;
+    est.y = (cy - est.oy) - (cy - est.oy - est.y) * k;
+    est.s = ns;
+    if (ns === 1) { est.x = 0; est.y = 0; }
+  }
+
+  // ---------- Pantalla completa (zoom + arrastre) ----------
+  const estV = nuevoEstado();
+  function aplicarV() {
+    visorImg.style.transform = `translate(${estV.x}px, ${estV.y}px) scale(${estV.s})`;
+    visorImg.style.cursor = estV.s > 1 ? 'grab' : 'zoom-in';
+  }
+
+  visor.addEventListener('wheel', e => {
+    e.preventDefault();
+    const dy = Math.max(-50, Math.min(50, e.deltaY));
+    base(estV, visorImg);
+    zoomEn(estV, e.clientX, e.clientY, estV.s * Math.exp(-dy * (e.ctrlKey ? SENS_PINCH : SENS_RUEDA)));
+    aplicarV();
+  }, { passive: false });
+
+  const ptrs = new Map();
+  let dist0 = 1, s0 = 1;
+  visorImg.addEventListener('pointerdown', e => {
+    visorImg.setPointerCapture(e.pointerId);
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (ptrs.size === 2) {
+      const [a, b] = [...ptrs.values()];
+      dist0 = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+      s0 = estV.s;
+      base(estV, visorImg);
+    }
+  });
+  visorImg.addEventListener('pointermove', e => {
+    const p = ptrs.get(e.pointerId);
+    if (!p) return;
+    const dx = e.clientX - p.x, dy = e.clientY - p.y;
+    p.x = e.clientX; p.y = e.clientY;
+    if (ptrs.size === 2) {
+      const [a, b] = [...ptrs.values()];
+      zoomEn(estV, (a.x + b.x) / 2, (a.y + b.y) / 2, s0 * Math.hypot(a.x - b.x, a.y - b.y) / dist0);
+      aplicarV();
+    } else if (estV.s > 1) {
+      estV.x += dx; estV.y += dy; aplicarV();
+    }
+  });
+  const soltarV = e => ptrs.delete(e.pointerId);
+  visorImg.addEventListener('pointerup', soltarV);
+  visorImg.addEventListener('pointercancel', soltarV);
+
+  visorImg.addEventListener('dblclick', e => {
+    base(estV, visorImg);
+    zoomEn(estV, e.clientX, e.clientY, estV.s > 1 ? 1 : 2.5);
+    aplicarV();
+  });
+
+  function abrirVisor(src) {
+    visorImg.src = src;
+    estV.s = 1; estV.x = 0; estV.y = 0;
+    aplicarV();
+    visor.classList.add('abierto');
+    if (visor.requestFullscreen) visor.requestFullscreen().catch(() => {});
+  }
+  function cerrarVisor() {
+    visor.classList.remove('abierto');
+    if (document.fullscreenElement) document.exitFullscreen();
+  }
+  visor.addEventListener('click', e => { if (e.target === visor) cerrarVisor(); });
+  visor.querySelector('.cerrar').onclick = cerrarVisor;
+
+  // ---------- Zoom temporal sobre la miniatura (vuelve al soltar) ----------
+  const estL = nuevoEstado();
+  let miniatura = null, timerSoltar = null, timerCierre = null;
+
+  function aplicarL(animar) {
+    const t = animar ? '.25s ease-out' : 'none';
+    lupaImg.style.transition = animar ? 'transform ' + t : 'none';
+    lupa.style.transition = animar ? 'background ' + t : 'none';
+    lupaImg.style.transform = `translate(${estL.x}px, ${estL.y}px) scale(${estL.s})`;
+    lupa.style.background = `rgba(0,0,0,${Math.min(0.8, (estL.s - 1) * 1.5)})`;
+  }
+
+  function abrirLupa(img) {
+    const r = img.getBoundingClientRect();
+    miniatura = img;
+    Object.assign(lupaImg.style, {
+      left: r.left + 'px', top: r.top + 'px',
+      width: r.width + 'px', height: r.height + 'px'
+    });
+    lupaImg.src = img.src;
+    estL.s = 1; estL.x = 0; estL.y = 0;
+    aplicarL(false);
+    lupa.classList.add('abierta');
+    img.style.visibility = 'hidden';
+  }
+
+  function cerrarLupa() {
+    lupa.classList.remove('abierta');
+    if (miniatura) miniatura.style.visibility = '';
+    miniatura = null;
+    estL.s = 1; estL.x = 0; estL.y = 0;
+  }
+
+  // Al soltar: animación de regreso y luego se cierra
+  function soltarL() {
+    estL.s = 1; estL.x = 0; estL.y = 0;
+    aplicarL(true);
+    timerCierre = setTimeout(cerrarLupa, 270);
+  }
+
+  function pinchL(e) {
+    e.preventDefault();
+    if (!e.ctrlKey) return;                   // solo pellizco (o Ctrl + rueda)
+    if (!lupa.classList.contains('abierta')) {
+      const img = e.target.closest && e.target.closest('img');
+      if (!img || e.deltaY >= 0) return;      // solo al acercar
+      abrirLupa(img);
+    }
+    clearTimeout(timerCierre);
+    clearTimeout(timerSoltar);
+    base(estL, lupaImg);
+    const dy = Math.max(-50, Math.min(50, e.deltaY));
+    zoomEn(estL, e.clientX, e.clientY, estL.s * Math.exp(-dy * SENS_PINCH));
+    aplicarL(false);
+    timerSoltar = setTimeout(soltarL, RETORNO_MS);
+  }
+
+  c.addEventListener('wheel', e => { if (e.ctrlKey) pinchL(e); }, { passive: false });
+  lupa.addEventListener('wheel', pinchL, { passive: false });
+
+  // Clic en una miniatura → pantalla completa
+  c.querySelectorAll('img').forEach(img => { img.onclick = () => abrirVisor(img.src); });
+
+  // ---------- Teclado y salida de pantalla completa ----------
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarVisor(); });
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) visor.classList.remove('abierto');
+  });
+</script>
+</body>
+</html>
