@@ -68,7 +68,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
 .vols b{font-weight:600}.vols span{color:var(--muted)}
 .notes{margin:10px 0 0;font-size:15px;line-height:1.55;white-space:pre-line;max-width:65ch}
 .empty-tl{padding:40px 0;color:var(--muted)}
-@media (max-width:560px){.tl-wrap{padding:22px 14px 36px}.item{grid-template-columns:54px 30px minmax(0,1fr);column-gap:10px}.year{font-size:23px}.year small{font-size:14px}.year.long{font-size:14px}.card{flex-direction:column}.media,.card.land .media{flex:none;width:100%;align-self:stretch}.media img,.card.land .media img{max-height:340px}}
+@media (max-width:560px){.tl-wrap{padding:22px 14px 36px}.item{grid-template-columns:54px 30px minmax(0,1fr);column-gap:10px}.year{font-size:23px}.year small{font-size:14px}.year.long{font-size:14px}.media{flex-basis:104px}.media img{max-height:260px}}
 @media (prefers-reduced-motion:reduce){.media img{transition:none}}</style>
 </head>
 <body>
@@ -190,7 +190,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
     var m=im.closest('.media');if(!m||m.dataset.or)return;
     var first=m.querySelector('img:not(.broken)');if(first!==im)return;
     m.dataset.or=1;
-    if(im.naturalWidth>im.naturalHeight*1.1)im.closest('.card').classList.add('land');
+    /* las portadas siempre van al costado */
   }
   root.addEventListener('load',function(ev){orient(ev.target);},true);
   render();
