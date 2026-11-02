@@ -102,6 +102,7 @@ img{max-width:100%}
 .cv-stage.is-frame .cv-zone,.cv-stage.is-msg .cv-zone{display:none}
 .cv-msg{max-width:440px;padding:24px;text-align:center}
 .cv-msg p{margin:0 0 16px;color:#cfd0d4;font-size:16px}
+.cv-msg .cv-url{font-size:13px;color:#9a9ea6;word-break:break-all}
 .cv-msg .cv-btn{background:transparent;color:#ececec;border-color:#5a5c63;margin:4px}
 .cv-msg .cv-primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .cv-rfoot{display:flex;gap:14px;align-items:center;padding:6px 16px 12px}
@@ -169,7 +170,7 @@ img{max-width:100%}
 <body>
 <div id="cv-root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script type="application/json" id="comic-data">{"series":{"title":"Call of Duty: Black Ops 4","type":"Miniserie","subtitle":"2018"},"settings":{"defaultLang":"a","theme":"auto","base":"https://fabiobonnett.github.io/Notion/Comics/","langs":{"a":{"code":"EN","name":"Inglés"},"b":{"code":"Es","name":"Español"}}},"issues":[{"id":"d1","number":"1","title_a":"Ruin","title_b":"","pdf_a":"en_ruin.pdf","pdf_b":"es_ruin.pdf","cover":""},{"id":"d2","number":"2","title_a":"Prophet","title_b":"","pdf_a":"en_prophet.pdf","pdf_b":"es_prophet.pdf","cover":""},{"id":"d3","number":"3","title_a":"Crash","title_b":"","pdf_a":"en_crash.pdf","pdf_b":"es_crash.pdf","cover":""},{"id":"d4","number":"4","title_a":"Torque","title_b":"","pdf_a":"en_torque.pdf","pdf_b":"es_torque.pdf","cover":""},{"id":"nem4lo34","number":"5","title_a":"Firebreak","title_b":"","pdf_a":"en_firebreak.pdf","pdf_b":"es_firebreak.pdf","cover":""},{"id":"n1whn4ms","number":"6","title_a":"Nomad","title_b":"","pdf_a":"en_nomad.pdf","pdf_b":"es_nomad.pdf","cover":""},{"id":"nl7q1mmo","number":"7","title_a":"Recon","title_b":"","pdf_a":"en_recon.pdf","pdf_b":"es_recon.pdf","cover":""},{"id":"nlp4qt2x","number":"8","title_a":"Seraph","title_b":"","pdf_a":"en_seraph.pdf","pdf_b":"es_seraph.pdf","cover":""},{"id":"nwgx5zyx","number":"9","title_a":"Ajax","title_b":"","pdf_a":"en_ajax.pdf","pdf_b":"es_ajax.pdf","cover":""},{"id":"nccrat01","number":"10","title_a":"Battery","title_b":"","pdf_a":"en_battery.pdf","pdf_b":"es_battery.pdf","cover":""}],"readonly":true}</script>
+<script type="application/json" id="comic-data">{"series":{"title":"Call of Duty: Black Ops 4","type":"Miniserie","subtitle":"2018"},"settings":{"defaultLang":"a","theme":"auto","base":"https://fabiobonnett.github.io/Notion/Videojuegos/Call_of_Duty/Comics/BO4/Visor","langs":{"a":{"code":"EN","name":"Inglés"},"b":{"code":"Es","name":"Español"}}},"issues":[{"id":"d1","number":"1","title_a":"Ruin","title_b":"","pdf_a":"en_ruin.pdf","pdf_b":"es_ruin.pdf","cover":""},{"id":"d2","number":"2","title_a":"Prophet","title_b":"","pdf_a":"en_prophet.pdf","pdf_b":"es_prophet.pdf","cover":""},{"id":"d3","number":"3","title_a":"Crash","title_b":"","pdf_a":"en_crash.pdf","pdf_b":"es_crash.pdf","cover":""},{"id":"d4","number":"4","title_a":"Torque","title_b":"","pdf_a":"en_torque.pdf","pdf_b":"es_torque.pdf","cover":""},{"id":"nem4lo34","number":"5","title_a":"Firebreak","title_b":"","pdf_a":"en_firebreak.pdf","pdf_b":"es_firebreak.pdf","cover":""},{"id":"n1whn4ms","number":"6","title_a":"Nomad","title_b":"","pdf_a":"en_nomad.pdf","pdf_b":"es_nomad.pdf","cover":""},{"id":"nl7q1mmo","number":"7","title_a":"Recon","title_b":"","pdf_a":"en_recon.pdf","pdf_b":"es_recon.pdf","cover":""},{"id":"nlp4qt2x","number":"8","title_a":"Seraph","title_b":"","pdf_a":"en_seraph.pdf","pdf_b":"es_seraph.pdf","cover":""},{"id":"nwgx5zyx","number":"9","title_a":"Ajax","title_b":"","pdf_a":"en_ajax.pdf","pdf_b":"es_ajax.pdf","cover":""},{"id":"nccrat01","number":"10","title_a":"Battery","title_b":"","pdf_a":"en_battery.pdf","pdf_b":"es_battery.pdf","cover":""}],"readonly":true}</script>
 <script id="cv-main">
 (function(){
 'use strict';
@@ -235,9 +236,14 @@ function saveDraft(){if(editable())lsSet(DRAFT_KEY,JSON.stringify({base:BASE,dat
 if(window.pdfjsLib){try{window.pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER;}catch(e){}}
 
 /* ---------- Utilidades de rutas ---------- */
+function baseUrl(){
+  var b=str(state.settings.base);if(!b)return location.href;
+  if(!/\/$/.test(b))b+='/';
+  try{return new URL(b,location.href).href;}catch(e){return location.href;}
+}
 function res(u){
   u=str(u);if(!u)return '';
-  try{return new URL(u,state.settings.base||location.href).href;}catch(e){return u;}
+  try{return new URL(u,baseUrl()).href;}catch(e){return u;}
 }
 function driveId(u){
   var m=String(u||'').match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{10,})/);
@@ -475,7 +481,7 @@ function loadReader(){
 }
 function showFallback(msg){
   setStageMode('msg');
-  $('#cv-pages').innerHTML='<div class="cv-msg"><p>'+esc(msg)+'</p>'+
+  $('#cv-pages').innerHTML='<div class="cv-msg"><p>'+esc(msg)+'</p><p class="cv-url">Ruta usada: '+esc(R.url)+'</p>'+
     '<button type="button" class="cv-btn cv-primary" data-act="riframe">Usar el visor del navegador</button>'+
     '<a class="cv-btn" href="'+esc(R.url)+'" target="_blank" rel="noopener">Abrir en una pestaña nueva</a></div>';
 }
