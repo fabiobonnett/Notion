@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Call of Duty: Black Ops 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style id="cv-style">
+:root{
+  --bg:#ffffff; --ink:#1d1e22; --muted:#6c707a; --line:#e3e4e8; --soft:#f2f3f5;
+  --accent:#ffd23f; --accent-ink:#1d1e22; --danger:#d23b2c; --reader:#121316;
+  --shadow:rgba(20,22,30,.28);
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#191919; --ink:#ebebeb; --muted:#9a9ea6; --line:#2f3034; --soft:#242528;
+    --shadow:rgba(0,0,0,.6); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#191919; --ink:#ebebeb; --muted:#9a9ea6; --line:#2f3034; --soft:#242528;
+  --shadow:rgba(0,0,0,.6); color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body.cv-noscroll{overflow:hidden}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+.cv-wrap{max-width:1120px;margin:0 auto;padding:24px 20px 48px}
+.cv-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 24px;padding-bottom:18px;margin-bottom:24px;border-bottom:3px solid var(--ink)}
+.cv-titleblock{min-width:0;flex:1 1 320px}
+.cv-chip{display:inline-block;font:600 13px/1 'Barlow',sans-serif;padding:5px 8px 4px;border:1.5px solid var(--ink);border-radius:3px;margin-bottom:10px}
+.cv-title{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;font-size:clamp(2.1rem,5.4vw,3.6rem);line-height:.92;letter-spacing:-.01em;margin:0;overflow-wrap:anywhere}
+.cv-sub{margin:8px 0 0;color:var(--muted);font-size:16px;max-width:62ch}
+.cv-count{margin:6px 0 0;color:var(--muted);font-size:13.5px}
+.cv-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.cv-seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:999px;padding:2px;gap:2px}
+.cv-seg button{border:0;background:none;cursor:pointer;font:700 13px/1 'Barlow',sans-serif;padding:7px 12px 6px;border-radius:999px;letter-spacing:.02em}
+.cv-seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+
+.cv-btn{display:inline-flex;align-items:center;gap:6px;font:600 14px/1 'Barlow',sans-serif;padding:9px 12px;border:1.5px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer;text-decoration:none}
+.cv-btn:hover{border-color:var(--ink)}
+.cv-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.cv-primary:hover{border-color:var(--accent-ink)}
+.cv-wide{width:100%;justify-content:center}
+.cv-ibtn{width:36px;height:36px;display:inline-grid;place-items:center;border:0;border-radius:6px;background:transparent;color:inherit;cursor:pointer;text-decoration:none;flex:none}
+.cv-ibtn:hover{background:rgba(127,127,127,.18)}
+.cv-ibtn[aria-pressed="true"]{background:rgba(127,127,127,.26)}
+
+.cv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:26px 18px}
+.cv-card{min-width:0}
+.cv-coverbtn{position:relative;display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;border-radius:3px;text-align:left}
+.cv-cover{aspect-ratio:2/3;border-radius:3px;overflow:hidden;background:var(--soft);box-shadow:0 0 0 1px var(--line),0 8px 16px -10px var(--shadow);transition:box-shadow .15s}
+.cv-coverbtn:hover .cv-cover,.cv-coverbtn:focus-visible .cv-cover{box-shadow:0 0 0 2px var(--ink),0 10px 20px -10px var(--shadow)}
+.cv-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.cv-num{position:absolute;top:0;left:0;background:var(--accent);color:var(--accent-ink);font:800 18px/1 'Barlow Condensed',sans-serif;padding:6px 8px 4px;border-top-left-radius:3px;border-bottom-right-radius:4px;box-shadow:1px 1px 0 rgba(0,0,0,.28)}
+.cv-meta{padding-top:9px}
+.cv-ititle{font:600 14.5px/1.3 'Barlow',sans-serif;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cv-note{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+.cv-card.is-off .cv-cover{filter:grayscale(1);opacity:.45}
+
+.cv-ph{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:14px 12px;color:#fff;
+  background:radial-gradient(rgba(255,255,255,.17) 1.1px,transparent 1.7px) 0 0/7px 7px,linear-gradient(165deg,hsl(var(--h) 52% 46%),hsl(calc(var(--h) + 35) 58% 24%))}
+.cv-ph-t{font:800 clamp(20px,2.6vw,26px)/.95 'Barlow Condensed',sans-serif;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.cv-ph-s{font:600 12px/1.25 'Barlow',sans-serif;margin-top:6px;opacity:.85}
+
+.cv-empty{grid-column:1/-1;padding:28px 0;color:var(--muted)}
+.cv-empty p{margin:0 0 14px;font-size:16px}
+
+/* Lector */
+.cv-reader{position:fixed;inset:0;z-index:50;background:var(--reader);color:#ececec;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.cv-reader[hidden],.cv-layer[hidden]{display:none}
+.cv-rbar{display:flex;align-items:center;gap:8px;padding:8px 10px;min-height:52px}
+.cv-rtitle{flex:1;min-width:0;display:flex;align-items:baseline;gap:8px;white-space:nowrap;overflow:hidden}
+.cv-rtitle strong{font:800 20px/1 'Barlow Condensed',sans-serif;color:var(--accent)}
+.cv-rtitle span{overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.cv-rtools{display:flex;align-items:center;gap:4px}
+.cv-reader .cv-seg{border-color:#5a5c63;margin-right:4px}
+.cv-reader .cv-seg button{color:#ececec}
+.cv-reader .cv-seg button[aria-pressed="true"]{color:var(--accent-ink)}
+.cv-stage{flex:1;position:relative;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:pan-y pinch-zoom}
+.cv-pages{display:flex;gap:0;align-items:center;justify-content:center;max-width:100%;max-height:100%}
+.cv-pages.is-frame{width:100%;height:100%}
+.cv-page{display:block;background:#fff;box-shadow:0 4px 30px rgba(0,0,0,.55)}
+.cv-frame{width:100%;height:100%;border:0;background:#fff}
+.cv-zone{position:absolute;top:0;bottom:0;width:30%;border:0;background:none;cursor:pointer;display:flex;align-items:center;padding:0 10px;color:#fff;opacity:0;transition:opacity .15s}
+.cv-zone.prev{left:0;justify-content:flex-start}
+.cv-zone.next{right:0;justify-content:flex-end}
+.cv-zone:hover,.cv-zone:focus-visible{opacity:.75}
+.cv-zone span{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.55)}
+.cv-stage.is-frame .cv-zone,.cv-stage.is-msg .cv-zone{display:none}
+.cv-msg{max-width:440px;padding:24px;text-align:center}
+.cv-msg p{margin:0 0 16px;color:#cfd0d4;font-size:16px}
+.cv-msg .cv-btn{background:transparent;color:#ececec;border-color:#5a5c63;margin:4px}
+.cv-msg .cv-primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.cv-rfoot{display:flex;gap:14px;align-items:center;padding:6px 16px 12px}
+.cv-rfoot[hidden]{display:none}
+.cv-rfoot input{flex:1;accent-color:var(--accent)}
+.cv-pcount{font:600 14px/1 'Barlow',sans-serif;color:#cfd0d4;min-width:80px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* Capas: editor y código */
+.cv-layer{position:fixed;inset:0;z-index:60}
+.cv-scrim{position:absolute;inset:0;background:rgba(0,0,0,.42)}
+.cv-panel{position:absolute;top:0;right:0;bottom:0;width:min(540px,100%);background:var(--bg);color:var(--ink);display:flex;flex-direction:column;box-shadow:-12px 0 32px rgba(0,0,0,.22);padding-top:env(safe-area-inset-top,0px)}
+.cv-phead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px 12px 18px;border-bottom:1px solid var(--line)}
+.cv-phead h2{font:800 26px/1 'Barlow Condensed',sans-serif;margin:0}
+.cv-pbody{overflow:auto;padding:0 18px 48px;flex:1}
+.cv-sec{padding:18px 0;border-bottom:1px solid var(--line)}
+.cv-sec:last-child{border-bottom:0}
+.cv-sec h3{font:700 15px/1.2 'Barlow',sans-serif;margin:0 0 12px}
+.cv-sechead{display:flex;justify-content:space-between;align-items:baseline}
+.cv-muted{color:var(--muted);font-size:13.5px}
+.cv-help{margin:0 0 12px;color:var(--muted);font-size:13.5px;max-width:64ch}
+.cv-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;min-width:0}
+.cv-field>span{font-size:13px;font-weight:600;color:var(--muted)}
+.cv-field small{color:var(--muted);font-size:12.5px}
+.cv-layer input[type="text"],.cv-layer input[type="url"],.cv-layer select,.cv-layer textarea{font:15px/1.3 'Barlow',sans-serif;padding:8px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%;min-width:0}
+.cv-layer textarea{font:12.5px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;resize:vertical}
+.cv-layer input:focus,.cv-layer select:focus,.cv-layer textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(255,210,63,.55)}
+.cv-row2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.cv-row2.cv-lang{grid-template-columns:2fr 1fr}
+.cv-issue{border:1.5px solid var(--line);border-radius:8px;margin-bottom:8px}
+.cv-issue[open]{border-color:var(--ink)}
+.cv-issue summary{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 10px;cursor:pointer;list-style:none}
+.cv-issue summary::-webkit-details-marker{display:none}
+.cv-ihnum{font:800 16px/1 'Barlow Condensed',sans-serif;background:var(--accent);color:var(--accent-ink);padding:4px 6px 3px;border-radius:3px;flex:none}
+.cv-ihtitle{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.cv-ihflags{font-size:12px;color:var(--muted);flex:none}
+.cv-ibtn.is-armed{width:auto;padding:0 10px;color:var(--danger);font-weight:700;font-size:13px}
+.cv-igrid{display:grid;grid-template-columns:76px 1fr 1fr;gap:0 10px;padding:6px 10px 2px}
+.cv-span3{grid-column:1/-1}
+.cv-check{display:flex;gap:10px;align-items:flex-start;margin:0 0 12px;font-size:14px;cursor:pointer}
+.cv-check input{margin-top:3px;accent-color:var(--ink)}
+.cv-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px}
+.cv-err{color:var(--danger);font-size:13.5px;margin:8px 0 0;min-height:1em}
+
+.cv-modalbox{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(660px,calc(100% - 24px));max-height:calc(100% - 24px);display:flex;flex-direction:column;background:var(--bg);color:var(--ink);border-radius:10px;box-shadow:0 24px 60px rgba(0,0,0,.35);overflow:hidden}
+.cv-tabs{display:flex;gap:4px;padding:0 18px;border-bottom:1px solid var(--line)}
+.cv-tabs button{border:0;background:none;cursor:pointer;font:600 14.5px/1 'Barlow',sans-serif;padding:12px 4px 10px;margin-right:14px;border-bottom:2.5px solid transparent;color:var(--muted)}
+.cv-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.cv-mbody{overflow:auto;padding:16px 18px 18px}
+
+.cv-toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80;max-width:calc(100% - 32px)}
+.cv-toast.is-on{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:560px){
+  .cv-wrap{padding:18px 14px 40px}
+  .cv-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:20px 12px}
+  .cv-igrid{grid-template-columns:1fr}
+  .cv-row2{grid-template-columns:1fr}
+  .cv-rtitle span{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<div id="cv-root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script type="application/json" id="comic-data">{"series":{"title":"Call of Duty: Black Ops 4","type":"Miniserie","subtitle":"2018"},"settings":{"defaultLang":"a","theme":"auto","base":"https://fabiobonnett.github.io/Notion/Comics/","langs":{"a":{"code":"EN","name":"Inglés"},"b":{"code":"Es","name":"Español"}}},"issues":[{"id":"d1","number":"1","title_a":"Ruin","title_b":"","pdf_a":"en_ruin.pdf","pdf_b":"es_ruin.pdf","cover":""},{"id":"d2","number":"2","title_a":"Prophet","title_b":"Second issue","pdf_a":"en_prophet.pdf","pdf_b":"es_prophet.pdf","cover":""},{"id":"d3","number":"3","title_a":"Crash","title_b":"Third issue","pdf_a":"en_crash.pdf","pdf_b":"es_crash.pdf","cover":""},{"id":"d4","number":"4","title_a":"Torque","title_b":"","pdf_a":"en_torque.pdf","pdf_b":"es_torque.pdf","cover":""},{"id":"nem4lo34","number":"5","title_a":"Firebreak","title_b":"","pdf_a":"en_firebreak.pdf","pdf_b":"es_firebreak.pdf","cover":""},{"id":"n1whn4ms","number":"6","title_a":"Nomad","title_b":"","pdf_a":"en_nomad.pdf","pdf_b":"es_nomad.pdf","cover":""},{"id":"nl7q1mmo","number":"7","title_a":"Recon","title_b":"","pdf_a":"en_recon.pdf","pdf_b":"es_recon.pdf","cover":""},{"id":"nlp4qt2x","number":"8","title_a":"Seraph","title_b":"","pdf_a":"en_seraph.pdf","pdf_b":"es_seraph.pdf","cover":""},{"id":"nwgx5zyx","number":"9","title_a":"Ajax","title_b":"","pdf_a":"en_ajax.pdf","pdf_b":"es_ajax.pdf","cover":""},{"id":"nccrat01","number":"10","title_a":"Battery","title_b":"","pdf_a":"en_battery.pdf","pdf_b":"es_battery.pdf","cover":""}]}</script>
+<script id="cv-main">
+(function(){
+'use strict';
+var PDFJS_SRC='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+var PDFJS_WORKER='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+var FONT_HREF='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Barlow:wght@400;500;600;700&display=swap';
+var DRAFT_KEY='cv-borrador-v1';
+var TYPES=['Serie regular','Miniserie','Maxiserie','One-shot','Evento','Arco argumental','Novela gráfica','Antología','Especial','Otro'];
+
+var P={
+  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  code:'<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
+  close:'<path d="M18 6 6 18M6 6l12 12"/>',
+  up:'<path d="m18 15-6-6-6 6"/>',
+  down:'<path d="m6 9 6 6 6-6"/>',
+  trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  spread:'<rect x="2.5" y="5" width="9" height="14" rx="1"/><rect x="12.5" y="5" width="9" height="14" rx="1"/>',
+  fs:'<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>',
+  ext:'<path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+  left:'<path d="m15 18-6-6 6-6"/>',
+  right:'<path d="m9 18 6-6-6-6"/>'
+};
+function ic(n,s){s=s||18;return '<svg viewBox="0 0 24 24" width="'+s+'" height="'+s+'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>';}
+
+function $(s,r){return (r||document).querySelector(s);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function str(v){return v==null?'':String(v).trim();}
+function hash(s){var h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0;}return String(h>>>0);}
+function uid(){return 'n'+Math.random().toString(36).slice(2,9);}
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function other(l){return l==='a'?'b':'a';}
+
+function normalize(d){
+  d=d&&typeof d==='object'?d:{};
+  var s=d.series||{},st=d.settings||{},L=st.langs||{};
+  function lg(x,code,name){x=x||{};return {code:str(x.code)||code,name:str(x.name)||name};}
+  function pick(x,k,legacy){return str(x[k]!=null?x[k]:x[legacy]);}
+  return {
+    series:{title:str(s.title),type:str(s.type),subtitle:str(s.subtitle)},
+    settings:{defaultLang:(st.defaultLang==='b'||st.defaultLang==='en')?'b':'a',theme:(st.theme==='light'||st.theme==='dark')?st.theme:'auto',base:str(st.base),
+      langs:{a:lg(L.a,'ES','Español'),b:lg(L.b,'EN','Inglés')}},
+    issues:(Array.isArray(d.issues)?d.issues:[]).map(function(x){x=x||{};return {id:str(x.id)||uid(),number:str(x.number),title_a:pick(x,'title_a','title_es'),title_b:pick(x,'title_b','title_en'),pdf_a:pick(x,'pdf_a','pdf_es'),pdf_b:pick(x,'pdf_b','pdf_en'),cover:str(x.cover)};})
+  };
+}
+
+/* ---------- Estado ---------- */
+var dataEl=document.getElementById('comic-data');
+var embeddedText=dataEl?dataEl.textContent.trim():'';
+var embeddedObj=null;
+try{embeddedObj=embeddedText?JSON.parse(embeddedText):null;}catch(e){}
+var READONLY=!!(embeddedObj&&embeddedObj.readonly);
+var BASE=hash(embeddedText);
+var state=normalize(embeddedObj);
+function editable(){return !READONLY||location.hash==='#edit';}
+if(editable()){
+  try{var dr=JSON.parse(lsGet(DRAFT_KEY)||'null');if(dr&&dr.base===BASE&&dr.data)state=normalize(dr.data);}catch(e){}
+}
+var lang=state.settings.defaultLang;
+function saveDraft(){if(editable())lsSet(DRAFT_KEY,JSON.stringify({base:BASE,data:state}));}
+
+if(window.pdfjsLib){try{window.pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER;}catch(e){}}
+
+/* ---------- Utilidades de rutas ---------- */
+function res(u){
+  u=str(u);if(!u)return '';
+  try{return new URL(u,state.settings.base||location.href).href;}catch(e){return u;}
+}
+function driveId(u){
+  var m=String(u||'').match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{10,})/);
+  return m?m[1]:'';
+}
+function pdfFor(it,l){return it?it['pdf_'+l]:'';}
+function titleFor(it,l){l=l||lang;return it['title_'+l]||it['title_'+other(l)]||'';}
+function langName(l){var x=state.settings.langs[l]||{};return x.name||x.code||(l==='a'?'Idioma principal':'Segundo idioma');}
+function langCode(l){var x=state.settings.langs[l]||{};return x.code||(l==='a'?'1':'2');}
+function bilingual(it){return !!(it&&it.pdf_a&&it.pdf_b);}
+function hasBilingual(){return state.issues.some(bilingual);}
+function pickLang(it){if(pdfFor(it,lang))return lang;if(!hasBilingual()&&pdfFor(it,other(lang)))return other(lang);return lang;}
+function numLabel(it){var n=it.number;if(!n)return '';return /^\d/.test(n)?'#'+n:n;}
+
+/* ---------- Estructura ---------- */
+var root=document.getElementById('cv-root');
+root.innerHTML='<div class="cv-wrap"><header class="cv-head" id="cv-head"></header><main id="cv-grid" class="cv-grid" aria-label="Números"></main></div>'+
+  '<div id="cv-reader" class="cv-reader" role="dialog" aria-modal="true" aria-label="Lector" hidden></div>'+
+  '<div id="cv-drawer" class="cv-layer" hidden></div>'+
+  '<div id="cv-modal" class="cv-layer" hidden></div>'+
+  '<div id="cv-toast" class="cv-toast" role="status" aria-live="polite"></div>';
+var elHead=$('#cv-head'),elGrid=$('#cv-grid'),elReader=$('#cv-reader'),elDrawer=$('#cv-drawer'),elModal=$('#cv-modal'),elToast=$('#cv-toast');
+
+function applyTheme(){
+  var t=state.settings.theme;
+  if(t==='auto')document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme',t);
+}
+function langToggle(cur){
+  cur=cur||lang;
+  return '<div class="cv-seg" role="group" aria-label="Idioma de los cómics">'+
+    ['a','b'].map(function(l){return '<button type="button" data-lang="'+l+'" aria-pressed="'+(cur===l)+'" title="'+esc(langName(l))+'">'+esc(langCode(l))+'</button>';}).join('')+'</div>';
+}
+
+/* ---------- Cabecera ---------- */
+function countText(){
+  var n=state.issues.length;if(!n)return '';
+  return n+(n===1?' número':' números');
+}
+function renderHeader(){
+  var s=state.series,ed=editable(),c=countText();
+  elHead.innerHTML='<div class="cv-titleblock">'+
+      (s.type?'<span class="cv-chip">'+esc(s.type)+'</span>':'')+
+      '<h1 class="cv-title">'+esc(s.title||'Serie sin título')+'</h1>'+
+      (s.subtitle?'<p class="cv-sub">'+esc(s.subtitle)+'</p>':'')+
+      (c?'<p class="cv-count">'+esc(c)+'</p>':'')+
+    '</div>'+
+    '<div class="cv-tools">'+(hasBilingual()?langToggle():'')+
+      (ed?'<button type="button" class="cv-btn" data-act="edit">'+ic('edit',16)+'Editar</button><button type="button" class="cv-btn" data-act="code">'+ic('code',16)+'Código</button>':'')+
+    '</div>';
+  document.title=s.title||'Visor de cómics';
+}
+
+/* ---------- Galería ---------- */
+var resolvedCovers={};
+function coverSources(it){
+  var out=[];
+  if(it.cover)out.push({img:res(it.cover)});
+  [lang,other(lang)].forEach(function(l){
+    var p=pdfFor(it,l);if(!p)return;
+    var d=driveId(p);
+    if(d)out.push({img:'https://drive.google.com/thumbnail?id='+d+'&sz=w640'});
+    else out.push({pdf:res(p)});
+  });
+  return out;
+}
+function coverKey(it){return JSON.stringify(coverSources(it));}
+function placeholder(it){
+  var h=parseInt(hash((it.title_b||it.title_a||'')+'|'+it.number),10)%360;
+  return '<div class="cv-ph" style="--h:'+h+'"><span class="cv-ph-t">'+esc(titleFor(it)||numLabel(it)||'Sin título')+'</span><span class="cv-ph-s">'+esc(state.series.title)+'</span></div>';
+}
+function renderGrid(){
+  var ed=editable();
+  if(!state.issues.length){
+    elGrid.innerHTML='<div class="cv-empty"><p>Todavía no hay números en esta serie.</p>'+(ed?'<button type="button" class="cv-btn cv-primary" data-act="edit">'+ic('plus',16)+'Añadir números</button>':'')+'</div>';
+    return;
+  }
+  var bi=hasBilingual();
+  elGrid.innerHTML=state.issues.map(function(it,i){
+    var alt=!!pdfFor(it,other(lang)),avail=!!pdfFor(it,lang)||(!bi&&alt);
+    var t=titleFor(it),n=numLabel(it);
+    var note=avail?'':(alt?'Solo en '+esc(langName(other(lang)).toLowerCase()):'Sin PDF todavía');
+    var key=coverKey(it),done=resolvedCovers[key];
+    return '<article class="cv-card'+(avail?'':' is-off')+'">'+
+      '<button type="button" class="cv-coverbtn" data-open="'+i+'" aria-label="Leer '+esc((n?n+' ':'')+t)+'">'+
+        '<div class="cv-cover" data-cover="'+i+'"'+(done?' data-done="1"':'')+'>'+(done?'<img alt="" src="'+esc(done)+'">':placeholder(it))+'</div>'+
+        (n?'<span class="cv-num">'+esc(n)+'</span>':'')+
+      '</button>'+
+      '<div class="cv-meta"><h2 class="cv-ititle">'+esc(t||'Sin título')+'</h2>'+(note?'<p class="cv-note">'+note+'</p>':'')+'</div>'+
+    '</article>';
+  }).join('');
+  Array.prototype.forEach.call(elGrid.querySelectorAll('[data-cover]:not([data-done])'),function(el){
+    if(io)io.observe(el);else startCover(el);
+  });
+}
+var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting){io.unobserve(e.target);startCover(e.target);}});
+},{rootMargin:'300px'}):null;
+
+function loadImg(u){return new Promise(function(ok,no){var im=new Image();im.onload=function(){ok(u);};im.onerror=function(){no(new Error('img'));};im.src=u;});}
+var queue=[],active=0;
+function enqueue(fn){return new Promise(function(ok,no){queue.push({fn:fn,ok:ok,no:no});pump();});}
+function pump(){
+  while(active<2&&queue.length){
+    var j=queue.shift();active++;
+    Promise.resolve().then(j.fn).then(j.ok,j.no).then(function(){active--;pump();});
+  }
+}
+var coverCache={};
+function coverFromPdf(url){
+  if(!window.pdfjsLib)return Promise.reject(new Error('Sin pdf.js'));
+  if(!coverCache[url]){
+    coverCache[url]=enqueue(function(){
+      return window.pdfjsLib.getDocument({url:url,disableAutoFetch:true,disableStream:true}).promise.then(function(doc){
+        return doc.getPage(1).then(function(pg){
+          var v0=pg.getViewport({scale:1});
+          var v=pg.getViewport({scale:520/v0.width});
+          var c=document.createElement('canvas');
+          c.width=Math.round(v.width);c.height=Math.round(v.height);
+          return pg.render({canvasContext:c.getContext('2d'),viewport:v}).promise.then(function(){
+            var u=c.toDataURL('image/jpeg',0.86);doc.destroy();return u;
+          });
+        }).catch(function(e){doc.destroy();throw e;});
+      });
+    });
+  }
+  return coverCache[url];
+}
+function startCover(el){
+  var it=state.issues[+el.getAttribute('data-cover')];if(!it)return;
+  var srcs=coverSources(it),key=JSON.stringify(srcs);
+  (function next(k){
+    if(k>=srcs.length||!el.isConnected)return;
+    var s=srcs[k];
+    var p=s.img?loadImg(s.img):coverFromPdf(s.pdf);
+    p.then(function(u){
+      resolvedCovers[key]=u;
+      if(!el.isConnected)return;
+      var im=new Image();im.alt='';im.decoding='async';im.src=u;
+      el.innerHTML='';el.appendChild(im);
+    },function(){next(k+1);});
+  })(0);
+}
+
+/* ---------- Lector ---------- */
+var R={open:false,i:-1,doc:null,url:'',page:1,n:0,spread:false,token:0,rtoken:0,tasks:[]};
+function openReader(i){
+  var it=state.issues[i];if(!it)return;
+  R.open=true;R.i=i;R.page=1;
+  var st=elReader;
+  R.spread=window.innerWidth>window.innerHeight*1.15;
+  st.innerHTML='<div class="cv-rbar">'+
+      '<button type="button" class="cv-ibtn" data-act="rclose" aria-label="Cerrar lector">'+ic('close',20)+'</button>'+
+      '<div class="cv-rtitle" id="cv-rtitle"></div>'+
+      '<div class="cv-rtools">'+
+        '<span id="cv-rlang"></span>'+
+        '<button type="button" class="cv-ibtn" data-act="spread" id="cv-spread" aria-label="Ver dos páginas" title="Ver dos páginas" aria-pressed="'+R.spread+'">'+ic('spread',19)+'</button>'+
+        (document.fullscreenEnabled?'<button type="button" class="cv-ibtn" data-act="fs" aria-label="Pantalla completa" title="Pantalla completa">'+ic('fs',18)+'</button>':'')+
+        '<a class="cv-ibtn" id="cv-ext" href="#" target="_blank" rel="noopener" aria-label="Abrir el PDF en una pestaña nueva" title="Abrir el PDF en una pestaña nueva">'+ic('ext',18)+'</a>'+
+      '</div>'+
+    '</div>'+
+    '<div class="cv-stage" id="cv-stage">'+
+      '<div class="cv-pages" id="cv-pages"></div>'+
+      '<button type="button" class="cv-zone prev" data-act="prev" aria-label="Página anterior"><span>'+ic('left',22)+'</span></button>'+
+      '<button type="button" class="cv-zone next" data-act="next" aria-label="Página siguiente"><span>'+ic('right',22)+'</span></button>'+
+    '</div>'+
+    '<div class="cv-rfoot" id="cv-rfoot" hidden><input type="range" id="cv-slider" min="1" max="1" value="1" aria-label="Página"><span class="cv-pcount" id="cv-pcount"></span></div>';
+  st.hidden=false;
+  document.body.classList.add('cv-noscroll');
+  bindStage();
+  loadReader();
+  var b=$('[data-act="rclose"]',st);if(b)b.focus();
+}
+function closeReader(){
+  if(document.fullscreenElement){try{document.exitFullscreen();}catch(e){}}
+  cancelTasks();R.token++;R.rtoken++;
+  if(R.doc){try{R.doc.destroy();}catch(e){}R.doc=null;}
+  R.open=false;elReader.hidden=true;elReader.innerHTML='';
+  document.body.classList.remove('cv-noscroll');
+  var btn=elGrid.querySelector('[data-open="'+R.i+'"]');if(btn)btn.focus();
+}
+function cancelTasks(){R.tasks.forEach(function(t){try{t.cancel();}catch(e){}});R.tasks=[];}
+function setStageMode(mode){
+  var s=$('#cv-stage');if(!s)return;
+  s.classList.toggle('is-frame',mode==='frame');
+  s.classList.toggle('is-msg',mode==='msg');
+  $('#cv-pages').classList.toggle('is-frame',mode==='frame');
+  $('#cv-rfoot').hidden=mode!=='pdf';
+  var sp=$('#cv-spread');if(sp)sp.hidden=mode!=='pdf';
+}
+function loadReader(){
+  var it=state.issues[R.i];if(!it)return;
+  var n=numLabel(it);
+  $('#cv-rtitle').innerHTML=(n?'<strong>'+esc(n)+'</strong>':'')+'<span>'+esc(titleFor(it))+'</span>';
+  var rl=pickLang(it);
+  $('#cv-rlang').innerHTML=bilingual(it)?langToggle(rl):'';
+  cancelTasks();
+  var tok=++R.token;
+  if(R.doc){try{R.doc.destroy();}catch(e){}R.doc=null;}
+  var pages=$('#cv-pages'),ext=$('#cv-ext');
+  var raw=pdfFor(it,rl);
+  if(!raw){
+    ext.hidden=true;setStageMode('msg');
+    var alt=pdfFor(it,other(lang));
+    pages.innerHTML='<div class="cv-msg"><p>Este número no tiene versión en '+esc(langName(lang).toLowerCase())+'.</p>'+
+      (alt?'<button type="button" class="cv-btn cv-primary" data-act="rother">Leer en '+esc(langName(other(lang)).toLowerCase())+'</button>':'')+'</div>';
+    return;
+  }
+  var url=res(raw);R.url=url;ext.hidden=false;ext.href=url;
+  var d=driveId(raw);
+  if(d){
+    setStageMode('frame');
+    pages.innerHTML='<iframe class="cv-frame" src="https://drive.google.com/file/d/'+esc(d)+'/preview" allow="fullscreen" title="'+esc(titleFor(it))+'"></iframe>';
+    return;
+  }
+  if(!window.pdfjsLib){showFallback('No se pudo cargar el lector de PDF.');return;}
+  setStageMode('msg');
+  pages.innerHTML='<div class="cv-msg"><p id="cv-loadtxt">Cargando…</p></div>';
+  var task=window.pdfjsLib.getDocument({url:url});
+  task.onProgress=function(p){
+    if(tok!==R.token||!p.total)return;
+    var t=$('#cv-loadtxt');if(t)t.textContent='Cargando… '+Math.min(100,Math.round(p.loaded/p.total*100))+' %';
+  };
+  task.promise.then(function(doc){
+    if(tok!==R.token){doc.destroy();return;}
+    R.doc=doc;R.n=doc.numPages;
+    R.page=Math.min(Math.max(1,R.page),R.n);
+    var sl=$('#cv-slider');sl.max=R.n;sl.value=R.page;
+    setStageMode('pdf');
+    renderPages(true);
+  }).catch(function(){
+    if(tok!==R.token)return;
+    showFallback('No se pudo abrir este PDF aquí. Revisa que la ruta sea pública o que el servidor permita leerlo desde otra web.');
+  });
+}
+function showFallback(msg){
+  setStageMode('msg');
+  $('#cv-pages').innerHTML='<div class="cv-msg"><p>'+esc(msg)+'</p>'+
+    '<button type="button" class="cv-btn cv-primary" data-act="riframe">Usar el visor del navegador</button>'+
+    '<a class="cv-btn" href="'+esc(R.url)+'" target="_blank" rel="noopener">Abrir en una pestaña nueva</a></div>';
+}
+function spreadStart(p){return p<=1?1:(p%2===0?p:p-1);}
+function pagesToShow(){
+  if(!R.spread||R.page===1||R.n<3)return [R.page];
+  var s=spreadStart(R.page),a=[s];if(s+1<=R.n)a.push(s+1);return a;
+}
+function updateCounter(){
+  var list=pagesToShow();
+  var c=$('#cv-pcount');if(c)c.textContent=(list.length>1?list[0]+'–'+list[1]:list[0])+' / '+R.n;
+  var sl=$('#cv-slider');if(sl)sl.value=R.page;
+}
+function renderPages(first){
+  if(!R.doc)return;
+  var list=pagesToShow(),tok=++R.rtoken;
+  cancelTasks();updateCounter();
+  var stage=$('#cv-stage');if(!stage)return;
+  var W=Math.max(100,stage.clientWidth-16),H=Math.max(100,stage.clientHeight-16);
+  Promise.all(list.map(function(n){return R.doc.getPage(n);})).then(function(pgs){
+    if(tok!==R.rtoken)return;
+    var vps=pgs.map(function(p){return p.getViewport({scale:1});});
+    var totalW=vps.reduce(function(a,v){return a+v.width;},0);
+    var maxH=Math.max.apply(null,vps.map(function(v){return v.height;}));
+    var sc=Math.min(W/totalW,H/maxH);
+    var dpr=Math.min(window.devicePixelRatio||1,2.5);
+    var canvases=[],tasks=[];
+    pgs.forEach(function(p){
+      var v=p.getViewport({scale:sc*dpr});
+      var c=document.createElement('canvas');
+      c.width=Math.floor(v.width);c.height=Math.floor(v.height);
+      c.style.width=Math.floor(v.width/dpr)+'px';c.style.height=Math.floor(v.height/dpr)+'px';
+      c.className='cv-page';c.setAttribute('role','img');c.setAttribute('aria-label','Página '+p.pageNumber);
+      var t=p.render({canvasContext:c.getContext('2d'),viewport:v});
+      tasks.push(t);canvases.push(c);
+    });
+    R.tasks=tasks;
+    return Promise.all(tasks.map(function(t){return t.promise;})).then(function(){
+      if(tok!==R.rtoken)return;
+      var pc=$('#cv-pages');if(!pc)return;
+      pc.innerHTML='';canvases.forEach(function(c){pc.appendChild(c);});
+      var nx=pagesToShow();var last=nx[nx.length-1];
+      if(last<R.n)R.doc.getPage(last+1).catch(function(){});
+    });
+  }).catch(function(){});
+}
+function go(dir){
+  if(!R.doc)return;
+  var p=R.page,np;
+  if(R.spread&&R.n>=3){
+    var s=spreadStart(p);
+    if(dir>0){np=s===1?2:s+2;if(np>R.n)return;}
+    else{if(s===1)return;np=s===2?1:s-2;}
+  }else{
+    np=p+dir;if(np<1||np>R.n)return;
+  }
+  R.page=np;renderPages();
+}
+var swiped=false;
+function bindStage(){
+  var stage=$('#cv-stage'),x0=null,y0=null;
+  stage.addEventListener('pointerdown',function(e){x0=e.clientX;y0=e.clientY;});
+  stage.addEventListener('pointerup',function(e){
+    if(x0==null)return;
+    var dx=e.clientX-x0,dy=e.clientY-y0;x0=null;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.3){swiped=true;go(dx<0?1:-1);setTimeout(function(){swiped=false;},350);}
+  });
+  var sl=$('#cv-slider');
+  sl.addEventListener('input',function(){R.page=+sl.value;updateCounter();});
+  sl.addEventListener('change',function(){R.page=+sl.value;renderPages();});
+}
+
+/* ---------- Editor ---------- */
+var openIssues={};
+function field(label,path,val,ph,help,cls){
+  return '<label class="cv-field'+(cls?' '+cls:'')+'"><span>'+esc(label)+'</span><input type="text" data-path="'+path+'" value="'+esc(val)+'"'+(ph?' placeholder="'+esc(ph)+'"':'')+' spellcheck="false" autocomplete="off">'+(help?'<small>'+esc(help)+'</small>':'')+'</label>';
+}
+function select(label,path,opts,val){
+  var o=opts.map(function(x){return Array.isArray(x)?x:[x,x];});
+  if(val&&!o.some(function(x){return x[0]===val;}))o.unshift([val,val]);
+  return '<label class="cv-field"><span>'+esc(label)+'</span><select data-path="'+path+'">'+o.map(function(x){return '<option value="'+esc(x[0])+'"'+(x[0]===val?' selected':'')+'>'+esc(x[1])+'</option>';}).join('')+'</select></label>';
+}
+function flags(it){var f=[];if(it.pdf_a)f.push(langCode('a'));if(it.pdf_b)f.push(langCode('b'));return f.length?f.join(' / '):'sin PDF';}
+function issuesHTML(){
+  if(!state.issues.length)return '<p class="cv-help">Añade el primer número con el botón de abajo o pega varios a la vez.</p>';
+  return state.issues.map(function(it,i){
+    var p='issues.'+i+'.';
+    return '<details class="cv-issue" data-i="'+i+'"'+(openIssues[it.id]?' open':'')+' data-id="'+esc(it.id)+'">'+
+      '<summary><span class="cv-ihnum">'+esc(numLabel(it)||'#')+'</span><span class="cv-ihtitle">'+esc(titleFor(it,'a')||'Sin título')+'</span><span class="cv-ihflags">'+flags(it)+'</span>'+
+        '<button type="button" class="cv-ibtn" data-act="up" data-i="'+i+'" aria-label="Subir"'+(i===0?' disabled':'')+'>'+ic('up',16)+'</button>'+
+        '<button type="button" class="cv-ibtn" data-act="down" data-i="'+i+'" aria-label="Bajar"'+(i===state.issues.length-1?' disabled':'')+'>'+ic('down',16)+'</button>'+
+        '<button type="button" class="cv-ibtn" data-act="del" data-i="'+i+'" aria-label="Eliminar número">'+ic('trash',16)+'</button>'+
+      '</summary>'+
+      '<div class="cv-igrid">'+
+        field('Nº',p+'number',it.number,'1')+
+        field('Título ('+langName('a')+')',p+'title_a',it.title_a)+
+        field('Título ('+langName('b')+')',p+'title_b',it.title_b)+
+        field('PDF ('+langName('a')+')',p+'pdf_a',it.pdf_a,'https://…/01.pdf','','cv-span3')+
+        field('PDF ('+langName('b')+', opcional)',p+'pdf_b',it.pdf_b,'Déjalo vacío si no tienes esta versión','','cv-span3')+
+        field('Portada (opcional)',p+'cover',it.cover,'Si la dejas vacía, se usa la primera página del PDF','','cv-span3')+
+      '</div></details>';
+  }).join('');
+}
+function renderIssues(){var box=$('#cv-issues');if(box)box.innerHTML=issuesHTML();var c=$('#cv-icount');if(c)c.textContent=state.issues.length;}
+function openDrawer(){
+  var s=state.series,st=state.settings;
+  elDrawer.innerHTML='<div class="cv-scrim" data-act="dclose"></div>'+
+  '<aside class="cv-panel" role="dialog" aria-modal="true" aria-labelledby="cv-dtitle">'+
+    '<div class="cv-phead"><h2 id="cv-dtitle">Editar serie</h2><button type="button" class="cv-ibtn" data-act="dclose" aria-label="Cerrar">'+ic('close',20)+'</button></div>'+
+    '<div class="cv-pbody">'+
+      '<section class="cv-sec"><h3>Serie</h3>'+
+        field('Título','series.title',s.title)+
+        '<div class="cv-row2">'+select('Tipo','series.type',[['','Sin tipo']].concat(TYPES),s.type)+select('Tema','settings.theme',[['auto','Automático'],['light','Claro'],['dark','Oscuro']],st.theme)+'</div>'+
+        field('Subtítulo','series.subtitle',s.subtitle,'Editorial, años, autores…')+
+      '</section>'+
+      '<section class="cv-sec"><h3>Idiomas</h3>'+
+        '<p class="cv-help">El selector de idioma solo aparece si al menos un número tiene PDF en los dos idiomas. La abreviatura es lo que se ve en el selector.</p>'+
+        '<div class="cv-row2 cv-lang">'+field('Idioma principal','settings.langs.a.name',st.langs.a.name,'Español')+field('Abreviatura','settings.langs.a.code',st.langs.a.code,'ES')+'</div>'+
+        '<div class="cv-row2 cv-lang">'+field('Segundo idioma','settings.langs.b.name',st.langs.b.name,'Inglés')+field('Abreviatura','settings.langs.b.code',st.langs.b.code,'EN')+'</div>'+
+        select('Idioma al abrir','settings.defaultLang',[['a','Idioma principal'],['b','Segundo idioma']],st.defaultLang)+
+      '</section>'+
+      '<section class="cv-sec"><h3>Archivos</h3>'+
+        field('Carpeta base de los archivos (opcional)','settings.base',st.base,'https://usuario.github.io/repo/Comics/Serie/','Si la rellenas, en cada número basta con el nombre del archivo, por ejemplo 01_es.pdf.')+
+      '</section>'+
+      '<section class="cv-sec"><div class="cv-sechead"><h3>Números</h3><span class="cv-muted" id="cv-icount">'+state.issues.length+'</span></div>'+
+        '<div id="cv-issues">'+issuesHTML()+'</div>'+
+        '<button type="button" class="cv-btn cv-wide" data-act="add">'+ic('plus',16)+'Añadir número</button>'+
+      '</section>'+
+      '<section class="cv-sec"><h3>Añadir varios a la vez</h3>'+
+        '<p class="cv-help">Una línea por número, con los campos separados por punto y coma o tabulación, en este orden: número; título en el idioma principal; título en el segundo idioma; PDF principal; PDF en el segundo idioma (puede ir vacío); portada (opcional). Puedes copiar las filas desde una hoja de cálculo.</p>'+
+        '<textarea id="cv-bulk" rows="5" spellcheck="false" placeholder="1; El comienzo; The Beginning; 01_es.pdf; 01_en.pdf"></textarea>'+
+        '<div class="cv-actions"><button type="button" class="cv-btn" data-act="bulk">Añadir líneas</button></div>'+
+      '</section>'+
+    '</div>'+
+  '</aside>';
+  elDrawer.hidden=false;document.body.classList.add('cv-noscroll');
+  var f=$('input',elDrawer);if(f)f.focus();
+}
+function closeDrawer(){elDrawer.hidden=true;elDrawer.innerHTML='';if(!R.open)document.body.classList.remove('cv-noscroll');}
+function setPath(path,v){
+  var parts=path.split('.'),o=state;
+  for(var k=0;k<parts.length-1;k++){o=o[parts[k]];if(o==null)return;}
+  o[parts[parts.length-1]]=v;
+}
+var rTimer=null;
+function scheduleRender(){clearTimeout(rTimer);rTimer=setTimeout(function(){renderHeader();renderGrid();},350);}
+function bulkAdd(){
+  var ta=$('#cv-bulk');if(!ta)return;
+  var lines=ta.value.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
+  if(!lines.length){toast('Escribe al menos una línea.');return;}
+  lines.forEach(function(l){
+    var f=l.split(/\t|;/).map(function(x){return x.trim();});
+    state.issues.push({id:uid(),number:f[0]||'',title_a:f[1]||'',title_b:f[2]||'',pdf_a:f[3]||'',pdf_b:f[4]||'',cover:f[5]||''});
+  });
+  ta.value='';renderIssues();saveDraft();renderHeader();renderGrid();
+  toast(lines.length===1?'Añadido 1 número':'Añadidos '+lines.length+' números');
+}
+
+/* ---------- Código: exportar e importar ---------- */
+var codeTab='export';
+function buildExport(ro){
+  var payload=JSON.parse(JSON.stringify(state));
+  if(ro)payload.readonly=true;
+  var json=JSON.stringify(payload).replace(/</g,'\\u003c');
+  var css=document.getElementById('cv-style').textContent;
+  var js=document.getElementById('cv-main').textContent;
+  var C='<'+'/script>';
+  return '<!DOCTYPE html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n'+
+    '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'+
+    '<title>'+esc(state.series.title||'Visor de cómics')+'</title>\n'+
+    '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'+
+    '<link href="'+FONT_HREF+'" rel="stylesheet">\n'+
+    '<style id="cv-style">'+css+'</style>\n</head>\n<body>\n<div id="cv-root"></div>\n'+
+    '<script src="'+PDFJS_SRC+'">'+C+'\n'+
+    '<script type="application/json" id="comic-data">'+json+C+'\n'+
+    '<script id="cv-main">'+js+C+'\n</body>\n</html>\n';
+}
+function parseImport(text){
+  text=String(text||'').trim();if(!text)return null;
+  try{var o=JSON.parse(text);if(o&&(o.series||o.issues))return o;}catch(e){}
+  try{
+    var doc=new DOMParser().parseFromString(text,'text/html');
+    var el=doc.getElementById('comic-data');
+    if(el){var o2=JSON.parse(el.textContent);if(o2&&(o2.series||o2.issues))return o2;}
+  }catch(e){}
+  return null;
+}
+function openModal(){codeTab='export';renderModal();elModal.hidden=false;document.body.classList.add('cv-noscroll');}
+function closeModal(){elModal.hidden=true;elModal.innerHTML='';if(!R.open&&elDrawer.hidden)document.body.classList.remove('cv-noscroll');}
+function renderModal(){
+  var body=codeTab==='export'?
+    '<p class="cv-help">Copia el código y guárdalo como archivo .html en tu hosting (por ejemplo GitHub Pages). Luego pega el enlace de ese archivo en Notion con /embed. Los PDF tienen que estar en rutas públicas.</p>'+
+    '<label class="cv-check"><input type="checkbox" id="cv-ro"'+(lastRO?' checked':'')+'><span>Solo lectura: oculta Editar y Código en la versión publicada. Para volver a verlos, añade #edit al final del enlace.</span></label>'+
+    '<textarea id="cv-out" rows="9" readonly spellcheck="false" aria-label="Código del visor"></textarea>'+
+    '<div class="cv-actions"><button type="button" class="cv-btn cv-primary" data-act="copy">Copiar al portapapeles</button></div>'
+  :
+    '<p class="cv-help">Pega el código HTML de un visor exportado, o solo sus datos en JSON. La serie actual se reemplaza por la importada.</p>'+
+    '<textarea id="cv-in" rows="9" spellcheck="false" placeholder="&lt;!DOCTYPE html&gt;…" aria-label="Código para importar"></textarea>'+
+    '<p class="cv-err" id="cv-ierr"></p>'+
+    '<div class="cv-actions"><button type="button" class="cv-btn" data-act="paste">Pegar del portapapeles</button><button type="button" class="cv-btn cv-primary" data-act="import">Importar</button></div>';
+  elModal.innerHTML='<div class="cv-scrim" data-act="mclose"></div>'+
+    '<div class="cv-modalbox" role="dialog" aria-modal="true" aria-labelledby="cv-mtitle">'+
+      '<div class="cv-phead"><h2 id="cv-mtitle">Código del visor</h2><button type="button" class="cv-ibtn" data-act="mclose" aria-label="Cerrar">'+ic('close',20)+'</button></div>'+
+      '<div class="cv-tabs" role="tablist">'+
+        '<button type="button" role="tab" data-tab="export" aria-selected="'+(codeTab==='export')+'">Exportar</button>'+
+        '<button type="button" role="tab" data-tab="import" aria-selected="'+(codeTab==='import')+'">Importar</button>'+
+      '</div>'+
+      '<div class="cv-mbody">'+body+'</div>'+
+    '</div>';
+  if(codeTab==='export')$('#cv-out').value=buildExport(lastRO);
+  else $('#cv-in').focus();
+}
+var lastRO=false;
+function copyText(text,ta){
+  function fallback(){
+    try{ta.focus();ta.select();var ok=document.execCommand('copy');toast(ok?'Código copiado':'Selecciona el texto y cópialo con Ctrl+C');}
+    catch(e){toast('Selecciona el texto y cópialo con Ctrl+C');}
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){toast('Código copiado');},fallback);
+  }else fallback();
+}
+function doImport(){
+  var ta=$('#cv-in'),err=$('#cv-ierr');
+  var o=parseImport(ta.value);
+  if(!o){err.textContent='No encontré datos del visor en ese texto. Pega el HTML completo que genera Exportar.';return;}
+  state=normalize(o);openIssues={};resolvedCovers={};
+  lang=state.settings.defaultLang;
+  applyTheme();saveDraft();renderHeader();renderGrid();closeModal();
+  toast('Serie importada: '+(state.series.title||'sin título'));
+}
+
+/* ---------- Idioma ---------- */
+function setLang(l){
+  if(l!=='a'&&l!=='b'||l===lang)return;
+  lang=l;renderHeader();renderGrid();
+  if(R.open)loadReader();
+}
+
+/* ---------- Toast ---------- */
+var tTimer=null;
+function toast(msg){elToast.textContent=msg;elToast.classList.add('is-on');clearTimeout(tTimer);tTimer=setTimeout(function(){elToast.classList.remove('is-on');},2400);}
+
+/* ---------- Eventos ---------- */
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-act],[data-lang],[data-open],[data-tab]');if(!t)return;
+  if(t.hasAttribute('data-lang')){setLang(t.getAttribute('data-lang'));return;}
+  if(t.hasAttribute('data-open')){openReader(+t.getAttribute('data-open'));return;}
+  if(t.hasAttribute('data-tab')){codeTab=t.getAttribute('data-tab');renderModal();return;}
+  var a=t.getAttribute('data-act'),i=+t.getAttribute('data-i');
+  if(t.closest('summary'))e.preventDefault();
+  switch(a){
+    case 'edit':openDrawer();break;
+    case 'code':openModal();break;
+    case 'dclose':closeDrawer();break;
+    case 'mclose':closeModal();break;
+    case 'rclose':closeReader();break;
+    case 'prev':if(swiped)return;go(-1);break;
+    case 'next':if(swiped)return;go(1);break;
+    case 'rother':setLang(other(lang));break;
+    case 'riframe':setStageMode('frame');$('#cv-pages').innerHTML='<iframe class="cv-frame" src="'+esc(R.url)+'" title="PDF"></iframe>';break;
+    case 'spread':R.spread=!R.spread;t.setAttribute('aria-pressed',R.spread);renderPages();break;
+    case 'fs':
+      if(document.fullscreenElement)document.exitFullscreen();
+      else if(elReader.requestFullscreen)elReader.requestFullscreen().catch(function(){toast('Pantalla completa no disponible aquí');});
+      break;
+    case 'add':
+      var last=state.issues[state.issues.length-1];
+      var nn=last&&/^\d+$/.test(last.number)?String(+last.number+1):String(state.issues.length+1);
+      var it={id:uid(),number:nn,title_a:'',title_b:'',pdf_a:'',pdf_b:'',cover:''};
+      state.issues.push(it);openIssues[it.id]=true;renderIssues();saveDraft();renderHeader();renderGrid();
+      var d=$('#cv-issues details:last-of-type');if(d){d.scrollIntoView({block:'nearest'});var inp=$('input[data-path$=".title_a"]',d);if(inp)inp.focus();}
+      break;
+    case 'up':case 'down':
+      var j=a==='up'?i-1:i+1;if(j<0||j>=state.issues.length)break;
+      var tmp=state.issues[i];state.issues[i]=state.issues[j];state.issues[j]=tmp;
+      renderIssues();saveDraft();renderGrid();
+      var mv=$('#cv-issues [data-act="'+a+'"][data-i="'+j+'"]');if(mv&&!mv.disabled)mv.focus();
+      break;
+    case 'del':
+      if(!t.classList.contains('is-armed')){
+        t.classList.add('is-armed');t.textContent='¿Eliminar?';
+        setTimeout(function(){if(t.isConnected&&t.classList.contains('is-armed')){t.classList.remove('is-armed');t.innerHTML=ic('trash',16);}},3000);
+        break;
+      }
+      state.issues.splice(i,1);renderIssues();saveDraft();renderHeader();renderGrid();toast('Número eliminado');
+      break;
+    case 'bulk':bulkAdd();break;
+    case 'copy':copyText($('#cv-out').value,$('#cv-out'));break;
+    case 'paste':
+      if(navigator.clipboard&&navigator.clipboard.readText){
+        navigator.clipboard.readText().then(function(x){$('#cv-in').value=x;},function(){$('#cv-ierr').textContent='El navegador no deja leer el portapapeles aquí. Pega con Ctrl+V.';$('#cv-in').focus();});
+      }else{$('#cv-ierr').textContent='Pega con Ctrl+V.';$('#cv-in').focus();}
+      break;
+    case 'import':doImport();break;
+  }
+});
+document.addEventListener('input',function(e){
+  var p=e.target.getAttribute&&e.target.getAttribute('data-path');if(!p)return;
+  setPath(p,e.target.value);
+  if(p==='settings.theme')applyTheme();
+  var m=p.match(/^issues\.(\d+)\./);
+  if(m){
+    var d=elDrawer.querySelector('details[data-i="'+m[1]+'"]'),it=state.issues[+m[1]];
+    if(d&&it){$('.cv-ihnum',d).textContent=numLabel(it)||'#';$('.cv-ihtitle',d).textContent=titleFor(it,'a')||'Sin título';$('.cv-ihflags',d).textContent=flags(it);}
+  }
+  if(p==='settings.defaultLang')lang=e.target.value;
+  if(p.indexOf('settings.langs.')===0)renderIssues();
+  saveDraft();scheduleRender();
+});
+document.addEventListener('change',function(e){
+  if(e.target.id==='cv-ro'){lastRO=e.target.checked;var o=$('#cv-out');if(o)o.value=buildExport(lastRO);}
+});
+document.addEventListener('toggle',function(e){
+  var d=e.target;if(!d.classList||!d.classList.contains('cv-issue'))return;
+  var id=d.getAttribute('data-id');if(d.open)openIssues[id]=true;else delete openIssues[id];
+},true);
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    if(!elModal.hidden){closeModal();return;}
+    if(!elDrawer.hidden){closeDrawer();return;}
+    if(R.open&&!document.fullscreenElement){closeReader();return;}
+  }
+  if(!R.open||!elModal.hidden||!elDrawer.hidden)return;
+  var tag=(e.target.tagName||'').toLowerCase();if(tag==='input'&&e.target.type!=='range')return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'||(e.key===' '&&tag!=='button')){e.preventDefault();go(1);}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1);}
+});
+var rzTimer=null;
+window.addEventListener('resize',function(){clearTimeout(rzTimer);rzTimer=setTimeout(function(){if(R.open&&R.doc)renderPages();},150);});
+window.addEventListener('hashchange',function(){renderHeader();renderGrid();});
+
+/* ---------- Inicio ---------- */
+applyTheme();renderHeader();renderGrid();
+})();
+</script>
+</body>
+</html>
