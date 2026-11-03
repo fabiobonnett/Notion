@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Call of Duty: Modern Warfare</title>
+<link rel="icon" href="https://fabiobonnett.github.io/Notion/Videojuegos/Call_of_Duty/Cronologia/Modern_Warfare/portadas/CODMW_icon.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600&display=swap" rel="stylesheet">
@@ -64,6 +65,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
 .body{padding:14px 16px 16px;min-width:0;flex:1}
 .kind{margin:0;font-size:13.5px;display:flex;flex-wrap:wrap;gap:2px 12px}
 .kind b{color:var(--c);font-weight:600}.kind span{color:var(--muted)}
+.pof{display:inline-flex;align-items:center;gap:6px;font-style:normal;background:var(--soft);border-radius:999px;padding:2px 10px 2px 3px;line-height:1.35;vertical-align:middle}
+.pof img{display:block;height:24px;width:18px;object-fit:cover;border-radius:4px;flex:none}
+.pof img.broken{display:none}
 .body h3{margin:4px 0 0;font-size:20px;line-height:1.25;font-weight:600}
 .body h3 a{color:inherit;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
 .body h3 a:hover{text-decoration-color:var(--c)}
@@ -84,13 +88,29 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
 .badge.camp{text-transform:none;letter-spacing:0}
 .item.spin .marker{background:var(--surface);color:var(--c);box-shadow:0 0 0 4px var(--bg),inset 0 0 0 2px var(--c)}
 .item.spin .card{border-left-style:dashed}
-@media (max-width:560px){.era-h{font-size:13px;margin-bottom:12px}.tl-wrap{padding:18px 12px 32px}.tl-controls{margin:16px 0 22px;gap:8px}.seg button{font-size:13px;padding:5px 9px}.chip{font-size:13px;padding:4px 9px 4px 8px}.tagsel select{max-width:100%}.item{grid-template-columns:26px minmax(0,1fr);grid-template-areas:'spine year' 'spine card';column-gap:10px;padding-bottom:20px}.year{grid-area:year;text-align:left;font-size:21px;padding:2px 0 6px}.year small{display:inline;font-size:16px;margin:0 0 0 2px}.year.long{font-size:15px;padding-top:4px}.spine{grid-area:spine;grid-row:1/span 2}.spine::before{bottom:-20px}.item:first-child .spine::before{top:13px}.marker{width:26px;height:26px}.marker svg{width:14px;height:14px}.card{grid-area:card}.media{flex-basis:108px}.media img{max-height:260px}.body{padding:11px 12px 13px}.body h3{font-size:17px;overflow-wrap:anywhere}.kind{font-size:12.5px}.facts{font-size:13.5px}.notes{font-size:14px}}
-@media (max-width:440px){.card{flex-direction:column}.media{flex:none;width:100%;align-self:stretch}.media img{max-height:280px}.card.land .media img{max-height:240px}}
+.card.spin{border-left-style:dashed}
+.par{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;min-width:0;align-items:start}
+.par-l{grid-column:1/-1;margin:2px 0 -2px;font:600 12px 'Barlow',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.par .media{flex-basis:96px}
+.item.sub .marker{width:16px;height:16px;margin-top:9px;background:var(--surface);box-shadow:0 0 0 4px var(--bg),inset 0 0 0 2px var(--c)}
+.item.sub .marker svg{display:none}
+.item.sub .year{font-size:20px;color:var(--muted);padding-top:6px}
+.subwrap{position:relative;padding-left:26px;min-width:0}
+.subwrap::before{content:'';position:absolute;left:4px;top:-14px;width:16px;height:36px;border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-bottom-left-radius:8px}
+.subwrap .media{flex-basis:100px}
+.subwrap .body h3{font-size:18px}
+.media.fill{align-self:stretch;min-height:150px}
+.media.fill img{position:absolute;inset:0;width:100%;height:100%;max-height:none;object-fit:cover;object-position:var(--fp,center)}
+.media.fill.empty{min-height:130px}
+.media.fill.sq,.media.fill.vt{align-self:stretch;min-height:0;aspect-ratio:1/1}
+.media.fill.vt{aspect-ratio:3/4}
+@media (max-width:560px){.par,.subwrap{grid-area:card}.par .card,.subwrap .card{grid-area:auto}.par{grid-template-columns:1fr}.item.sub .year{font-size:15px}.subwrap{padding-left:18px}.subwrap::before{left:0;width:12px}.era-h{font-size:13px;margin-bottom:12px}.tl-wrap{padding:18px 12px 32px}.tl-controls{margin:16px 0 22px;gap:8px}.seg button{font-size:13px;padding:5px 9px}.chip{font-size:13px;padding:4px 9px 4px 8px}.tagsel select{max-width:100%}.item{grid-template-columns:26px minmax(0,1fr);grid-template-areas:'spine year' 'spine card';column-gap:10px;padding-bottom:20px}.year{grid-area:year;text-align:left;font-size:21px;padding:2px 0 6px}.year small{display:inline;font-size:16px;margin:0 0 0 2px}.year.long{font-size:15px;padding-top:4px}.spine{grid-area:spine;grid-row:1/span 2}.spine::before{bottom:-20px}.item:first-child .spine::before{top:13px}.marker{width:26px;height:26px}.marker svg{width:14px;height:14px}.card{grid-area:card}.media{flex-basis:108px}.media img{max-height:260px}.body{padding:11px 12px 13px}.body h3{font-size:17px;overflow-wrap:anywhere}.kind{font-size:12.5px}.facts{font-size:13.5px}.notes{font-size:14px}}
+@media (max-width:440px){.card{flex-direction:column}.media{flex:none;width:100%;align-self:stretch}.media img{max-height:280px}.card.land .media img{max-height:240px}.media.fill{min-height:0;aspect-ratio:16/9}.media.fill img{max-height:none}.card.hasfill{flex-direction:row}.card.hasfill .media.sq,.card.hasfill .media.vt{flex:0 0 96px;width:auto;align-self:stretch}}
 @media (prefers-reduced-motion:reduce){.media img{transition:none}}</style>
 </head>
 <body>
 <main id="app" class="tl-wrap"></main>
-<script type="application/json" id="tl-data">{"title":"Call of Duty: Modern Warfare","subtitle":"Los remasters ocupan el lugar de su original: cambia de versión con el interruptor de la tarjeta. Usa “Principales” para ocultar las versiones de NDS y J2ME.","icon":"","imgBase":"https://fabiobonnett.github.io/Notion/","imgFolder":"Videojuegos/Call_of_Duty/Cronologia/portadas/","theme":"auto","showFilters":true,"marks":[{"id":"noncanon","name":"No canon","color":"red"}],"entries":[{"id":"cod4","type":"game","title":"Call of Duty 4: Modern Warfare","yearStart":2007,"platforms":["PC","PS3","Xbox 360","Mac"],"notes":"Infinity Ward. Primera entrega de Modern Warfare: la SAS y los Marines contra Zakhaev y Al-Asad.","images":["COD4MW"],"genres":["FPS","Acción","Multiplayer PVP"],"marks":[],"storyYear":"2011","saga":"","link":"","altLabel":"Original","campaign":true,"era":"Saga original"},{"id":"cod4r","type":"game","title":"Call of Duty: Modern Warfare Remastered","yearStart":2016,"platforms":["PS4","Xbox One","PC"],"notes":"Remaster de Call of Duty 4 por Raven Software, con campaña y multijugador. Salió primero con la Legacy Edition de Infinite Warfare y por separado en 2017.","images":["CODMW_Remastered"],"genres":["FPS","Acción","Multiplayer PVP"],"marks":[],"storyYear":"2011","saga":"","link":"","altOf":"cod4","altLabel":"Remastered","campaign":true,"era":"Saga original"},{"id":"cod4ds","type":"game","title":"Call of Duty 4: Modern Warfare (DS)","yearStart":2007,"platforms":["DS"],"notes":"Versión de Nintendo DS, desarrollada por n-Space, con una campaña adaptada a la consola.","images":["COD4MW_NDS"],"genres":["FPS","Acción"],"marks":[],"storyYear":"2011","saga":"","link":"","campaign":true,"spinoff":true,"roleLabel":"Versión DS","era":"Saga original"},{"id":"cod4j","type":"game","title":"Call of Duty 4: Modern Warfare (J2ME)","yearStart":2007,"platforms":["Móvil","J2ME"],"notes":"Versión para celulares Java (J2ME).","images":["COD4MW_j2me"],"genres":["FPS","Acción"],"marks":[],"storyYear":"2011","saga":"","link":"","campaign":true,"spinoff":true,"roleLabel":"Versión J2ME","era":"Saga original"},{"id":"mw2","type":"game","title":"Call of Duty: Modern Warfare 2","yearStart":2009,"platforms":["PC","PS3","Xbox 360"],"notes":"Infinity Ward. La Task Force 141 persigue a Makarov tras la masacre del aeropuerto.","images":["CODMW2"],"genres":["FPS","Acción","Multiplayer PVP"],"marks":[],"storyYear":"2016","saga":"","link":"","altLabel":"Original","campaign":true,"era":"Saga original"},{"id":"mw2r","type":"game","title":"Call of Duty: Modern Warfare 2 Campaign Remastered","yearStart":2020,"platforms":["PS4","Xbox One","PC"],"notes":"Remaster solo de la campaña de Modern Warfare 2, por Beenox.","images":["CODMW2_Campaign_Remastered"],"genres":["FPS","Acción"],"marks":[],"storyYear":"2016","saga":"","link":"","altOf":"mw2","altLabel":"Campaign Remastered","campaign":true,"era":"Saga original"},{"id":"mob","type":"game","title":"Call of Duty: Modern Warfare: Mobilized","yearStart":2009,"platforms":["DS"],"notes":"Juego de Nintendo DS (n-Space) que acompañó a Modern Warfare 2, con campaña propia.","images":["CODMW_Mobilized"],"genres":["FPS","Acción"],"marks":[],"storyYear":"Época de MW2","saga":"","link":"","campaign":true,"spinoff":true,"roleLabel":"Spin-off DS","era":"Saga original"},{"id":"ghost","type":"comic","title":"Modern Warfare 2: Ghost","yearStart":2009,"yearEnd":2010,"comicFormat":"Cómic","comicType":"Miniserie","issues":6,"saga":"WildStorm","notes":"Precuela escrita por David Lapham: cuenta el origen de Simon “Ghost” Riley antes de unirse a la Task Force 141.","images":["MW2_Ghost"],"genres":[],"marks":[],"storyYear":"Antes de MW2","link":"","era":"Saga original"},{"id":"fr","type":"game","title":"Call of Duty: Modern Warfare: Force Recon","yearStart":2010,"platforms":["Móvil","J2ME"],"notes":"Juego para celulares Java (J2ME) ambientado en el universo Modern Warfare.","images":["CODMW_Force_Recon"],"genres":["FPS","Acción"],"marks":[],"storyYear":"Sin fecha exacta","saga":"","link":"","campaign":true,"spinoff":true,"roleLabel":"Spin-off J2ME","era":"Saga original"},{"id":"mw3","type":"game","title":"Call of Duty: Modern Warfare 3","yearStart":2011,"platforms":["PC","PS3","Xbox 360","Wii"],"notes":"Infinity Ward y Sledgehammer Games. Cierra la trilogía original con la Tercera Guerra Mundial y la caída de Makarov.","images":["CODMW3"],"genres":["FPS","Acción","Multiplayer PVP"],"marks":[],"storyYear":"2016","saga":"","link":"","campaign":true,"era":"Saga original"},{"id":"def","type":"game","title":"Call of Duty: Modern Warfare 3: Defiance","yearStart":2011,"platforms":["DS"],"notes":"Versión de Nintendo DS de Modern Warfare 3.","images":["CODMW3_Defiance"],"genres":["FPS","Acción"],"marks":[],"storyYear":"2016","saga":"","link":"","campaign":true,"spinoff":true,"roleLabel":"Versión DS","era":"Saga original"},{"id":"mw19","type":"game","title":"Call of Duty: Modern Warfare","yearStart":2019,"platforms":["PS4","Xbox One","PC"],"notes":"Reboot de la saga por Infinity Ward: Price, Farah y Alex en Urzikstán.","images":["CODMW"],"genres":["FPS","Acción","Multiplayer PVP"],"marks":[],"storyYear":"2019","saga":"","link":"","campaign":true,"era":"Reboot"},{"id":"mwii","type":"game","title":"Call of Duty: Modern Warfare II","yearStart":2022,"platforms":["PS4","PS5","Xbox One","Xbox Series X|S","PC"],"notes":"Secuela del reboot: la Task Force 141 contra Hassan y el cártel de Las Almas.","images":["CODMWII"],"genres":["FPS","Acción","Multiplayer PVP"],"marks":[],"storyYear":"2022","saga":"","link":"","campaign":true,"era":"Reboot"},{"id":"mwiii","type":"game","title":"Call of Duty: Modern Warfare III","yearStart":2023,"platforms":["PS4","PS5","Xbox One","Xbox Series X|S","PC"],"notes":"Sledgehammer Games. La Task Force 141 contra Makarov.","images":["CODMWIII"],"genres":["FPS","Acción","Multiplayer PVP"],"marks":[],"storyYear":"2023","saga":"","link":"","campaign":true,"era":"Reboot"},{"id":"mw4","type":"game","title":"Call of Duty: Modern Warfare 4","yearStart":2026,"platforms":["PS5","Xbox Series X|S","PC","Switch 2"],"notes":"Infinity Ward. Ambientado en la península de Corea; regresan Makarov y Ghost. Salió el 23 de octubre de 2026.","images":["CODMW4"],"genres":["FPS","Acción","Multiplayer PVP"],"marks":[],"storyYear":"Después de MWIII","saga":"","link":"","campaign":true,"era":"Reboot"}],"orders":[{"id":"ord1","name":"Orden de salida","sequence":["cod4","cod4ds","cod4j","mw2","mob","ghost","fr","mw3","def","mw19","mwii","mwiii","mw4"],"groupBy":"era"},{"id":"ord2","name":"Historia in-universe","yearMode":"story","groupBy":"era","sequence":["cod4","cod4ds","cod4j","ghost","mw2","mob","mw3","def","fr","mw19","mwii","mwiii","mw4"]}],"spinLabel":"NDS / J2ME","campaignLabel":"Campaña"}</script>
+<script type="application/json" id="tl-data">{"title":"Call of Duty: Modern Warfare","subtitle":"","imgBase":"https://fabiobonnett.github.io/Notion/","imgFolder":"Videojuegos/Call_of_Duty/Cronologia/Modern_Warfare/portadas/","theme":"auto","showFilters":true,"marks":[{"id":"noncanon","name":"No canon","color":"red"},{"id":"campaign","name":"Campaña","color":"teal"}],"entries":[{"id":"cod4","type":"game","title":"Call of Duty 4: Modern Warfare","yearStart":2007,"storyYear":"2011","images":["COD4MW.webp"],"notes":"Infinity Ward. Primera entrega de Modern Warfare: la SAS y los Marines contra Zakhaev y Al-Asad.","link":"https://www.notion.so/3d51249072aa8146ae57c144b9955a2a","saga":"","genres":["FPS","Acción","Multiplayer PVP"],"marks":["campaign"],"era":"Saga original","altLabel":"Original","platforms":["Windows","Mac","PS3","Xbox 360"]},{"id":"cod4r","type":"game","title":"Call of Duty: Modern Warfare Remastered","yearStart":2016,"storyYear":"2011","images":["CODMW_Remastered.webp"],"notes":"Remaster de Call of Duty 4 por Raven Software, con campaña y multijugador. Salió primero con la Legacy Edition de Infinite Warfare y por separado en 2017.","link":"https://www.notion.so/3d51249072aa81cea031ce43a8bb127f","saga":"","genres":["FPS","Acción","Multiplayer PVP"],"marks":["campaign"],"era":"Saga original","altOf":"cod4","altLabel":"Remastered","platforms":["Windows","PS4","Xbox One"]},{"id":"cod4ds","type":"game","title":"Call of Duty 4: Modern Warfare (DS)","yearStart":2007,"storyYear":"2011","images":["COD4MW_NDS.webp"],"notes":"Versión de Nintendo DS, desarrollada por n-Space, con una campaña adaptada a la consola.","link":"https://www.notion.so/3d51249072aa8146ae57c144b9955a2a","saga":"","genres":["FPS","Acción"],"marks":["campaign"],"era":"Saga original","spinoff":true,"roleLabel":"Versión DS","platforms":["DS"]},{"id":"cod4j","type":"game","title":"Call of Duty 4: Modern Warfare (J2ME)","yearStart":2007,"storyYear":"2011","images":["COD4MW_j2me.webp"],"notes":"Versión para celulares Java (J2ME).","link":"https://www.notion.so/3d51249072aa8146ae57c144b9955a2a","saga":"","genres":["FPS","Acción"],"marks":["campaign"],"era":"Saga original","spinoff":true,"roleLabel":"Versión J2ME","platforms":["Móvil","J2ME"]},{"id":"mw2","type":"game","title":"Call of Duty: Modern Warfare 2","yearStart":2009,"storyYear":"2016","images":["CODMW2.webp"],"notes":"Infinity Ward. La Task Force 141 persigue a Makarov tras la masacre del aeropuerto.","link":"https://www.notion.so/3d51249072aa81aa94d5f6bd102fb54f","saga":"","genres":["FPS","Acción","Multiplayer PVP"],"marks":["campaign"],"era":"Saga original","altLabel":"Original","platforms":["Windows","PS3","Xbox 360"]},{"id":"mw2r","type":"game","title":"Call of Duty: Modern Warfare 2 Campaign Remastered","yearStart":2020,"storyYear":"2016","images":["CODMW2_Campaign_Remastered.webp"],"notes":"Remaster solo de la campaña de Modern Warfare 2, por Beenox.","link":"https://www.notion.so/3d51249072aa812082d8d49827d67628","saga":"","genres":["FPS","Acción"],"marks":["campaign"],"era":"Saga original","altOf":"mw2","altLabel":"Campaign Remastered","platforms":["Windows","PS4","Xbox One"]},{"id":"mob","type":"game","title":"Call of Duty: Modern Warfare: Mobilized","yearStart":2009,"storyYear":"Época de MW2","images":["CODMW_Mobilized.webp"],"notes":"Juego de Nintendo DS (n-Space) que acompañó a Modern Warfare 2, con campaña propia.","link":"https://www.notion.so/3d51249072aa811985baef8fd633db31","saga":"","genres":["FPS","Acción"],"marks":["campaign"],"era":"Saga original","spinoff":true,"roleLabel":"Spin-off DS","platforms":["DS"]},{"id":"ghost","type":"comic","title":"Modern Warfare 2: Ghost","yearStart":2009,"storyYear":"Antes de MW2","images":["MW2_Ghost.webp"],"notes":"Precuela escrita por David Lapham: cuenta el origen de Simon “Ghost” Riley antes de unirse a la Task Force 141.","link":"https://www.notion.so/40a1249072aa800d8c10fd89cc11941d","saga":"WildStorm","genres":[],"marks":[],"era":"Saga original","ongoing":false,"yearEnd":2010,"comicFormat":"Cómic","comicType":"Miniserie","issues":6,"issuesUnit":"","promo":false,"volumes":[]},{"id":"fr","type":"game","title":"Call of Duty: Modern Warfare: Force Recon","yearStart":2010,"storyYear":"Sin fecha exacta","images":["CODMW_Force_Recon.webp"],"notes":"Juego para celulares Java (J2ME) ambientado en el universo Modern Warfare.","link":"https://www.notion.so/3d51249072aa81c59d6ac46bbbd2e57d","saga":"","genres":["FPS","Acción"],"marks":["campaign"],"era":"Saga original","spinoff":true,"roleLabel":"Spin-off J2ME","platforms":["Móvil","J2ME"]},{"id":"mw3","type":"game","title":"Call of Duty: Modern Warfare 3","yearStart":2011,"storyYear":"2016","images":["CODMW3.webp"],"notes":"Infinity Ward y Sledgehammer Games. Cierra la trilogía original con la Tercera Guerra Mundial y la caída de Makarov.","link":"https://www.notion.so/3d51249072aa816faba7d0c7ddd80dd5","saga":"","genres":["FPS","Acción","Multiplayer PVP"],"marks":["campaign"],"era":"Saga original","platforms":["Windows","PS3","Xbox 360","Wii"]},{"id":"def","type":"game","title":"Call of Duty: Modern Warfare 3: Defiance","yearStart":2011,"storyYear":"2016","images":["CODMW3_Defiance.webp"],"notes":"Versión de Nintendo DS de Modern Warfare 3.","link":"https://www.notion.so/3d51249072aa8148bbdff37303ce02e9","saga":"","genres":["FPS","Acción"],"marks":["campaign"],"era":"Saga original","spinoff":true,"roleLabel":"Versión DS","platforms":["DS"]},{"id":"mw19","type":"game","title":"Call of Duty: Modern Warfare","yearStart":2019,"storyYear":"2019","images":["CODMW.webp"],"notes":"Reboot de la saga por Infinity Ward: Price, Farah y Alex en Urzikstán.","link":"https://www.notion.so/3d51249072aa81a380ccdde134c2e8cd","saga":"","genres":["FPS","Acción","Multiplayer PVP"],"marks":["campaign"],"era":"Reboot","platforms":["Windows","PS4","Xbox One"]},{"id":"mwii","type":"game","title":"Call of Duty: Modern Warfare II","yearStart":2022,"storyYear":"2022","images":["CODMWII.webp"],"notes":"Secuela del reboot: la Task Force 141 contra Hassan y el cártel de Las Almas.","link":"https://www.notion.so/3d51249072aa8193aeb6e517d920d2dd","saga":"","genres":["FPS","Acción","Multiplayer PVP"],"marks":["campaign"],"era":"Reboot","platforms":["Windows","PS4","PS5","Xbox One","Xbox Series X|S"]},{"id":"mwiii","type":"game","title":"Call of Duty: Modern Warfare III","yearStart":2023,"storyYear":"2023","images":["CODMWIII.webp"],"notes":"Sledgehammer Games. La Task Force 141 contra Makarov.","link":"https://www.notion.so/3d51249072aa81c398a9dcd490355b31","saga":"","genres":["FPS","Acción","Multiplayer PVP"],"marks":["campaign"],"era":"Reboot","platforms":["Windows","PS4","PS5","Xbox One","Xbox Series X|S"]},{"id":"mw4","type":"game","title":"Call of Duty: Modern Warfare 4","yearStart":2026,"storyYear":"Después de MWIII","images":["CODMW4.webp"],"notes":"Infinity Ward. Ambientado en la península de Corea; regresan Makarov y Ghost. Salió el 23 de octubre de 2026.","link":"https://www.notion.so/4071249072aa8090ba20e311746a18aa","saga":"","genres":["FPS","Acción","Multiplayer PVP"],"marks":["campaign"],"era":"Reboot","platforms":["Windows","PS5","Xbox Series X|S","Switch 2"]}],"orders":[{"id":"ord1","name":"Orden de salida","sequence":["cod4","cod4ds","cod4j","mw2","mob","ghost","fr","mw3","def","mw19","mwii","mwiii","mw4"],"groupBy":"era"},{"id":"ord2","name":"Historia in-universe","yearMode":"story","groupBy":"era","sequence":["cod4","cod4ds","cod4j","ghost","mw2","mob","mw3","def","fr","mw19","mwii","mwiii","mw4"]}],"icon":"CODMW_icon.webp","spinLabel":"NDS / J2ME","peekPage":"https://www.notion.so/f0634ce273be496dbeb97f0e5b2e3d64"}</script>
 <script>(function viewerMain(D){
   var TYPES={game:['Videojuego','videojuego','videojuegos','Videojuegos'],film:['Audiovisual','audiovisual','audiovisuales','Audiovisual'],comic:['Cómic','cómic','cómics','Cómics'],book:['Libro','libro','libros','Libros'],series:['Serie','serie','series','Series'],other:['Otro','otro','otros','Otros']};
   var ICONS={game:'M6 11h4M8 9v4M15 12h.01M18 10h.01M17.3 5H6.7a4 4 0 0 0-3.96 3.47l-.7 5.6A3 3 0 0 0 5 17.5c1 0 1.6-.5 2.2-1.2L8.5 15h7l1.3 1.3c.6.7 1.2 1.2 2.2 1.2a3 3 0 0 0 2.96-3.43l-.7-5.6A4 4 0 0 0 17.3 5z',film:'M3 3h18v18H3zM7 3v18M17 3v18M3 7.5h4M3 12h18M3 16.5h4M17 7.5h4M17 16.5h4',comic:'M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z',book:'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5',series:'M4 7h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zM17 2l-5 5-5-5',other:'M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z'};
@@ -122,33 +142,62 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
   var EXT=['jpg','png','webp','jpeg','JPG','PNG','JPEG','WEBP'];
   function noExt(s){s=String(s||'').trim();return !!s&&!/^(https?:|data:|\/\/)/i.test(s)&&!/\.[a-z0-9]{2,5}$/i.test(s.split('/').pop());}
   function srcAttr(s){var u=res(s);return noExt(s)?' src="'+esc(u+'.'+EXT[0])+'" data-b="'+esc(u)+'" data-t="1"':' src="'+esc(u)+'"';}
+  function okUrl(u){return /^https?:\/\//i.test(String(u||'').trim());}
+  function nid(u){var p=String(u||'').replace(/[?#].*$/,'').replace(/-/g,''),m=p.match(/[0-9a-f]{32}(?![0-9a-f])/ig);return m?m[m.length-1].toLowerCase():'';}
+  function peek(u){
+    if(!/notion\.(so|com|site)/i.test(u)) return u;
+    var host=nid(D.peekPage),pid=nid(u);
+    if(!host||!pid||host===pid) return u;
+    return 'https://www.notion.so/'+host+'?p='+pid+'&pm='+(D.peekMode==='s'?'s':'c');
+  }
+  function linkOf(e,parent){
+    var u=okUrl(e.link)?e.link.trim():'';
+    if(!u&&parent&&okUrl(parent.link)) u=parent.link.trim();
+    if(!u&&e.partOf){var g=(D.entries||[]).filter(function(x){return x.type==='game'&&x.title===e.partOf&&okUrl(x.link);})[0];if(g)u=g.link.trim();}
+    return u?peek(u):'';
+  }
+  function pof(name,g){
+    if(!g) g=(D.entries||[]).filter(function(x){return x.type==='game'&&x.title===name&&!x.gamePart;})[0];
+    var im=g&&(g.images||[]).map(function(x){return String(x||'').trim();}).filter(Boolean)[0];
+    return '<em class="pof">'+(im?'<img'+srcAttr(im)+' alt="" loading="lazy">':'')+'Parte de '+esc(name)+'</em>';
+  }
   function plural(n,a,b){return n+' '+(n===1?a:b);}
   function range(e){
     if(e.yearStart==null||e.yearStart==='') return null;
     var end=e.ongoing?'presente':(e.yearEnd&&+e.yearEnd!==+e.yearStart?e.yearEnd:'');
     return {a:e.yearStart,b:end};
   }
+  function rng(s,a,b){var m=s.match(/^(\d+)\s*[-–]\s*(\d+)$/);return m?b+' '+m[1]+'–'+m[2]:(/^\d+$/.test(s)?a+' '+s:s);}
   function facts(e){
     var f=[];
     if(e.type==='comic'){if(e.promo)f.push('Promocional');if(e.comicType)f.push(e.comicType);if(e.issues){var U={cap:['capítulo','capítulos'],tomo:['tomo','tomos'],vol:['volumen','volúmenes']}[e.issuesUnit]||['número','números'];f.push(plural(+e.issues,U[0],U[1]));}}
-    if(e.type==='film'||e.type==='series'){if(e.seasons)f.push(plural(+e.seasons,'temporada','temporadas'));if(e.episodes)f.push(plural(+e.episodes,'episodio','episodios'));}
+    if(e.type==='film'||e.type==='series'){var sr=String(e.seasonRange||'').trim(),er=String(e.epRange||'').trim();
+      if(sr||er){if(sr)f.push(rng(sr,'Temporada','Temporadas'));if(er)f.push(rng(er,'Episodio','Episodios'));}
+      else{if(e.seasons)f.push(plural(+e.seasons,'temporada','temporadas'));if(e.episodes)f.push(plural(+e.episodes,'episodio','episodios'));}}
     if(e.type==='book'&&e.author)f.push('Por '+e.author);
     return f.join(', ');
   }
-  function item(e,gid,cands,ord){
-    var t=tp(e),r=range(e),sub=[],ys=ord&&ord.yearMode==='story'&&e.storyYear,ycls='year';
+  function item(e,gid,cands,ord,opt){
+    opt=opt||{};
+    var t=tp(e),r=range(e),sub=[],sm=ord&&ord.yearMode==='story',ys=sm&&e.storyYear,ycls='year';
     var y=r?esc(r.a)+(r.b?'<small>–'+esc(r.b)+'</small>':''):'<small>Sin año</small>';
     if(ys){y=esc(e.storyYear);if(String(e.storyYear).length>5)ycls+=' long';}
+    else if(sm){y='<small>Sin fecha</small>';}
+    if(t==='game'&&e.partOf) sub.push(pof(e.partOf,null));
     if(e.saga) sub.push(esc(e.saga));
-    if(ys){if(r)sub.push('Publicado en '+esc(r.a)+(r.b?'–'+esc(r.b):''));}
+    if(sm){if(r)sub.push('Publicado en '+esc(r.a)+(r.b?'–'+esc(r.b):''));}
     else if(e.storyYear) sub.push('Ambientado en '+esc(e.storyYear));
+    if(opt.parent&&t==='game'&&!e.partOf) sub.unshift(pof(opt.parent.title||'',opt.parent));
+    if(opt.inlineYear){var yi=sm?(e.storyYear||''):(r?r.a+(r.b?'–'+r.b:''):'');if(yi)sub.unshift(esc(yi));}
     var imgs=(e.images||[]).map(function(s){return String(s||'').trim();}).filter(Boolean),media='';
     if(imgs.length){
-      media='<div class="media">'+imgs.map(function(u,i){return '<img'+srcAttr(u)+' alt="'+esc(e.title)+(imgs.length>1?' – imagen '+(i+1):'')+'"'+(i===0?' class="on"':'')+'>';}).join('')+
+      var fp={top:'center top',bottom:'center bottom',left:'left center',right:'right center'}[e.fillPos]||'';
+      media='<div class="media'+(e.fill?' fill'+({square:' sq',tall:' vt'}[e.fillShape]||''):'')+'"'+(e.fill&&fp?' style="--fp:'+fp+'"':'')+'>'+imgs.map(function(u,i){return '<img'+srcAttr(u)+' alt="'+esc(e.title)+(imgs.length>1?' – imagen '+(i+1):'')+'"'+(i===0?' class="on"':'')+'>';}).join('')+
         (imgs.length>1?'<button class="nav prev" type="button" aria-label="Imagen anterior">‹</button><button class="nav next" type="button" aria-label="Imagen siguiente">›</button><span class="count">1/'+imgs.length+'</span>':'')+'</div>';
     }
     var title=esc(e.title||'Sin título');
-    if(e.link&&/^https?:\/\//i.test(e.link)) title='<a href="'+esc(e.link)+'" target="_blank" rel="noopener">'+title+'</a>';
+    var lk=linkOf(e,opt.parent);
+    if(lk) title='<a href="'+esc(lk)+'" target="_blank" rel="noopener">'+title+'</a>';
     var fx=facts(e);
     var plats=(t==='game'&&e.platforms&&e.platforms.length)?'<ul class="plats" aria-label="Plataformas">'+e.platforms.map(function(p){return '<li>'+esc(p)+'</li>';}).join('')+'</ul>':'';
     var notes=e.notes?'<p class="notes">'+esc(e.notes)+'</p>':'';
@@ -159,17 +208,34 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
       return '<li><b>'+esc(v.name)+'</b>'+(s?'<span>'+esc(s)+'</span>':'')+'</li>';}).join('')+'</ul>':'';
     var sw=(cands&&cands.length>1)?'<div class="alts" role="group" aria-label="Versión">'+cands.map(function(x){return '<button type="button" data-g="'+esc(gid)+'" data-v="'+esc(x.id)+'" aria-pressed="'+(x.id===e.id)+'">'+esc(x.altLabel||x.title||'Versión')+'</button>';}).join('')+'</div>':'';
     var tags=(e.genres&&e.genres.length)?'<ul class="tags" aria-label="Géneros y etiquetas">'+e.genres.map(function(g){return '<li>'+esc(g)+'</li>';}).join('')+'</ul>':'';
-    var roleTxt=e.spinoff?'<i class="role">'+esc(e.roleLabel||'Spin-off')+'</i>':'';
-    var campB=e.campaign?'<em class="badge camp" style="--m:var(--c)">'+esc(D.campaignLabel||'Campaña')+'</em>':'';
-    return '<li class="item'+(e.spinoff?' spin':'')+'" style="--c:var(--'+t+')"><div class="'+ycls+'">'+y+'</div>'+
-      '<div class="spine"><span class="marker" title="'+TYPES[t][0]+'">'+ico(t)+'</span></div>'+
-      '<article class="card">'+media+'<div class="body">'+sw+
-      '<p class="kind"><b>'+esc((t==='comic'&&e.comicFormat)?e.comicFormat:(t==='film'&&e.avType)?e.avType:TYPES[t][0])+'</b>'+roleTxt+campB+(e.marks||[]).filter(function(id){return MK[id];}).map(function(id){return '<em class="badge" style="--m:'+mcol(MK[id])+'">'+esc(MK[id].name)+'</em>';}).join('')+sub.map(function(x){return '<span>'+x+'</span>';}).join('')+'</p>'+
-      '<h3>'+title+'</h3>'+(fx?'<p class="facts">'+esc(fx)+'</p>':'')+plats+vols+tags+notes+'</div></article></li>';
+    var spin=e.spinoff&&t==='game';
+    var roleTxt=spin?'<i class="role">'+esc(e.roleLabel||'Spin-off')+'</i>':'';
+    return {t:t,spin:spin,year:'<div class="'+ycls+'">'+y+'</div>',card:
+      '<article class="card'+(spin?' spin':'')+(e.fill&&imgs.length?' hasfill':'')+'" style="--c:var(--'+t+')">'+media+'<div class="body">'+sw+
+      '<p class="kind"><b>'+esc((t==='game'&&(e.gamePart||opt.parent))?(e.gamePart||'DLC'):(t==='comic'&&e.comicFormat)?e.comicFormat:(t==='film'&&e.avType)?e.avType:TYPES[t][0])+'</b>'+roleTxt+(e.marks||[]).filter(function(id){return MK[id];}).map(function(id){return '<em class="badge" style="--m:'+mcol(MK[id])+'">'+esc(MK[id].name)+'</em>';}).join('')+sub.map(function(x){return '<span>'+x+'</span>';}).join('')+'</p>'+
+      '<h3>'+title+'</h3>'+(fx?'<p class="facts">'+esc(fx)+'</p>':'')+plats+vols+tags+notes+'</div></article>'};
+  }
+  function li(P,cls,body){return '<li class="item'+(P.spin?' spin':'')+cls+'" style="--c:var(--'+P.t+')">'+P.year+'<div class="spine"><span class="marker" title="'+TYPES[P.t][0]+'">'+ico(P.t)+'</span></div>'+body+'</li>';}
+  function relOf(e,ord){var r=ord&&ord.rel&&ord.rel[e.id];if(r!==undefined)return r||'';return e.attach?'attach':e.parallel?'parallel':'';}
+  function rowsHtml(xs,ord){
+    var rows=[];
+    xs.forEach(function(x){var L=rows[rows.length-1];
+      if(L&&relOf(x.e,ord)==='parallel'&&!L.subs.length){L.par.push(x);return;}
+      if(L&&relOf(x.e,ord)==='attach'){L.subs.push(x);return;}
+      rows.push({m:x,par:[],subs:[]});});
+    return rows.map(function(R){
+      var m=R.m,P=item(m.e,m.g,m.c,ord),h;
+      if(R.par.length){
+        var cards=[P.card].concat(R.par.map(function(x){return item(x.e,x.g,x.c,ord,{inlineYear:true}).card;}));
+        h=li(P,' has-par','<div class="par"><p class="par-l">En paralelo</p>'+cards.join('')+'</div>');
+      } else h=li(P,'',P.card);
+      R.subs.forEach(function(x){var S=item(x.e,x.g,x.c,ord,{parent:m.e});h+=li(S,' sub','<div class="subwrap">'+S.card+'</div>');});
+      return h;}).join('');
   }
   function render(){
     var byId={}; (D.entries||[]).forEach(function(e){byId[e.id]=e;});
-    var all=(D.entries||[]).map(function(e,i){var o={};for(var k in e)o[k]=e[k];o._i=i;return o;});
+    var oh=(findOrder(st.orderId)||orders[0]).hide||{};
+    var all=(D.entries||[]).map(function(e,i){var o={};for(var k in e)o[k]=e[k];o._i=i;return o;}).filter(function(e){return !oh[e.id];});
     var counts={};all.forEach(function(e){var t=tp(e);counts[t]=(counts[t]||0)+1;});
     var present=ORDER.filter(function(t){return counts[t];});
     if(st.filter&&!counts[st.filter]) st.filter='';
@@ -182,13 +248,14 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
     all.forEach(function(e){if(groups[e.id]&&!seen[e.id]){seen[e.id]=1;seq.push(e);}});
     function pass(e){
       if(st.filter&&tp(e)!==st.filter) return false;
-      if(st.role==='main'&&e.spinoff) return false;
-      if(st.role==='spin'&&!e.spinoff) return false;
-      if(st.camp&&!e.campaign) return false;
+      var sp=e.spinoff&&tp(e)==='game';
+      if(st.role==='main'&&sp) return false;
+      if(st.role==='spin'&&!sp) return false;
       var em=e.marks||[];
       for(var k in st.mark){var has=em.indexOf(k)>=0;if(st.mark[k]==='only'&&!has) return false;if(st.mark[k]==='hide'&&has) return false;}
       return true;}
     var shown=seq.map(function(p){
+      if(ord.hide&&ord.hide[p.id]) return null;
       var c=groups[p.id].filter(pass);if(!c.length) return null;
       var cur=c.filter(function(x){return x.id===st.alt[p.id];})[0]||c[0];
       return {e:cur,g:p.id,c:c};}).filter(Boolean);
@@ -205,21 +272,21 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
     if(D.showFilters!==false&&present.length>1) c+='<div class="chips" role="group" aria-label="Filtrar por tipo"><button type="button" class="chip" data-f="" aria-pressed="'+(!st.filter)+'">Todo</button>'+present.map(function(t){return '<button type="button" class="chip" data-f="'+t+'" style="--c:var(--'+t+')" aria-pressed="'+(st.filter===t)+'">'+ico(t)+TYPES[t][3]+' <span>'+counts[t]+'</span></button>';}).join('')+'</div>';
     if(D.showFilters!==false){
       var usedM=MARKS.filter(function(m){return all.some(function(e){return (e.marks||[]).indexOf(m.id)>=0;});});
-      if(usedM.length) c+='<div class="chips" role="group" aria-label="Filtrar por marcas">'+usedM.map(function(m){var s=st.mark[m.id]||'',tg=m.mode==='hide';return '<button type="button" class="chip mchip'+(s?' '+s:'')+'" data-m="'+esc(m.id)+'" style="--m:'+mcol(m)+'" aria-pressed="'+(!!s)+'" title="'+(tg?'Clic: ocultar estas entradas. Otro clic: volver a mostrarlas.':'Clic: ver solo estas. Otro clic: ocultarlas. Otro clic: quitar el filtro.')+'"><i></i>'+(s==='only'?'Solo ':s==='hide'?'Sin ':'')+esc(m.name)+'</button>';}).join('')+'</div>';
+      if(usedM.length) c+='<div class="chips" role="group" aria-label="Filtrar por etiquetas">'+usedM.map(function(m){var s=st.mark[m.id]||'',tg=m.mode==='hide';return '<button type="button" class="chip mchip'+(s?' '+s:'')+'" data-m="'+esc(m.id)+'" style="--m:'+mcol(m)+'" aria-pressed="'+(!!s)+'" title="'+(tg?'Clic: ocultar estas entradas. Otro clic: volver a mostrarlas.':'Clic: ver solo estas. Otro clic: ocultarlas. Otro clic: quitar el filtro.')+'"><i></i>'+(s==='only'?'Solo ':s==='hide'?'Sin ':'')+esc(m.name)+'</button>';}).join('')+'</div>';
     }
     if(D.showFilters!==false){
-      var nSp=all.filter(function(e){return e.spinoff;}).length,nCa=all.filter(function(e){return e.campaign;}).length,rc='';
+      var nSp=all.filter(function(e){return e.spinoff&&tp(e)==='game';}).length,rc='';
       if(nSp&&nSp<all.length) rc+='<button type="button" class="chip" data-r="main" aria-pressed="'+(st.role==='main')+'">Principales <span>'+(all.length-nSp)+'</span></button><button type="button" class="chip" data-r="spin" aria-pressed="'+(st.role==='spin')+'">'+esc(D.spinLabel||'Spin-offs')+' <span>'+nSp+'</span></button>';
-      if(nCa&&nCa<all.length) rc+='<button type="button" class="chip" data-camp="1" aria-pressed="'+st.camp+'">Con '+esc((D.campaignLabel||'Campaña').toLowerCase())+' <span>'+nCa+'</span></button>';
       if(rc) c+='<div class="chips" role="group" aria-label="Filtrar por rol">'+rc+'</div>';
     }
     if(c) h+='<div class="tl-controls">'+c+'</div>';
     function grp(e){
       if(ord.groupBy==='era') return e.era||'Sin época';
+      if(ord.groupBy==='storyEra') return e.storyEra||e.era||'Sin época';
       if(ord.groupBy==='decade'){var y=parseInt(e.yearStart,10);return isNaN(y)?'Sin año':'Década de '+(Math.floor(y/10)*10);}
       return '';}
-    var blocks=[];shown.forEach(function(x){var g=grp(x.e);if(!blocks.length||blocks[blocks.length-1].g!==g)blocks.push({g:g,xs:[]});blocks[blocks.length-1].xs.push(x);});
-    h+=shown.length?blocks.map(function(b){return (b.g?'<h2 class="era-h">'+esc(b.g)+'</h2>':'')+'<ol class="tl-list">'+b.xs.map(function(x){return item(x.e,x.g,x.c,ord);}).join('')+'</ol>';}).join(''):'<p class="empty-tl">'+(all.length?'Ninguna entrada coincide con los filtros.':'Esta cronología aún no tiene entradas.')+'</p>';
+    var blocks=[];shown.forEach(function(x){var g=grp(x.e);if(!blocks.length||(!relOf(x.e,ord)&&blocks[blocks.length-1].g!==g))blocks.push({g:g,xs:[]});blocks[blocks.length-1].xs.push(x);});
+    h+=shown.length?blocks.map(function(b){return (b.g?'<h2 class="era-h">'+esc(b.g)+'</h2>':'')+'<ol class="tl-list">'+rowsHtml(b.xs,ord)+'</ol>';}).join(''):'<p class="empty-tl">'+(all.length?'Ninguna entrada coincide con los filtros.':'Esta cronología aún no tiene entradas.')+'</p>';
     root.innerHTML=h;
     [].forEach.call(root.querySelectorAll('.media img'),function(im){if(im.complete)orient(im);});
   }
@@ -227,7 +294,6 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offse
     var b=ev.target.closest('button'); if(!b) return;
     if(b.dataset.o){st.orderId=b.dataset.o;render();return;}
     if(b.dataset.r){st.role=st.role===b.dataset.r?'':b.dataset.r;render();return;}
-    if(b.dataset.camp){st.camp=!st.camp;render();return;}
     if(b.dataset.g){st.alt[b.dataset.g]=b.dataset.v;render();return;}
     if(b.dataset.m&&MK[b.dataset.m]&&MK[b.dataset.m].mode==='hide'){if(st.mark[b.dataset.m])delete st.mark[b.dataset.m];else st.mark[b.dataset.m]='hide';render();return;}
     if(b.dataset.m){var mid=b.dataset.m,cur=st.mark[mid];if(!cur)st.mark[mid]='only';else if(cur==='only')st.mark[mid]='hide';else delete st.mark[mid];render();return;}
