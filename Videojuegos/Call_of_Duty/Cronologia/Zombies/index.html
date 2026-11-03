@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Call of Duty: Zombies</title>
+<link rel="icon" href="https://fabiobonnett.github.io/Notion/Videojuegos/Call_of_Duty/Black_Ops/CODBO_icon.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600&display=swap" rel="stylesheet">
+<style>:root{--bg:#EEF0F5;--surface:#FFFFFF;--ink:#1C2233;--muted:#5B6478;--line:#CDD3E0;--soft:#E3E7F0;--game:#3B5BDB;--film:#2B8A3E;--comic:#E03131;--book:#D69E00;--series:#7048E8;--other:#5C677D;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161A26;--surface:#1F2433;--ink:#E6E9F2;--muted:#9AA3B8;--line:#333A4D;--soft:#282E40;--game:#748FFC;--film:#51CF66;--comic:#FF6B6B;--book:#FCC419;--series:#9775FA;--other:#ADB5BD;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161A26;--surface:#1F2433;--ink:#E6E9F2;--muted:#9AA3B8;--line:#333A4D;--soft:#282E40;--game:#748FFC;--film:#51CF66;--comic:#FF6B6B;--book:#FCC419;--series:#9775FA;--other:#ADB5BD;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.5 'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+button:focus-visible,a:focus-visible{outline:2px solid var(--game);outline-offset:2px}
+.tl-wrap{max-width:880px;margin:0 auto;padding:32px 20px 48px}
+.tl-head h1{font:600 clamp(34px,6vw,56px)/.95 'Barlow Condensed','Arial Narrow',sans-serif;margin:0;display:flex;align-items:center;gap:.28em}
+.tl-icon{flex:none;height:1em;width:auto;max-width:1.8em;object-fit:contain;border-radius:6px}
+.tl-emoji{font-size:.82em;line-height:1;height:auto}
+.tl-head p{margin:10px 0 0;color:var(--muted);max-width:62ch}
+.tl-head .tl-sum{font-size:14px;margin-top:8px}
+.tl-controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:22px 0 30px}
+.seg{display:inline-flex;flex-wrap:wrap;background:var(--soft);border-radius:8px;padding:3px}
+.seg button{border:0;background:transparent;color:var(--muted);font:500 14px 'Barlow',sans-serif;padding:6px 12px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(20,30,60,.15)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:transparent;color:var(--ink);font:500 14px 'Barlow',sans-serif;padding:5px 11px 5px 9px;border-radius:999px;cursor:pointer}
+.chip svg{width:15px;height:15px;color:var(--c,var(--muted))}
+.chip span{color:var(--muted);font-size:13px}
+.chip[aria-pressed="true"]{border-color:var(--c,var(--ink));background:color-mix(in srgb,var(--c,var(--ink)) 13%,transparent)}
+.badge{font-style:normal;font-weight:600;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--m);background:color-mix(in srgb,var(--m) 13%,transparent);border:1px solid color-mix(in srgb,var(--m) 45%,transparent);padding:0 7px;border-radius:999px;line-height:1.7;align-self:center}
+.alts{display:inline-flex;flex-wrap:wrap;background:var(--soft);border-radius:7px;padding:2px;margin:0 0 8px}
+.alts button{border:0;background:transparent;color:var(--muted);font:500 13px 'Barlow',sans-serif;padding:4px 10px;border-radius:5px;cursor:pointer}
+.alts button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(20,30,60,.15)}
+.mchip i{width:9px;height:9px;border-radius:50%;background:var(--m);display:inline-block}
+.mchip.only{border-color:var(--m);background:color-mix(in srgb,var(--m) 14%,transparent)}
+.mchip.hide{border-style:dashed;color:var(--muted);text-decoration:line-through}
+.tagsel{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.tagsel select{font:500 14px 'Barlow',sans-serif;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 8px;max-width:240px}
+.tl-list{list-style:none;margin:0;padding:0}
+.item{display:grid;grid-template-columns:84px 30px minmax(0,1fr);column-gap:14px;padding-bottom:22px}
+.year{text-align:right;font:600 32px/1 'Barlow Condensed','Arial Narrow',sans-serif;padding-top:3px;font-variant-numeric:tabular-nums}
+.year small{display:block;font-size:18px;font-weight:500;color:var(--muted);margin-top:3px}
+.year.long{font-size:19px;line-height:1.1;padding-top:7px;overflow-wrap:anywhere}
+.spine{position:relative;display:flex;justify-content:center}
+.spine::before{content:'';position:absolute;left:50%;top:0;bottom:-22px;width:2px;margin-left:-1px;background:var(--line)}
+.item:first-child .spine::before{top:16px}
+.item:last-child .spine::before{display:none}
+.marker{position:relative;z-index:1;width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;box-shadow:0 0 0 4px var(--bg)}
+.marker svg{width:16px;height:16px}
+.card{display:flex;min-width:0;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--c);border-radius:10px;overflow:hidden}
+.card.land{flex-direction:column}
+.media{position:relative;flex:0 0 160px;display:grid;align-items:center;justify-items:center;background:var(--soft);overflow:hidden;align-self:flex-start;min-height:60px}
+.card.land .media{flex:none;width:100%;align-self:stretch}
+.media img{grid-area:1/1;display:block;width:100%;height:auto;max-height:440px;object-fit:contain;opacity:0;transition:opacity .25s}
+.card.land .media img{max-height:380px}
+.media img.on{opacity:1}.media img.broken{display:none}
+.media.empty{min-height:130px}
+.media.empty::after{content:'Imagen no disponible';grid-area:1/1;font-size:13px;color:var(--muted);text-align:center;padding:8px}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:0;background:rgba(15,20,35,.62);color:#fff;font-size:19px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0 0 2px}
+.prev{left:6px}.next{right:6px}
+.count{position:absolute;bottom:6px;right:6px;background:rgba(15,20,35,.62);color:#fff;font-size:12px;padding:1px 7px;border-radius:999px}
+.body{padding:14px 16px 16px;min-width:0;flex:1}
+.kind{margin:0;font-size:13.5px;display:flex;flex-wrap:wrap;gap:2px 12px}
+.kind b{color:var(--c);font-weight:600}.kind span{color:var(--muted)}
+.body h3{margin:4px 0 0;font-size:20px;line-height:1.25;font-weight:600}
+.body h3 a{color:inherit;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.body h3 a:hover{text-decoration-color:var(--c)}
+.facts{margin:5px 0 0;font-size:14.5px;color:var(--muted)}
+.plats{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 0;padding:0;list-style:none}
+.plats li{font-size:12.5px;font-weight:500;padding:2px 8px;border-radius:5px;background:var(--soft)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 0;padding:0;list-style:none}
+.tags li{font-size:12.5px;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.vols{list-style:none;margin:10px 0 0;padding:0;font-size:14px;border-left:2px solid var(--c);padding-left:10px}
+.vols li{margin:2px 0;display:flex;flex-wrap:wrap;gap:0 8px}
+.vols b{font-weight:600}.vols span{color:var(--muted)}
+.notes{margin:10px 0 0;font-size:15px;line-height:1.55;white-space:pre-line;max-width:65ch}
+.empty-tl{padding:40px 0;color:var(--muted)}
+.era-h{font:600 15px/1.2 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:6px 0 16px;display:flex;align-items:center;gap:12px}
+.era-h::after{content:'';flex:1;height:1px;background:var(--line)}
+.tl-list+.era-h{margin-top:14px}
+.kind .role{font-style:normal;color:var(--muted);font-weight:500}
+.badge.camp{text-transform:none;letter-spacing:0}
+.item.spin .marker{background:var(--surface);color:var(--c);box-shadow:0 0 0 4px var(--bg),inset 0 0 0 2px var(--c)}
+.item.spin .card{border-left-style:dashed}
+.card.spin{border-left-style:dashed}
+.par{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;min-width:0;align-items:start}
+.par-l{grid-column:1/-1;margin:2px 0 -2px;font:600 12px 'Barlow',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.par .media{flex-basis:96px}
+.item.sub .marker{width:16px;height:16px;margin-top:9px;background:var(--surface);box-shadow:0 0 0 4px var(--bg),inset 0 0 0 2px var(--c)}
+.item.sub .marker svg{display:none}
+.item.sub .year{font-size:20px;color:var(--muted);padding-top:6px}
+.subwrap{position:relative;padding-left:26px;min-width:0}
+.subwrap::before{content:'';position:absolute;left:4px;top:-14px;width:16px;height:36px;border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-bottom-left-radius:8px}
+.subwrap .media{flex-basis:100px}
+.subwrap .body h3{font-size:18px}
+@media (max-width:560px){.par,.subwrap{grid-area:card}.par .card,.subwrap .card{grid-area:auto}.par{grid-template-columns:1fr}.item.sub .year{font-size:15px}.subwrap{padding-left:18px}.subwrap::before{left:0;width:12px}.era-h{font-size:13px;margin-bottom:12px}.tl-wrap{padding:18px 12px 32px}.tl-controls{margin:16px 0 22px;gap:8px}.seg button{font-size:13px;padding:5px 9px}.chip{font-size:13px;padding:4px 9px 4px 8px}.tagsel select{max-width:100%}.item{grid-template-columns:26px minmax(0,1fr);grid-template-areas:'spine year' 'spine card';column-gap:10px;padding-bottom:20px}.year{grid-area:year;text-align:left;font-size:21px;padding:2px 0 6px}.year small{display:inline;font-size:16px;margin:0 0 0 2px}.year.long{font-size:15px;padding-top:4px}.spine{grid-area:spine;grid-row:1/span 2}.spine::before{bottom:-20px}.item:first-child .spine::before{top:13px}.marker{width:26px;height:26px}.marker svg{width:14px;height:14px}.card{grid-area:card}.media{flex-basis:108px}.media img{max-height:260px}.body{padding:11px 12px 13px}.body h3{font-size:17px;overflow-wrap:anywhere}.kind{font-size:12.5px}.facts{font-size:13.5px}.notes{font-size:14px}}
+@media (max-width:440px){.card{flex-direction:column}.media{flex:none;width:100%;align-self:stretch}.media img{max-height:280px}.card.land .media img{max-height:240px}}
+@media (prefers-reduced-motion:reduce){.media img{transition:none}}</style>
+</head>
+<body>
+<main id="app" class="tl-wrap"></main>
+<script type="application/json" id="tl-data">{"title":"Call of Duty: Zombies","subtitle":"Los Zombies de Treyarch mapa por mapa, de World at War a Black Ops 7, con los cómics de Dark Horse.","icon":"CODBO_icon.webp","imgBase":"https://fabiobonnett.github.io/Notion/","imgFolder":"Videojuegos/Call_of_Duty/Black_Ops/","theme":"auto","showFilters":true,"accent":"","spinLabel":"Spin-offs","marks":[{"id":"noncanon","name":"No canon","color":"red"}],"entries":[{"id":"waw","type":"game","title":"Call of Duty: World at War","yearStart":2008,"images":["CODWAW.webp"],"era":"Historia del Éter","platforms":["PS3","Xbox 360","Windows","Wii"],"notes":"Nace el modo Zombies como extra al terminar la campaña.","link":"https://app.notion.com/p/3d51249072aa81978563d16e855475e9","marks":[],"genres":[]},{"id":"ndu","type":"game","title":"Nacht der Untoten","yearStart":2008,"storyYear":"","images":["CODWAW_Nacht_der_Untoten.webp"],"notes":"El primer mapa: un búnker en ruinas.","link":"","saga":"","genres":[],"marks":[],"era":"Historia del Éter","attach":true,"gamePart":"Mapa Zombies","platforms":[]},{"id":"ver","type":"game","title":"Verrückt","yearStart":2009,"images":["CODWAW_Verruckt.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Un asilo alemán. Pack: Map Pack 1.","marks":[],"genres":[],"platforms":[]},{"id":"snn","type":"game","title":"Shi No Numa","yearStart":2009,"images":["CODWAW_Shinonuma.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Pantano japonés; debutan Dempsey, Nikolai, Takeo y Richtofen. Pack: Map Pack 2.","marks":[],"genres":[],"platforms":[]},{"id":"der","type":"game","title":"Der Riese","yearStart":2009,"images":["CODWAW_Der_Riese.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Fábrica de Group 935 con teletransportadores. Pack: Map Pack 3.","marks":[],"genres":[],"platforms":[]},{"id":"bo","type":"game","title":"Call of Duty: Black Ops","yearStart":2010,"images":["CODBO.webp"],"era":"Historia del Éter","platforms":["PS3","Xbox 360","Windows","Wii","Mac"],"notes":"Zombies pasa a ser un modo principal.","link":"https://app.notion.com/p/3d51249072aa818a8a2de99c7a83083c","marks":[],"genres":[]},{"id":"kino","type":"game","title":"Kino der Toten","yearStart":2010,"images":["CODBO_Kino_Der_Toten.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Un teatro abandonado.","marks":[],"genres":[],"platforms":[]},{"id":"five","type":"game","title":"\"Five\"","yearStart":2010,"images":["CODBO_Five.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"El Pentágono, con Kennedy, McNamara, Nixon y Castro.","marks":[],"genres":[],"platforms":[]},{"id":"asc","type":"game","title":"Ascension","yearStart":2011,"images":["CODBO_Ascension.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Cosmódromo soviético. Pack: First Strike.","marks":[],"genres":[],"platforms":[]},{"id":"cotd","type":"game","title":"Call of the Dead","yearStart":2011,"images":["CODBO_Call_of_the_Dead.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Faro en la costa rusa, con George A. Romero. Pack: Escalation.","marks":[],"genres":[],"platforms":[]},{"id":"shan","type":"game","title":"Shangri-La","yearStart":2011,"images":["CODBO_Shangri-La.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Templo en la selva. Pack: Annihilation.","marks":[],"genres":[],"platforms":[]},{"id":"moon","type":"game","title":"Moon","yearStart":2011,"images":["CODBO_Moon.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Base Griffin en la Luna; termina con la Tierra atacada. Pack: Rezurrection.","marks":[],"genres":[],"platforms":[]},{"id":"bo2","type":"game","title":"Call of Duty: Black Ops 2","yearStart":2012,"images":["CODBO2.png"],"era":"Historia del Éter","platforms":["PS3","Xbox 360","Windows","Wii U"],"link":"https://app.notion.com/p/3d51249072aa819eb791d5027d1d4bb0","marks":[],"genres":[]},{"id":"tranzit","type":"game","title":"TranZit","yearStart":2012,"images":["CODBO2_TranZit.jpeg"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Un autobús recorre zonas conectadas tras el fin del mundo.","marks":[],"genres":[],"platforms":[]},{"id":"nuke","type":"game","title":"Nuketown Zombies","yearStart":2012,"images":[],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Versión zombi de Nuketown.","marks":[],"genres":[],"platforms":[]},{"id":"dierise","type":"game","title":"Die Rise","yearStart":2013,"images":["CODBO2_Die_Rise.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Rascacielos derrumbados en China. Pack: Revolution.","marks":[],"genres":[],"platforms":[]},{"id":"motd","type":"game","title":"Mob of the Dead","yearStart":2013,"images":["CODBO2_Mob_of_the_Dead.jpeg"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Alcatraz, con cuatro mafiosos atrapados en un ciclo. Pack: Uprising.","marks":[],"genres":[],"platforms":[]},{"id":"buried","type":"game","title":"Buried","yearStart":2013,"images":["CODBO2_Buried.jpg"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Un pueblo del Viejo Oeste enterrado bajo tierra. Pack: Vengeance.","marks":[],"genres":[],"platforms":[]},{"id":"origins","type":"game","title":"Origins","yearStart":2013,"images":["CODBO2_Origins.webp"],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Primera Guerra Mundial: debutan las versiones Primis de los personajes. Pack: Apocalypse.","marks":[],"genres":[],"platforms":[]},{"id":"bo3","type":"game","title":"Call of Duty: Black Ops 3","yearStart":2015,"images":["CODBO3.webp"],"era":"Historia del Éter","platforms":["PS4","Xbox One","Windows"],"notes":"Cierra la historia del Éter.","link":"https://app.notion.com/p/3d51249072aa8139b613f177fc2dd205","marks":[],"genres":[]},{"id":"soe","type":"game","title":"Shadows of Evil","yearStart":2015,"images":[],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Morg City, ciudad noir de los años 40.","marks":[],"genres":[],"platforms":[]},{"id":"giant","type":"game","title":"The Giant","yearStart":2015,"images":[],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Reimaginación de Der Riese con los personajes Primis.","marks":[],"genres":[],"platforms":[]},{"id":"eisen","type":"game","title":"Der Eisendrache","yearStart":2016,"images":[],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Castillo en los Alpes austriacos. Pack: Awakening.","marks":[],"genres":[],"platforms":[]},{"id":"zns","type":"game","title":"Zetsubou No Shima","yearStart":2016,"images":[],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Isla japonesa con laboratorio de la División 9. Pack: Eclipse.","marks":[],"genres":[],"platforms":[]},{"id":"gorod","type":"game","title":"Gorod Krovi","yearStart":2016,"images":[],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Stalingrado alternativo con dragones. Pack: Descent.","marks":[],"genres":[],"platforms":[]},{"id":"rev","type":"game","title":"Revelations","yearStart":2016,"images":[],"era":"Historia del Éter","gamePart":"Mapa","attach":true,"notes":"Fragmentos de mapas anteriores en el Éter. Pack: Salvation.","marks":[],"genres":[],"platforms":[]},{"id":"zc1","type":"comic","title":"Call of Duty: Zombies","yearStart":2016,"yearEnd":2017,"era":"Historia del Éter","comicFormat":"Cómic","comicType":"Miniserie","issues":6,"issuesUnit":"","images":[],"notes":"Volumen 1 de la serie de Dark Horse, ambientado en el universo de Black Ops: Zombies.","link":"https://app.notion.com/p/40a1249072aa80299e59fb1be8a33ec1","marks":[],"genres":[],"volumes":[]},{"id":"zc2","type":"comic","title":"Call of Duty: Zombies 2","yearStart":2018,"yearEnd":2019,"era":"Historia del Caos y final del Éter","comicFormat":"Cómic","comicType":"Miniserie","issues":4,"issuesUnit":"","images":[],"notes":"Volumen 2 de Dark Horse y precuela de los Zombies de Black Ops 4; empieza en Marruecos en 1910.","link":"https://app.notion.com/p/40a1249072aa80299e59fb1be8a33ec1","marks":[],"genres":[],"volumes":[]},{"id":"bo4","type":"game","title":"Call of Duty: Black Ops 4","yearStart":2018,"images":["CODBO4.webp"],"era":"Historia del Caos y final del Éter","platforms":["PS4","Xbox One","Windows"],"notes":"Abre la historia del Caos y cierra la del Éter.","link":"https://app.notion.com/p/3d51249072aa81e7aafae2845cb9e969","marks":[],"genres":[]},{"id":"ix","type":"game","title":"IX","yearStart":2018,"storyYear":"","images":[],"notes":"Coliseo en el antiguo Egipto (Caos).","link":"","saga":"","genres":[],"marks":[],"era":"Historia del Caos y final del Éter","attach":true,"gamePart":"Mapa Zombies","platforms":[]},{"id":"vod","type":"game","title":"Voyage of Despair","yearStart":2018,"images":[],"era":"Historia del Caos y final del Éter","gamePart":"Mapa","attach":true,"notes":"El Titanic (Caos).","marks":[],"genres":[],"platforms":[]},{"id":"botd","type":"game","title":"Blood of the Dead","yearStart":2018,"images":[],"era":"Historia del Caos y final del Éter","gamePart":"Mapa","attach":true,"notes":"Regreso a Alcatraz (Éter).","marks":[],"genres":[],"platforms":[]},{"id":"classified","type":"game","title":"Classified","yearStart":2018,"images":[],"era":"Historia del Caos y final del Éter","gamePart":"Mapa","attach":true,"notes":"Reimaginación de \"Five\" (Éter).","marks":[],"genres":[],"platforms":[]},{"id":"dotn","type":"game","title":"Dead of the Night","yearStart":2019,"images":[],"era":"Historia del Caos y final del Éter","gamePart":"Mapa","attach":true,"notes":"Mansión inglesa (Caos).","marks":[],"genres":[],"platforms":[]},{"id":"ae","type":"game","title":"Ancient Evil","yearStart":2019,"images":[],"era":"Historia del Caos y final del Éter","gamePart":"Mapa","attach":true,"notes":"Delfos, en la antigua Grecia (Caos).","marks":[],"genres":[],"platforms":[]},{"id":"ao","type":"game","title":"Alpha Omega","yearStart":2019,"images":[],"era":"Historia del Caos y final del Éter","gamePart":"Mapa","attach":true,"notes":"Nuketown y Agartha (Éter).","marks":[],"genres":[],"platforms":[]},{"id":"tdt","type":"game","title":"Tag der Toten","yearStart":2019,"images":[],"era":"Historia del Caos y final del Éter","gamePart":"Mapa","attach":true,"notes":"Final de la historia del Éter.","marks":[],"genres":[],"platforms":[]},{"id":"bocw","type":"game","title":"Call of Duty: Black Ops Cold War","yearStart":2020,"images":["CODBOCW.webp"],"era":"Éter Oscuro","platforms":["PS4","PS5","Xbox One","Xbox Series X|S","Windows"],"notes":"Empieza la historia del Éter Oscuro con Requiem y Omega.","link":"https://app.notion.com/p/3d51249072aa811b8391dafb254830db","marks":[],"genres":[]},{"id":"dm","type":"game","title":"Die Maschine","yearStart":2020,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Regreso a la zona de Nacht der Untoten.","marks":[],"genres":[],"platforms":[]},{"id":"fbz","type":"game","title":"Firebase Z","yearStart":2021,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Base en Vietnam. Pack: Temporada 1.","marks":[],"genres":[],"platforms":[]},{"id":"outbreak","type":"game","title":"Outbreak","yearStart":2021,"images":[],"era":"Éter Oscuro","gamePart":"Modo de juego","attach":true,"notes":"Modo con regiones abiertas. Pack: Temporada 2.","marks":[],"genres":[],"platforms":[]},{"id":"mdt","type":"game","title":"Mauer der Toten","yearStart":2021,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Berlín dividido. Pack: Temporada 4.","marks":[],"genres":[],"platforms":[]},{"id":"forsaken","type":"game","title":"Forsaken","yearStart":2021,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Cierra la historia de Cold War. Pack: Temporada 5.","marks":[],"genres":[],"platforms":[]},{"id":"bo6","type":"game","title":"Call of Duty: Black Ops 6","yearStart":2024,"images":["CODBO6.webp"],"era":"Éter Oscuro","platforms":["PS4","PS5","Xbox One","Xbox Series X|S","Windows"],"notes":"Vuelven los mapas por rondas.","link":"https://app.notion.com/p/3d51249072aa8132abece3fd81355a5f","marks":[],"genres":[]},{"id":"lf","type":"game","title":"Liberty Falls","yearStart":2024,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Pueblo de Virginia Occidental.","marks":[],"genres":[],"platforms":[]},{"id":"term","type":"game","title":"Terminus","yearStart":2024,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Prisión en una isla.","marks":[],"genres":[],"platforms":[]},{"id":"cdm","type":"game","title":"Citadelle des Morts","yearStart":2024,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Castillo medieval en Francia. Pack: Temporada 1.","marks":[],"genres":[],"platforms":[]},{"id":"tomb","type":"game","title":"The Tomb","yearStart":2025,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Excavación con un pasaje al Éter Oscuro. Pack: Temporada 2.","marks":[],"genres":[],"platforms":[]},{"id":"sv","type":"game","title":"Shattered Veil","yearStart":2025,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Mansión en las montañas. Pack: Temporada 3.","marks":[],"genres":[],"platforms":[]},{"id":"reck","type":"game","title":"Reckoning","yearStart":2025,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Cierra la historia de Black Ops 6. Pack: Temporada 4.","marks":[],"genres":[],"platforms":[]},{"id":"bo7","type":"game","title":"Call of Duty: Black Ops 7","yearStart":2025,"images":["CODBO7.webp"],"era":"Éter Oscuro","platforms":["PS4","PS5","Xbox One","Xbox Series X|S","Windows"],"link":"https://app.notion.com/p/3d51249072aa81768f3bda91de413eb1","marks":[],"genres":[]},{"id":"aotd","type":"game","title":"Ashes of the Damned","yearStart":2025,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Mapa grande y vertical, con zonas unidas por la niebla.","marks":[],"genres":[],"platforms":[]},{"id":"astra","type":"game","title":"Astra Malorum","yearStart":2025,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Observatorio en un asteroide; lleva a Marte. Pack: Temporada 1.","marks":[],"genres":[],"platforms":[]},{"id":"pj","type":"game","title":"Paradox Junction","yearStart":2026,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Nuketown arrasado por una bomba nuclear. Pack: Temporada 2 Reloaded.","marks":[],"genres":[],"platforms":[]},{"id":"toten","type":"game","title":"Totenreich","yearStart":2026,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Aldea nórdica atrapada en el tiempo. Pack: Temporada 3 Reloaded.","marks":[],"genres":[],"platforms":[]},{"id":"kowa","type":"game","title":"Kowakujo","yearStart":2026,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Castillo feudal japonés entre volcanes. Pack: Temporada 4 Reloaded.","marks":[],"genres":[],"platforms":[]},{"id":"rex","type":"game","title":"Rex Infernus","yearStart":2026,"images":[],"era":"Éter Oscuro","gamePart":"Mapa","attach":true,"notes":"Asteroide con templos de los jefes; último mapa de Black Ops 7. Pack: Temporada 5 Reloaded.","marks":[],"genres":[],"platforms":[]}],"orders":[{"id":"rel","name":"Por lanzamiento","groupBy":"era","sequence":["waw","ndu","ver","snn","der","bo","kino","five","asc","cotd","shan","moon","bo2","tranzit","nuke","dierise","motd","buried","origins","bo3","soe","giant","eisen","zns","gorod","rev","zc1","zc2","bo4","ix","vod","botd","classified","dotn","ae","ao","tdt","bocw","dm","fbz","outbreak","mdt","forsaken","bo6","lf","term","cdm","tomb","sv","reck","bo7","aotd","astra","pj","toten","kowa","rex"]}]}</script>
+<script>(function viewerMain(D){
+  var TYPES={game:['Videojuego','videojuego','videojuegos','Videojuegos'],film:['Audiovisual','audiovisual','audiovisuales','Audiovisual'],comic:['Cómic','cómic','cómics','Cómics'],book:['Libro','libro','libros','Libros'],series:['Serie','serie','series','Series'],other:['Otro','otro','otros','Otros']};
+  var ICONS={game:'M6 11h4M8 9v4M15 12h.01M18 10h.01M17.3 5H6.7a4 4 0 0 0-3.96 3.47l-.7 5.6A3 3 0 0 0 5 17.5c1 0 1.6-.5 2.2-1.2L8.5 15h7l1.3 1.3c.6.7 1.2 1.2 2.2 1.2a3 3 0 0 0 2.96-3.43l-.7-5.6A4 4 0 0 0 17.3 5z',film:'M3 3h18v18H3zM7 3v18M17 3v18M3 7.5h4M3 12h18M3 16.5h4M17 7.5h4M17 16.5h4',comic:'M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z',book:'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5',series:'M4 7h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zM17 2l-5 5-5-5',other:'M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z'};
+  var WHEN={game:'Lanzamiento',film:'Estreno',book:'Publicación',comic:'Publicación',series:'Emisión',other:'Año'};
+  var ORDER=['game','film','series','comic','book','other'];
+  var MCOL={red:'#E03131',orange:'#E8590C',yellow:'#E67700',green:'#2F9E44',teal:'#0C8599',blue:'#1971C2',purple:'#7048E8',gray:'#868E96'};
+  var MARKS=(D.marks||[]).filter(function(m){return m&&m.id&&m.name;}),MK={};
+  MARKS.forEach(function(m){MK[m.id]=m;});
+  function mcol(m){return MCOL[m.color]||MCOL.gray;}
+  var root=document.getElementById('app');
+  var orders=(D.orders&&D.orders.length)?D.orders:[{id:'_all',name:'',sequence:[]}];
+  function findOrder(id){for(var i=0;i<orders.length;i++){if(orders[i].id===id)return orders[i];}return null;}
+  var st={orderId:orders[0].id,filter:'',mark:{},alt:{},role:'',camp:false};
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function ico(t){return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+ICONS[t]+'"/></svg>';}
+  function tp(e){return TYPES[e.type]?e.type:'other';}
+  function res(s){
+    s=String(s||'').trim(); if(!s) return '';
+    var gh=s.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/(?:blob|raw)\/(.+)$/i);
+    if(gh) return 'https://raw.githubusercontent.com/'+gh[1]+'/'+gh[2]+'/'+gh[3];
+    if(/^(https?:)?\/\//i.test(s)||/^data:/i.test(s)) return s;
+    var b=String(D.imgBase||'').trim().replace(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/(?:tree|blob)\//i,'https://raw.githubusercontent.com/$1/$2/');
+    var f=String(D.imgFolder||'').trim().replace(/^\/+/,'');
+    if(b&&b.slice(-1)!=='/') b+='/'; if(f&&f.slice(-1)!=='/') f+='/';
+    var p=f+s.replace(/^\/+/,'');
+    try{p=encodeURI(decodeURI(p));}catch(x){p=encodeURI(p);}
+    return b+p;
+  }
+  var EXT=['jpg','png','webp','jpeg','JPG','PNG','JPEG','WEBP'];
+  function noExt(s){s=String(s||'').trim();return !!s&&!/^(https?:|data:|\/\/)/i.test(s)&&!/\.[a-z0-9]{2,5}$/i.test(s.split('/').pop());}
+  function srcAttr(s){var u=res(s);return noExt(s)?' src="'+esc(u+'.'+EXT[0])+'" data-b="'+esc(u)+'" data-t="1"':' src="'+esc(u)+'"';}
+  function plural(n,a,b){return n+' '+(n===1?a:b);}
+  function range(e){
+    if(e.yearStart==null||e.yearStart==='') return null;
+    var end=e.ongoing?'presente':(e.yearEnd&&+e.yearEnd!==+e.yearStart?e.yearEnd:'');
+    return {a:e.yearStart,b:end};
+  }
+  function rng(s,a,b){var m=s.match(/^(\d+)\s*[-–]\s*(\d+)$/);return m?b+' '+m[1]+'–'+m[2]:(/^\d+$/.test(s)?a+' '+s:s);}
+  function facts(e){
+    var f=[];
+    if(e.type==='comic'){if(e.promo)f.push('Promocional');if(e.comicType)f.push(e.comicType);if(e.issues){var U={cap:['capítulo','capítulos'],tomo:['tomo','tomos'],vol:['volumen','volúmenes']}[e.issuesUnit]||['número','números'];f.push(plural(+e.issues,U[0],U[1]));}}
+    if(e.type==='film'||e.type==='series'){var sr=String(e.seasonRange||'').trim(),er=String(e.epRange||'').trim();
+      if(sr||er){if(sr)f.push(rng(sr,'Temporada','Temporadas'));if(er)f.push(rng(er,'Episodio','Episodios'));}
+      else{if(e.seasons)f.push(plural(+e.seasons,'temporada','temporadas'));if(e.episodes)f.push(plural(+e.episodes,'episodio','episodios'));}}
+    if(e.type==='book'&&e.author)f.push('Por '+e.author);
+    return f.join(', ');
+  }
+  function item(e,gid,cands,ord,opt){
+    opt=opt||{};
+    var t=tp(e),r=range(e),sub=[],ys=ord&&ord.yearMode==='story'&&e.storyYear,ycls='year';
+    var y=r?esc(r.a)+(r.b?'<small>–'+esc(r.b)+'</small>':''):'<small>Sin año</small>';
+    if(ys){y=esc(e.storyYear);if(String(e.storyYear).length>5)ycls+=' long';}
+    if(t==='game'&&e.partOf) sub.push('Parte de '+esc(e.partOf));
+    if(e.saga) sub.push(esc(e.saga));
+    if(ys){if(r)sub.push('Publicado en '+esc(r.a)+(r.b?'–'+esc(r.b):''));}
+    else if(e.storyYear) sub.push('Ambientado en '+esc(e.storyYear));
+    if(opt.parent&&t==='game'&&!e.partOf) sub.unshift('Parte de '+esc(opt.parent.title||''));
+    if(opt.inlineYear){var yi=ys?e.storyYear:(r?r.a+(r.b?'–'+r.b:''):'');if(yi)sub.unshift(esc(yi));}
+    var imgs=(e.images||[]).map(function(s){return String(s||'').trim();}).filter(Boolean),media='';
+    if(imgs.length){
+      media='<div class="media">'+imgs.map(function(u,i){return '<img'+srcAttr(u)+' alt="'+esc(e.title)+(imgs.length>1?' – imagen '+(i+1):'')+'"'+(i===0?' class="on"':'')+'>';}).join('')+
+        (imgs.length>1?'<button class="nav prev" type="button" aria-label="Imagen anterior">‹</button><button class="nav next" type="button" aria-label="Imagen siguiente">›</button><span class="count">1/'+imgs.length+'</span>':'')+'</div>';
+    }
+    var title=esc(e.title||'Sin título');
+    if(e.link&&/^https?:\/\//i.test(e.link)) title='<a href="'+esc(e.link)+'" target="_blank" rel="noopener">'+title+'</a>';
+    var fx=facts(e);
+    var plats=(t==='game'&&e.platforms&&e.platforms.length)?'<ul class="plats" aria-label="Plataformas">'+e.platforms.map(function(p){return '<li>'+esc(p)+'</li>';}).join('')+'</ul>':'';
+    var notes=e.notes?'<p class="notes">'+esc(e.notes)+'</p>':'';
+    var vols=(e.volumes&&e.volumes.length)?'<ul class="vols" aria-label="Volúmenes">'+e.volumes.map(function(v){
+      var n=String(v.nums||'').trim(),m=n.match(/^#?(\d+)\s*[-–]\s*#?(\d+)$/),s=n;
+      if(m){var a=+m[1],b=+m[2],VU={cap:['capítulo','capítulos','Caps. '],tomo:['tomo','tomos','Tomos '],vol:['volumen','volúmenes','Vols. ']}[e.issuesUnit]||['número','números','#'];s=VU[2]+a+'–'+b+' ('+plural(b-a+1,VU[0],VU[1])+')';}
+      else if(/^#?\d+$/.test(n))s='#'+n.replace('#','');
+      return '<li><b>'+esc(v.name)+'</b>'+(s?'<span>'+esc(s)+'</span>':'')+'</li>';}).join('')+'</ul>':'';
+    var sw=(cands&&cands.length>1)?'<div class="alts" role="group" aria-label="Versión">'+cands.map(function(x){return '<button type="button" data-g="'+esc(gid)+'" data-v="'+esc(x.id)+'" aria-pressed="'+(x.id===e.id)+'">'+esc(x.altLabel||x.title||'Versión')+'</button>';}).join('')+'</div>':'';
+    var tags=(e.genres&&e.genres.length)?'<ul class="tags" aria-label="Géneros y etiquetas">'+e.genres.map(function(g){return '<li>'+esc(g)+'</li>';}).join('')+'</ul>':'';
+    var spin=e.spinoff&&t==='game';
+    var roleTxt=spin?'<i class="role">'+esc(e.roleLabel||'Spin-off')+'</i>':'';
+    return {t:t,spin:spin,year:'<div class="'+ycls+'">'+y+'</div>',card:
+      '<article class="card'+(spin?' spin':'')+'" style="--c:var(--'+t+')">'+media+'<div class="body">'+sw+
+      '<p class="kind"><b>'+esc((t==='game'&&(e.gamePart||e.attach))?(e.gamePart||'DLC'):(t==='comic'&&e.comicFormat)?e.comicFormat:(t==='film'&&e.avType)?e.avType:TYPES[t][0])+'</b>'+roleTxt+(e.marks||[]).filter(function(id){return MK[id];}).map(function(id){return '<em class="badge" style="--m:'+mcol(MK[id])+'">'+esc(MK[id].name)+'</em>';}).join('')+sub.map(function(x){return '<span>'+x+'</span>';}).join('')+'</p>'+
+      '<h3>'+title+'</h3>'+(fx?'<p class="facts">'+esc(fx)+'</p>':'')+plats+vols+tags+notes+'</div></article>'};
+  }
+  function li(P,cls,body){return '<li class="item'+(P.spin?' spin':'')+cls+'" style="--c:var(--'+P.t+')">'+P.year+'<div class="spine"><span class="marker" title="'+TYPES[P.t][0]+'">'+ico(P.t)+'</span></div>'+body+'</li>';}
+  function rowsHtml(xs,ord){
+    var rows=[];
+    xs.forEach(function(x){var L=rows[rows.length-1];
+      if(L&&x.e.parallel&&!L.subs.length){L.par.push(x);return;}
+      if(L&&x.e.attach){L.subs.push(x);return;}
+      rows.push({m:x,par:[],subs:[]});});
+    return rows.map(function(R){
+      var m=R.m,P=item(m.e,m.g,m.c,ord),h;
+      if(R.par.length){
+        var cards=[P.card].concat(R.par.map(function(x){return item(x.e,x.g,x.c,ord,{inlineYear:true}).card;}));
+        h=li(P,' has-par','<div class="par"><p class="par-l">En paralelo</p>'+cards.join('')+'</div>');
+      } else h=li(P,'',P.card);
+      R.subs.forEach(function(x){var S=item(x.e,x.g,x.c,ord,{parent:m.e});h+=li(S,' sub','<div class="subwrap">'+S.card+'</div>');});
+      return h;}).join('');
+  }
+  function render(){
+    var byId={}; (D.entries||[]).forEach(function(e){byId[e.id]=e;});
+    var all=(D.entries||[]).map(function(e,i){var o={};for(var k in e)o[k]=e[k];o._i=i;return o;});
+    var counts={};all.forEach(function(e){var t=tp(e);counts[t]=(counts[t]||0)+1;});
+    var present=ORDER.filter(function(t){return counts[t];});
+    if(st.filter&&!counts[st.filter]) st.filter='';
+    var ord=findOrder(st.orderId)||orders[0];
+    function isAlt(e){var p=e.altOf&&byId[e.altOf];return !!(p&&!p.altOf&&p.id!==e.id);}
+    var groups={},cp={};all.forEach(function(e){cp[e.id]=e;if(!isAlt(e))groups[e.id]=[e];});
+    all.forEach(function(e){if(isAlt(e)&&groups[e.altOf])groups[e.altOf].push(e);});
+    var seen={},seq=[];
+    (ord.sequence||[]).forEach(function(id){if(groups[id]&&!seen[id]){seen[id]=1;seq.push(cp[id]);}});
+    all.forEach(function(e){if(groups[e.id]&&!seen[e.id]){seen[e.id]=1;seq.push(e);}});
+    function pass(e){
+      if(st.filter&&tp(e)!==st.filter) return false;
+      var sp=e.spinoff&&tp(e)==='game';
+      if(st.role==='main'&&sp) return false;
+      if(st.role==='spin'&&!sp) return false;
+      var em=e.marks||[];
+      for(var k in st.mark){var has=em.indexOf(k)>=0;if(st.mark[k]==='only'&&!has) return false;if(st.mark[k]==='hide'&&has) return false;}
+      return true;}
+    var shown=seq.map(function(p){
+      var c=groups[p.id].filter(pass);if(!c.length) return null;
+      var cur=c.filter(function(x){return x.id===st.alt[p.id];})[0]||c[0];
+      return {e:cur,g:p.id,c:c};}).filter(Boolean);
+    var h='';
+    if(D.title||D.subtitle||D.icon||all.length){
+      var iv=String(D.icon||'').trim(),ih='';
+      if(iv) ih=(/\.(png|jpe?g|gif|webp|svg|avif)(\?.*)?$/i.test(iv)||/^(https?:|data:|\/\/)/i.test(iv))?'<img class="tl-icon" src="'+esc(res(iv))+'" alt="">':'<span class="tl-icon tl-emoji" aria-hidden="true">'+esc(iv)+'</span>';
+      h+='<header class="tl-head">'+(D.title||ih?'<h1>'+ih+(D.title?'<span>'+esc(D.title)+'</span>':'')+'</h1>':'')+(D.subtitle?'<p>'+esc(D.subtitle)+'</p>':'');
+      if(all.length) h+='<p class="tl-sum">'+plural(all.length,'entrada','entradas')+(present.length>1?': '+present.map(function(t){return plural(counts[t],TYPES[t][1],TYPES[t][2]);}).join(', '):'')+'</p>';
+      h+='</header>';
+    }
+    var c='';
+    if(orders.length>1) c+='<div class="seg" role="group" aria-label="Elegir orden">'+orders.map(function(o){return '<button type="button" data-o="'+esc(o.id)+'" aria-pressed="'+(o.id===ord.id)+'">'+esc(o.name||'Sin nombre')+'</button>';}).join('')+'</div>';
+    if(D.showFilters!==false&&present.length>1) c+='<div class="chips" role="group" aria-label="Filtrar por tipo"><button type="button" class="chip" data-f="" aria-pressed="'+(!st.filter)+'">Todo</button>'+present.map(function(t){return '<button type="button" class="chip" data-f="'+t+'" style="--c:var(--'+t+')" aria-pressed="'+(st.filter===t)+'">'+ico(t)+TYPES[t][3]+' <span>'+counts[t]+'</span></button>';}).join('')+'</div>';
+    if(D.showFilters!==false){
+      var usedM=MARKS.filter(function(m){return all.some(function(e){return (e.marks||[]).indexOf(m.id)>=0;});});
+      if(usedM.length) c+='<div class="chips" role="group" aria-label="Filtrar por etiquetas">'+usedM.map(function(m){var s=st.mark[m.id]||'',tg=m.mode==='hide';return '<button type="button" class="chip mchip'+(s?' '+s:'')+'" data-m="'+esc(m.id)+'" style="--m:'+mcol(m)+'" aria-pressed="'+(!!s)+'" title="'+(tg?'Clic: ocultar estas entradas. Otro clic: volver a mostrarlas.':'Clic: ver solo estas. Otro clic: ocultarlas. Otro clic: quitar el filtro.')+'"><i></i>'+(s==='only'?'Solo ':s==='hide'?'Sin ':'')+esc(m.name)+'</button>';}).join('')+'</div>';
+    }
+    if(D.showFilters!==false){
+      var nSp=all.filter(function(e){return e.spinoff&&tp(e)==='game';}).length,rc='';
+      if(nSp&&nSp<all.length) rc+='<button type="button" class="chip" data-r="main" aria-pressed="'+(st.role==='main')+'">Principales <span>'+(all.length-nSp)+'</span></button><button type="button" class="chip" data-r="spin" aria-pressed="'+(st.role==='spin')+'">'+esc(D.spinLabel||'Spin-offs')+' <span>'+nSp+'</span></button>';
+      if(rc) c+='<div class="chips" role="group" aria-label="Filtrar por rol">'+rc+'</div>';
+    }
+    if(c) h+='<div class="tl-controls">'+c+'</div>';
+    function grp(e){
+      if(ord.groupBy==='era') return e.era||'Sin época';
+      if(ord.groupBy==='decade'){var y=parseInt(e.yearStart,10);return isNaN(y)?'Sin año':'Década de '+(Math.floor(y/10)*10);}
+      return '';}
+    var blocks=[];shown.forEach(function(x){var g=grp(x.e);if(!blocks.length||(!(x.e.parallel||x.e.attach)&&blocks[blocks.length-1].g!==g))blocks.push({g:g,xs:[]});blocks[blocks.length-1].xs.push(x);});
+    h+=shown.length?blocks.map(function(b){return (b.g?'<h2 class="era-h">'+esc(b.g)+'</h2>':'')+'<ol class="tl-list">'+rowsHtml(b.xs,ord)+'</ol>';}).join(''):'<p class="empty-tl">'+(all.length?'Ninguna entrada coincide con los filtros.':'Esta cronología aún no tiene entradas.')+'</p>';
+    root.innerHTML=h;
+    [].forEach.call(root.querySelectorAll('.media img'),function(im){if(im.complete)orient(im);});
+  }
+  root.addEventListener('click',function(ev){
+    var b=ev.target.closest('button'); if(!b) return;
+    if(b.dataset.o){st.orderId=b.dataset.o;render();return;}
+    if(b.dataset.r){st.role=st.role===b.dataset.r?'':b.dataset.r;render();return;}
+    if(b.dataset.g){st.alt[b.dataset.g]=b.dataset.v;render();return;}
+    if(b.dataset.m&&MK[b.dataset.m]&&MK[b.dataset.m].mode==='hide'){if(st.mark[b.dataset.m])delete st.mark[b.dataset.m];else st.mark[b.dataset.m]='hide';render();return;}
+    if(b.dataset.m){var mid=b.dataset.m,cur=st.mark[mid];if(!cur)st.mark[mid]='only';else if(cur==='only')st.mark[mid]='hide';else delete st.mark[mid];render();return;}
+    if(b.hasAttribute('data-f')){var f=b.dataset.f;st.filter=(!f||st.filter===f)?'':f;render();return;}
+    if(b.classList.contains('nav')){
+      var m=b.closest('.media'),ims=[].slice.call(m.querySelectorAll('img:not(.broken)'));if(!ims.length)return;
+      var cur=ims.findIndex(function(i){return i.classList.contains('on');});if(cur<0)cur=0;
+      ims[cur].classList.remove('on');cur=(cur+(b.classList.contains('next')?1:-1)+ims.length)%ims.length;ims[cur].classList.add('on');
+      var cn=m.querySelector('.count');if(cn)cn.textContent=(cur+1)+'/'+ims.length;
+    }
+  });
+  root.addEventListener('error',function(ev){
+    var im=ev.target;if(!im||im.tagName!=='IMG')return;
+    if(im.dataset.b){var ti=+im.dataset.t||0;if(ti<EXT.length){im.dataset.t=ti+1;im.src=im.dataset.b+'.'+EXT[ti];return;}}
+    im.classList.add('broken');var m=im.closest('.media');if(!m)return;
+    var ok=m.querySelectorAll('img:not(.broken)');
+    if(!ok.length){m.classList.add('empty');[].forEach.call(m.querySelectorAll('.nav,.count'),function(n){n.remove();});return;}
+    if(im.classList.contains('on')){im.classList.remove('on');ok[0].classList.add('on');}
+    var cn=m.querySelector('.count');if(cn)cn.textContent='1/'+ok.length;
+    if(ok.length===1)[].forEach.call(m.querySelectorAll('.nav,.count'),function(n){n.remove();});
+  },true);
+  function orient(im){
+    if(!im||im.tagName!=='IMG'||!im.naturalWidth)return;
+    var m=im.closest('.media');if(!m||m.dataset.or)return;
+    var first=m.querySelector('img:not(.broken)');if(first!==im)return;
+    m.dataset.or=1;
+    /* las portadas siempre van al costado */
+  }
+  root.addEventListener('load',function(ev){orient(ev.target);},true);
+  render();
+})(JSON.parse(document.getElementById('tl-data').textContent));</script>
+</body>
+</html>
